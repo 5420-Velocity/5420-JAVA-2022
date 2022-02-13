@@ -23,7 +23,10 @@ import frc.robot.Subsystems.*;
  */
 public class RobotContainer {
     private final Joystick m_controller = new Joystick(0);
+    private final Joystick m_operatorController = new Joystick(1);
     public final Drivetrain m_swerve = new Drivetrain();
+    private final Shooter m_shooter = new Shooter();
+    private final Intake m_intake = new Intake();
 
     public LimeLight m_limelight = new LimeLight("two");
     private AtomicBoolean m_driveLocked = new AtomicBoolean();
@@ -63,12 +66,21 @@ public class RobotContainer {
                 
             new JoystickButton(m_controller, Constants.xJoystickConstants.Button_Square)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false));
+
+        new JoystickButton(m_operatorController, 3)
+            .whileHeld(new Shoot(m_shooter));
+
+        new JoystickButton(m_operatorController, 4)
+            .whileHeld(new SimpleIntake(m_intake));
      }
 
     public void teleopExecute() {
         // Checks if the jotstick drive is being locked out by a command
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
+        }
+        else{
+            m_swerve.CanDrive(true);
         }
     }
 
@@ -90,12 +102,18 @@ public class RobotContainer {
 
          if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
                     && (Math.abs(ySpeed) < Constants.ControllerConstants.NoInputTolerance)
-                    && (Math.abs(rot) < Constants.ControllerConstants.NoInputTolerance)
-                    && m_swerve.isXDefault()) {
-                m_swerve.setWheelAngleStates(45, -45, -45, 45);
+                    && (Math.abs(rot) < Constants.ControllerConstants.NoInputTolerance)) {
+                        // if(m_swerve.isXDefault()){
+                        //     m_swerve.CanDrive(true);
+                        //     m_swerve.setWheelAngleStates(45, -45, -45, 45);
+                        // }
+                        // else{
+                            m_swerve.CanDrive(false);
+                        //}
         }
         else{
-                m_swerve.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rot), fieldRelative);
+            m_swerve.CanDrive(true);
+            m_swerve.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rot), fieldRelative);
         }
          
     }

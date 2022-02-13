@@ -8,28 +8,18 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class Shooter extends SubsystemBase {
-  private WPI_TalonFX m_shootMotor = new WPI_TalonFX(Constants.ShooterConstants.shooterMotor1);
-  private WPI_TalonFX m_shootMotor2 = new WPI_TalonFX(Constants.ShooterConstants.shooterMotor2);
-  private WPI_TalonSRX m_feedMotor = new WPI_TalonSRX(Constants.ShooterConstants.feedMotor);
+public class Intake extends SubsystemBase {
+  
+  private WPI_TalonFX _intakeMotor = new WPI_TalonFX(11);
+  public Intake() {
 
-  public Shooter() {
-    m_shootMotor.configFactoryDefault();
-    m_feedMotor.configFactoryDefault();
   }
 
-  public void setShooterPower(double power){
-    m_shootMotor.set(power);
-    m_shootMotor2.set(-power);
-  }
-
-  public void setFeedPower(double power){
-    m_feedMotor.set(power);
+  public void setIntakePower(double power){
+    _intakeMotor.set(power);
   }
 
   @Override

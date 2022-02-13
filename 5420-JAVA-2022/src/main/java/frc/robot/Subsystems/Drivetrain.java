@@ -85,7 +85,18 @@ public class Drivetrain extends SubsystemBase {
       signature = 2;
     }
     this.pixy.getCCC().getBlocks(false, signature, 4);
-	}
+  }
+
+  public void setModule(double power){
+    m_backRight.setDesiredState(new SwerveModuleState(1, new Rotation2d(1)));
+  }
+  
+  public void CanDrive(boolean value){
+    m_frontLeft.canDrive(value);
+    m_frontRight.canDrive(value);
+    m_backLeft.canDrive(value);
+    m_backRight.canDrive(value);
+  }
 
   // Returns the angle of the robot as a Rotation2d.
   public Rotation2d getAngle() {

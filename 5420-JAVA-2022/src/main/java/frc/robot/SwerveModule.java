@@ -28,6 +28,8 @@ public class SwerveModule {
 
   private double m_encoderOffset;
 
+  private boolean _driving;
+
   /**
    * Constructs a SwerveModule.
    *
@@ -38,18 +40,25 @@ public class SwerveModule {
     m_driveMotor = new WPI_TalonFX(driveMotorChannel);
     m_driveMotor.configFactoryDefault();
     m_driveMotor.setNeutralMode(NeutralMode.Brake);
+    System.out.println(m_driveMotor);
 
     m_turningMotor = new WPI_TalonFX(turningMotorChannel);
     m_turningMotor.configFactoryDefault();
     m_turningMotor.setNeutralMode(NeutralMode.Coast);
+    System.out.println(m_turningMotor);
 
     m_turningEncoder = new CANCoder(turningEncoder);
     m_encoderOffset = encoderOffset;
     resetDriveEncoder();
+    System.out.println(m_turningEncoder);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  public void canDrive(boolean value){
+    _driving = value;
   }
 
   // Do not use unless the turn encoders absolute value changed
@@ -108,7 +117,15 @@ public class SwerveModule {
     }
 
     // Set motor power to pid loop outputs
-    m_driveMotor.set(-driveOutput);
-    m_turningMotor.set(turnOutput);
+    if(_driving){
+      System.out.println("drive");
+      m_driveMotor.set(-driveOutput);
+      m_turningMotor.set(turnOutput);
+    }
+    else{
+      System.out.println("default");
+     m_driveMotor.set(0);
+     m_turningMotor.set(0);
+    }
   }
 }

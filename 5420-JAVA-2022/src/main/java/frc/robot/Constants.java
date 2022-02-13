@@ -32,23 +32,23 @@ public final class Constants {
         public static final double turnEncoderMultiplier = (2 * Math.PI) / 360;
 
         // CAN id
-        public static final int frontLeftDrive = 1;
-        public static final int frontLeftTurn = 2;
-        public static final int frontLeftEncoder = 60;
+        public static final int frontLeftDrive = 6;
+        public static final int frontLeftTurn = 5;
+        public static final int frontLeftEncoder = 59;
 
-        public static final int frontRightDrive = 6;
-        public static final int frontRightTurn = 7;
+        public static final int frontRightDrive = 4;
+        public static final int frontRightTurn = 3;
         public static final int frontRightEncoder = 61;
 
         public static final int backLeftDrive = 8;
-        public static final int backLeftTurn = 3;
-        public static final int backLeftEncoder = 59;
+        public static final int backLeftTurn = 7;
+        public static final int backLeftEncoder = 60;
 
-        public static final int backRightDrive = 5;
-        public static final int backRightTurn = 4;
+        public static final int backRightDrive = 2;
+        public static final int backRightTurn = 1;
         public static final int backRightEncoder = 62;
 
-        public static final int pigeon = 4;
+        public static final int pigeon = 24;
 
         // Pixy
         public static final Link pixyLink = new SPILink();
@@ -58,7 +58,8 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int shooterMotor = 2;
+        public static final int shooterMotor1 = 10;
+        public static final int shooterMotor2 = 9;
         public static final int feedMotor = 3;
     }
 
@@ -90,8 +91,8 @@ public final class Constants {
         // Xtreme 3d joystick map
         public static final int axis_x = 0;
         public static final int axis_y = 1;
-        public static final int axis_rot = 3;
-        public static final int axis_throttle = 2;
+        public static final int axis_rot = 2;
+        public static final int axis_throttle = 3;
         public static final int Button_Triangle = 2;
         public static final int Button_X = 3;
         public static final int Button_Square = 4;
