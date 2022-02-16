@@ -36,7 +36,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     // PS2 joystick
-    private int x = Constants.xJoystickConstants.axis_y, y = Constants.xJoystickConstants.axis_x, r = Constants.xJoystickConstants.axis_rot, t = Constants.xJoystickConstants.axis_throttle;
+    private int x = Constants.ThrustMasterJoystick.Axis_Y, y = Constants.ThrustMasterJoystick.Axis_X, r = Constants.ThrustMasterJoystick.Axis_Rot, t = Constants.ThrustMasterJoystick.Axis_Throttle;
     // Logitech controller
     //private int x = 1, y = 0, r = 4, t = -1;
 
@@ -52,21 +52,21 @@ public class RobotContainer {
 
     private void buttonConfig() {
         // Turns robot to limelight target
-        new JoystickButton(m_controller, Constants.xJoystickConstants.Button_Trigger)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Trigger)
                 .whileHeld(new LimelightAimDrive(m_limelight, m_swerve, m_controller, x, y, r, m_driveLocked));
 
         // Toggles if we drive with field relative
-        new JoystickButton(m_controller, Constants.xJoystickConstants.Button_L3)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Left)
                 .whenPressed(() -> m_swerve.SetFieldRelative(!m_swerve.IsFieldRelative()));
 
         // Zeros the gyro heading
-        new JoystickButton(m_controller, Constants.xJoystickConstants.Button_R3)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Middle)
                 .whenPressed(() -> m_swerve.zeroGyroHeading());
 
-        new JoystickButton(m_controller, Constants.xJoystickConstants.Button_X)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Right)
                 .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));  
                 
-            new JoystickButton(m_controller, Constants.xJoystickConstants.Button_Square)
+            new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
@@ -88,9 +88,6 @@ public class RobotContainer {
             .whileHeld(() -> this.m_shooter.setFeedPower(0.5))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
-            .whileHeld(new AutoShoot(m_shooter, shooterSpeed.get()));
-
         new JoystickDPad(m_operatorController, Position.kUp)
             .whenPressed(() -> {
                 double increaseBy = 0.01;
@@ -98,7 +95,7 @@ public class RobotContainer {
                 shooterSpeed.set(newSpeed);
         });
 
-        new JoystickDPad(m_operatorController, Position.kUp)
+        new JoystickDPad(m_operatorController, Position.kDown)
             .whenPressed(() -> {
                 double decreaseBy = -0.01;
                 double newSpeed = shooterSpeed.get() + decreaseBy;
