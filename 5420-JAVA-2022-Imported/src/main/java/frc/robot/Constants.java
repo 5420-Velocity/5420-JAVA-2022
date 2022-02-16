@@ -60,7 +60,7 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int shooterMotor1 = 10;
         public static final int shooterMotor2 = 9;
-        public static final int feedMotor = 3;
+        public static final int feedMotor = 55;
     }
 
     public static final class ControllerConstants {

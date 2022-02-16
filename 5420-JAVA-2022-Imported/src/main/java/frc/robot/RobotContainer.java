@@ -72,6 +72,9 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake));
 
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
+            .whenHeld(new ShootWithRPM(m_shooter, 10000));
+
         /**
 		 * Used to dynamically adjust the speed used for shooting.
 		 */

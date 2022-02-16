@@ -32,6 +32,10 @@ public class Shooter extends SubsystemBase {
     m_feedMotor.set(power);
   }
 
+  public double GetShooterRPM(){
+    return m_shootMotor.getSensorCollection().getIntegratedSensorVelocity();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
