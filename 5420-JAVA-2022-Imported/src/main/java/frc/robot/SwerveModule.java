@@ -81,11 +81,6 @@ public class SwerveModule {
         new Rotation2d(Math.toRadians(m_turningEncoder.getAbsolutePosition())));
   }
 
-  public void StopMotors(){
-      m_driveMotor.set(0);
-      m_turningMotor.set(0);
-  }
-
   /**
    * Sets the desired state for the module.
    *

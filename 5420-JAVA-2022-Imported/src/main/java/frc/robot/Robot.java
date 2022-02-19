@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.AutoReset;
+import frc.robot.Commands.IntakeRelease;
 
 public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    new IntakeRelease(m_robotContainer.m_intake).schedule();
     new AutoReset(m_robotContainer.m_swerve).schedule();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 

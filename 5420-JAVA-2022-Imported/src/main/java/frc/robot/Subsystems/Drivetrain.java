@@ -129,12 +129,6 @@ public class Drivetrain extends SubsystemBase {
     isXDefault = value;
   }
 
-  public void StopModules(){
-    m_frontLeft.StopMotors();
-    m_frontRight.StopMotors();
-    m_backLeft.StopMotors();
-    m_backRight.StopMotors();
-  }
 
   public void setMaxSpeed(double value) {
     MaxSpeed = Constants.DriveTrainConstants.kMaxSpeed + value;

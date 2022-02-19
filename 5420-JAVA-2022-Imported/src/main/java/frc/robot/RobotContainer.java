@@ -28,12 +28,13 @@ public class RobotContainer {
     private final Joystick m_operatorController = new Joystick(1);
     public final Drivetrain m_swerve = new Drivetrain();
     private final Shooter m_shooter = new Shooter();
-    private final Intake m_intake = new Intake();
+    public final Intake m_intake = new Intake();
 
     public LimeLight m_limelight = new LimeLight("two");
     private AtomicBoolean m_driveLocked = new AtomicBoolean();
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
 
 
@@ -144,7 +145,6 @@ public class RobotContainer {
                              m_swerve.setWheelAngleStates(45, -45, -45, 45);
                          }
                          else{
-                            m_swerve.StopModules();
                             m_swerve.CanDrive(false);
                         }
         }
@@ -170,7 +170,7 @@ public class RobotContainer {
             new AutoReset(m_swerve),
             new PixySearch(m_swerve, 2, 1.5),
             new PixyAlign(m_swerve),
-            new PixyDrive(m_swerve, 1),
+            new PixyDrive(m_swerve, 1, m_intake),
             new AutoDoNothing(m_swerve)
         ));
 

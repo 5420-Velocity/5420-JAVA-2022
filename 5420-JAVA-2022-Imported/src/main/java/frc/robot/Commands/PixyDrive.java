@@ -2,16 +2,18 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Subsystems.Drivetrain;
+import frc.robot.Subsystems.*;
 
 public class PixyDrive extends CommandBase {
     private Drivetrain drivetrain;
     private double power;
     private boolean isFinished;
+    private Intake intake;
 
-    public PixyDrive(Drivetrain drivetrain, double power) {
+    public PixyDrive(Drivetrain drivetrain, double power, Intake intake) {
     this.drivetrain = drivetrain;
     this.power = power;
+    this.intake = intake;
   }
 
   // Called when the command is initially scheduled.
@@ -30,15 +32,18 @@ public class PixyDrive extends CommandBase {
     if(drivetrain.pixyAlgo.getPixyBest() != null){
       if (drivetrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
         drivetrain.drive(power, 0, 0, false);
+        intake.setIntakePower(0.4);
       }
       else{
         // Don't drive if it doesn't have a target.
         drivetrain.drive(0, 0, 0, false);
+        intake.setIntakePower(0);
         this.isFinished = true;
       }
     }
     else{
       this.isFinished = true;
+  
     }
     
 
@@ -49,6 +54,7 @@ public class PixyDrive extends CommandBase {
   public void end(boolean interrupted) {
     drivetrain.resetAllDriveEncoders();
     drivetrain.drive(0, 0, 0, false);
+    intake.setIntakePower(0);
     System.out.println ("End drive");
   }
 

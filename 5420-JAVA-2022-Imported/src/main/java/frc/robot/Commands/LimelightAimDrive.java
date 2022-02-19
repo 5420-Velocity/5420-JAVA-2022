@@ -59,7 +59,15 @@ public class LimelightAimDrive extends CommandBase {
       m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, m_drivetrain.IsFieldRelative());
     }
     else{
-      m_drivetrain.CanDrive(false);
+      if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
+                    && (Math.abs(ySpeed) < Constants.ControllerConstants.NoInputTolerance)
+                    && (Math.abs(rotSpeed) < Constants.ControllerConstants.NoInputTolerance)) {
+          m_drivetrain.CanDrive(false);
+      }
+      else{
+        m_drivetrain.CanDrive(true);
+        m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rotSpeed), m_drivetrain.IsFieldRelative());
+      }
     }
   }
 
