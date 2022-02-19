@@ -55,10 +55,11 @@ public class LimelightAimDrive extends CommandBase {
     final var rotSpeed = -m_joystick.getRawAxis(r) * Constants.DriveTrainConstants.kMaxSpeed;
 
     if(this.m_limelight.hasTarget()){
+      m_drivetrain.CanDrive(true);
       m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, m_drivetrain.IsFieldRelative());
     }
     else{
-      m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rotSpeed), m_drivetrain.IsFieldRelative());
+      m_drivetrain.CanDrive(false);
     }
   }
 

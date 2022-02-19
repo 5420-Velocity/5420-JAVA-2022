@@ -26,7 +26,7 @@ public final class Constants {
         public static final double limeD = 0;
 
         public static final double driveMaxOutput = 0.8;
-        public static final double turnMaxOutput = 0.5;
+        public static final double turnMaxOutput = 0.3;
 
         public static final double driveEncoderMultiplier = (Math.PI * 0.102) / 14150;
         public static final double turnEncoderMultiplier = (2 * Math.PI) / 360;
@@ -60,7 +60,7 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int shooterMotor1 = 10;
         public static final int shooterMotor2 = 9;
-        public static final int feedMotor = 55;
+        public static final int feedMotor = 56;
     }
 
     public static final class ControllerConstants {

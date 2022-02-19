@@ -34,6 +34,8 @@ public class RobotContainer {
     private AtomicBoolean m_driveLocked = new AtomicBoolean();
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
+
 
     // PS2 joystick
     private int x = Constants.ThrustMasterJoystick.Axis_Y, y = Constants.ThrustMasterJoystick.Axis_X, r = Constants.ThrustMasterJoystick.Axis_Rot, t = Constants.ThrustMasterJoystick.Axis_Throttle;
@@ -78,7 +80,6 @@ public class RobotContainer {
         /**
 		 * Used to dynamically adjust the speed used for shooting.
 		 */
-		AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
 
         /**
 		 * Setup Button Events for the Shooter on the Operator Controller
@@ -88,7 +89,7 @@ public class RobotContainer {
             .whenReleased(() -> this.m_shooter.setShooterPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
-            .whileHeld(() -> this.m_shooter.setFeedPower(0.5))
+            .whileHeld(() -> this.m_shooter.setFeedPower(-0.5))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kUp)
@@ -109,6 +110,8 @@ public class RobotContainer {
 
     public void teleopExecute() {
         // Checks if the jotstick drive is being locked out by a command
+        System.out.println(shooterSpeed.get());
+
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
