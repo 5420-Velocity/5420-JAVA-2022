@@ -163,7 +163,7 @@ public class RobotContainer {
         ));
 
         this.autoChooser.addOption("pixy auto", new SequentialCommandGroup(
-            new AutoReset(m_swerve),
+            new Shoot(m_shooter),
             new AutoTurn(m_swerve, 3, 1),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 2, -1),
