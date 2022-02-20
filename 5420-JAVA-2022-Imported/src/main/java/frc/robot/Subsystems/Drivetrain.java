@@ -150,7 +150,7 @@ public class Drivetrain extends SubsystemBase {
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = m_kinematics
-        .toSwerveModuleStates(fieldRelative ? fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle())
+        .toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MaxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -159,11 +159,11 @@ public class Drivetrain extends SubsystemBase {
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  private ChassisSpeeds fromFieldRelativeSpeeds(double vxMetersPerSecond, double vyMetersPerSecond,
-      double omegaRadiansPerSecond, Rotation2d robotAngle) {
-    return new ChassisSpeeds(vxMetersPerSecond * robotAngle.getCos() - vyMetersPerSecond * robotAngle.getSin(),
-        vxMetersPerSecond * robotAngle.getSin() + vyMetersPerSecond * robotAngle.getCos(), omegaRadiansPerSecond);
-  }
+  // private ChassisSpeeds fromFieldRelativeSpeeds(double vxMetersPerSecond, double vyMetersPerSecond,
+  //     double omegaRadiansPerSecond, Rotation2d robotAngle) {
+  //   return new ChassisSpeeds(vxMetersPerSecond * robotAngle.getCos() - vyMetersPerSecond * robotAngle.getSin(),
+  //       vxMetersPerSecond * robotAngle.getSin() + vyMetersPerSecond * robotAngle.getCos(), omegaRadiansPerSecond);
+  // }
 
   public void setWheelAngleStates(double fl, double fr, double bl, double br) {
     setWheelState(module.frontLeft, fl, 0.0);

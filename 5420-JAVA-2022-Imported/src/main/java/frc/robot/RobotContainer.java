@@ -10,6 +10,7 @@ package frc.robot;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +37,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
+    private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
 
 
     // PS2 joystick
@@ -98,6 +100,7 @@ public class RobotContainer {
                 double increaseBy = 0.01;
                 double newSpeed = shooterSpeed.get() + increaseBy;
                 shooterSpeed.set(newSpeed);
+                shootSpeed.setDouble(shooterSpeed.get());
         });
 
         new JoystickDPad(m_operatorController, Position.kDown)
@@ -105,19 +108,19 @@ public class RobotContainer {
                 double decreaseBy = -0.01;
                 double newSpeed = shooterSpeed.get() + decreaseBy;
                 shooterSpeed.set(newSpeed);
+                shootSpeed.setDouble(shooterSpeed.get());
             });
 
      }
 
     public void teleopExecute() {
         // Checks if the jotstick drive is being locked out by a command
-        System.out.println(shooterSpeed.get());
+        //System.out.println(shooterSpeed.get());
 
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
         else{
-            m_swerve.CanDrive(true);
         }
     }
 
@@ -146,6 +149,7 @@ public class RobotContainer {
                          }
                          else{
                             m_swerve.CanDrive(false);
+                            m_swerve.drive(0, 0, 0, fieldRelative);
                         }
         }
         else{
@@ -163,7 +167,7 @@ public class RobotContainer {
         ));
 
         this.autoChooser.addOption("pixy auto", new SequentialCommandGroup(
-            new Shoot(m_shooter),
+            new ShootWithTime(m_shooter),
             new AutoTurn(m_swerve, 3, 1),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 2, -1),

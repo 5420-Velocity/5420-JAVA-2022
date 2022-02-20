@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.*;
 
-public class Shoot extends CommandBase {
+public class ShootWithTime extends CommandBase {
   private Shooter _shooter;
   private int feedDuration = 2000;
   private int rampDuration = 1000;
@@ -22,7 +22,7 @@ public class Shoot extends CommandBase {
   private Date feedEndTime;
   private boolean isFinished;
 
-  public Shoot(Shooter shooter) {
+  public ShootWithTime(Shooter shooter) {
     this._shooter = shooter;
   }
 

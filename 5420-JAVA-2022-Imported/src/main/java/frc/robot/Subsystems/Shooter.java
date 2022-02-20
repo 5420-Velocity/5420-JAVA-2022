@@ -17,6 +17,7 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonFX m_shootMotor = new WPI_TalonFX(Constants.ShooterConstants.shooterMotor1);
   private WPI_TalonFX m_shootMotor2 = new WPI_TalonFX(Constants.ShooterConstants.shooterMotor2);
   private WPI_TalonSRX m_feedMotor = new WPI_TalonSRX(Constants.ShooterConstants.feedMotor);
+  private WPI_TalonSRX m_feedMotor2 = new WPI_TalonSRX(53);
 
   public Shooter() {
     m_shootMotor.configFactoryDefault();
@@ -29,7 +30,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFeedPower(double power){
-    m_feedMotor.set(power);
+    m_feedMotor.set(-power);
+    m_feedMotor2.set(power);
   }
 
   public double GetShooterRPM(){
