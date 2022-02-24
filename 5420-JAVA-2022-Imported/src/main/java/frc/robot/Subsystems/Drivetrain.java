@@ -65,6 +65,8 @@ public class Drivetrain extends SubsystemBase {
       m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
+  private NetworkTableEntry pixyStatus = SmartDashboard.getEntry("pixy status");
+
 
 
   public Drivetrain(){
@@ -76,6 +78,10 @@ public class Drivetrain extends SubsystemBase {
     signature = 2;
   }
 
+  public void initialize(){
+    isRed.setBoolean(false);
+  }
+
   @Override
 	public void periodic() {
     if(isRed.getBoolean(false)){
@@ -84,7 +90,8 @@ public class Drivetrain extends SubsystemBase {
     else{
       signature = 2;
     }
-    this.pixy.getCCC().getBlocks(false, signature, 4);
+    int status = this.pixy.getCCC().getBlocks(false, signature, 4);
+    pixyStatus.setNumber(status);
   }
 
   public void setModule(double power){

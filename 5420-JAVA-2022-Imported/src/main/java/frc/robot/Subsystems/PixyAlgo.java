@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import frc.robot.utils.BlockExtra;
 
@@ -40,7 +41,18 @@ public class PixyAlgo {
 	 * @return All Blocks Found in the FOV
 	 */
 	public ArrayList<Block> getPixyBlocks() {
+		// ArrayList<Block> filtered = new ArrayList<>();
+		// for (int i = 0; i < this.pixy.getCCC().getBlockCache().size(); i++) {
+		// 	if(this.pixy.getCCC().getBlockCache().get(i).getY() > 30){
+		// 		filtered.add(this.pixy.getCCC().getBlockCache().get(i));
+		// 	}
+		//}
 		return this.pixy.getCCC().getBlockCache();
+			// .stream()
+			// .filter(block -> {
+			// 	return block.getY() > 100;
+			// })
+			// .collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**

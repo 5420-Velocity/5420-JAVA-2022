@@ -72,13 +72,13 @@ public class RobotContainer {
                 .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));  
                 
             new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
-                .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false));
+                .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new ShootWithRPM(m_shooter, 10000));
+            .whenHeld(new AutoShoot(m_shooter, shooterSpeed));
 
         /**
 		 * Used to dynamically adjust the speed used for shooting.
@@ -115,7 +115,6 @@ public class RobotContainer {
 
     public void teleopExecute() {
         // Checks if the jotstick drive is being locked out by a command
-        //System.out.println(shooterSpeed.get());
 
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());

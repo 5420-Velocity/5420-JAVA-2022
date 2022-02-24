@@ -20,7 +20,6 @@ public class PixyDrive extends CommandBase {
   @Override
   public void initialize() {
     drivetrain.resetAllDriveEncoders();
-    System.out.println("Start drive");
     this.isFinished = false;
   }
 
@@ -55,7 +54,6 @@ public class PixyDrive extends CommandBase {
     drivetrain.resetAllDriveEncoders();
     drivetrain.drive(0, 0, 0, false);
     intake.setIntakePower(0);
-    System.out.println ("End drive");
   }
 
   // Returns true when the command should end.

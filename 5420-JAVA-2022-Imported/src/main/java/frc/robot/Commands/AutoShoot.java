@@ -24,22 +24,34 @@ public class AutoShoot extends CommandBase {
 	private final Shooter _shooter;
 	private Date speedRampUpTime;
 	private LinkedList<FeedMoment> shootInterval = new LinkedList<FeedMoment>();
-	private DoubleSupplier speedRef;
+	private AtomicReference<Double> speedRef;
 	private FeedMoment currentDeadline;
 	private boolean isFinished = false;
+	private double power;
 
-	public AutoShoot(Shooter newShooter, double speedValue) {
-		this(newShooter, () -> speedValue);
-	}
+	// public AutoShoot(Shooter newShooter, double speedValue) {
+	// 	this(newShooter, () -> speedValue);
+	// }
 
-	public AutoShoot(Shooter newShooter, AtomicReference<Double> speedValue) {
-		this(newShooter, speedValue::get);
-	}
+	// public AutoShoot(Shooter newShooter, AtomicReference<Double> speedValue) {
+	// 	this(newShooter, speedValue::get);
+	// }
 
-	public AutoShoot(Shooter newShooter, DoubleSupplier speedRef) {
+	// public AutoShoot(Shooter newShooter, DoubleSupplier speedRef) {
+	// 	this._shooter = newShooter;
+	// 	this.speedRef = speedRef;
+	// }
+
+	public AutoShoot(Shooter newShooter, double value){
 		this._shooter = newShooter;
-		this.speedRef = speedRef;
+		this.power = value;
 	}
+
+	public AutoShoot(Shooter newShooter, AtomicReference<Double> value){
+		this._shooter = newShooter;
+		this.speedRef = value;
+	}
+	
 
 	// Called when the command is initially scheduled.
 	@Override
@@ -51,8 +63,8 @@ public class AutoShoot extends CommandBase {
 		int rampUpTime = 800; // Delay Time norm 1800 but I'm getting rid of it ~Jake
 		int feedForwardTime = 1500; // Forward Feed Time
 		int feedReverseTime = 300; // Reverse Feed Time
-		int feedTimeSpace = 300; // Off Time
-		int ballCount = 3;
+		int feedTimeSpace = 1700; // Off Time
+		int ballCount = 2;
 
 		Calendar calculateDate = GregorianCalendar.getInstance();
 		calculateDate.add(GregorianCalendar.MILLISECOND, rampUpTime);
@@ -77,7 +89,7 @@ public class AutoShoot extends CommandBase {
 			Calendar calculateDateBallFeedReverse = GregorianCalendar.getInstance();
 			timelinePosition += feedReverseTime;
 			calculateDateBallFeedReverse.add(GregorianCalendar.MILLISECOND, timelinePosition);
-			this.shootInterval.add(new FeedMoment(MomentType.Reverse, calculateDateBallFeedReverse.getTime()));
+			//this.shootInterval.add(new FeedMoment(MomentType.Reverse, calculateDateBallFeedReverse.getTime()));
 
 			// Off
 			Calendar calculateDateBallFeedOff = GregorianCalendar.getInstance();
@@ -91,12 +103,11 @@ public class AutoShoot extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-
-		this._shooter.setShooterPower(this.speedRef.getAsDouble());
+		this._shooter.setShooterPower(speedRef.get());
+		System.out.println(power);
 
 		if (this.speedRampUpTime != null) {
 			this._shooter.setFeedPower(0);
-
 			// We can run the speed ramp.
 			if (new Date().after(this.speedRampUpTime)) {
 				this.speedRampUpTime = null;
@@ -131,7 +142,7 @@ public class AutoShoot extends CommandBase {
 						this._shooter.setFeedPower(0);
 					}
 					else if (this.currentDeadline.type == MomentType.Forward) {
-						this._shooter.setFeedPower(0.7);
+						this._shooter.setFeedPower(-0.5);
 					}
 					else if (this.currentDeadline.type == MomentType.Reverse) {
 						this._shooter.setFeedPower(-0.4);

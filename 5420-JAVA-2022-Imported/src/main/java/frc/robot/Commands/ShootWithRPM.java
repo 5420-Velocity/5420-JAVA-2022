@@ -34,14 +34,10 @@ public class ShootWithRPM extends CommandBase {
       output = -0.8;
     }
     _shooter.setShooterPower(output);
-    System.out.println(output + "output");
-    System.out.println(_shooter.GetShooterRPM());
     if(Math.abs(_shooter.GetShooterRPM() - target) < 100){
-      System.out.println("at target");
       //_shooter.setFeedPower(0.2);
     }
     else{
-      System.out.println("not at target");
       //_shooter.setFeedPower(0);
     }
   }

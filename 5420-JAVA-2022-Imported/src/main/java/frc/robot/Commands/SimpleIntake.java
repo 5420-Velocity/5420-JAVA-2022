@@ -24,7 +24,7 @@ public class SimpleIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _intake.setIntakePower(-0.4);
+    _intake.setIntakePower(-0.5);
   }
 
   // Called once the command ends or is interrupted.

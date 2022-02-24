@@ -56,7 +56,7 @@ public class LimelightAimDrive extends CommandBase {
 
     if(this.m_limelight.hasTarget()){
       m_drivetrain.CanDrive(true);
-      m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, m_drivetrain.IsFieldRelative());
+      m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, false);
     }
     else{
       if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
