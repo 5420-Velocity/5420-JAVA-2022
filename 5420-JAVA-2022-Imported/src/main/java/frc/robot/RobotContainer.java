@@ -68,54 +68,70 @@ public class RobotContainer {
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Middle)
                 .whenPressed(() -> m_swerve.zeroGyroHeading());
 
+        // Set the default position for drivetrain to x or none
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Right)
                 .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));  
                 
-            new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
+        // Alligns the robot intake with a cargo of your alliances cargo
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
 
+         /**
+		 * Setup Button Events for the Shooter on the Operator Controller
+		 */
+
+        // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake));
 
+        // Sets shooter speed
+		new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+            .whileHeld(() -> this.m_shooter.setShooterPower(shooterSpeed.get()))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0));
+
+        // Sets the feed motors to put cargo in the shooter
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
+            .whileHeld(() -> this.m_shooter.setFeedPower(-0.5))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+        // Shoots the ball with a timed gap between shots
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new AutoShoot(m_shooter, shooterSpeed));
+            .whenHeld(new AutoShoot(m_shooter, m_limelight));
 
         /**
 		 * Used to dynamically adjust the speed used for shooting.
 		 */
 
-        /**
-		 * Setup Button Events for the Shooter on the Operator Controller
-		 */
-		new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(() -> this.m_shooter.setShooterPower(shooterSpeed.get()))
-            .whenReleased(() -> this.m_shooter.setShooterPower(0));
+        // new JoystickDPad(m_operatorController, Position.kUp)
+        //     .whenPressed(() -> {
+        //         double increaseBy = 0.01;
+        //         double newSpeed = shooterSpeed.get() + increaseBy;
+        //         shooterSpeed.set(newSpeed);
+        //         shootSpeed.setDouble(shooterSpeed.get());
+        // });
 
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
-            .whileHeld(() -> this.m_shooter.setFeedPower(-0.5))
-            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+        // new JoystickDPad(m_operatorController, Position.kDown)
+        //     .whenPressed(() -> {
+        //         double decreaseBy = -0.01;
+        //         double newSpeed = shooterSpeed.get() + decreaseBy;
+        //         shooterSpeed.set(newSpeed);
+        //         shootSpeed.setDouble(shooterSpeed.get());
+        //     });
+
+        new JoystickDPad(m_operatorController, Position.kLeft)
+            .whenHeld(new AutoShoot(m_shooter, 0.7));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenPressed(() -> {
-                double increaseBy = 0.01;
-                double newSpeed = shooterSpeed.get() + increaseBy;
-                shooterSpeed.set(newSpeed);
-                shootSpeed.setDouble(shooterSpeed.get());
-        });
+            .whenHeld(new AutoShoot(m_shooter, 0.75));
 
-        new JoystickDPad(m_operatorController, Position.kDown)
-            .whenPressed(() -> {
-                double decreaseBy = -0.01;
-                double newSpeed = shooterSpeed.get() + decreaseBy;
-                shooterSpeed.set(newSpeed);
-                shootSpeed.setDouble(shooterSpeed.get());
-            });
+
+        new JoystickDPad(m_operatorController, Position.kRight)
+            .whenHeld(new AutoShoot(m_shooter, 0.85));
 
      }
 
     public void teleopExecute() {
         // Checks if the jotstick drive is being locked out by a command
-
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
@@ -176,6 +192,17 @@ public class RobotContainer {
             new PixyDrive(m_swerve, 1, m_intake),
             new AutoDoNothing(m_swerve)
         ));
+
+        this.autoChooser.addOption("low shoot", new SequentialCommandGroup(
+            new AutoShoot(m_shooter, m_limelight),
+            new AutoReset(m_swerve),
+            new AutoDrive(m_swerve, 3, 1),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 3, 1)
+        ));
+
+        // Shoot low pick up 2 more balls shoot
+        // Pick up 1 ball shoot both high
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }

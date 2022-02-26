@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.FeedMoment;
@@ -22,6 +21,7 @@ import frc.robot.Subsystems.*;
 public class AutoShoot extends CommandBase {
 
 	private final Shooter _shooter;
+	private final LimeLight _limelight;
 	private Date speedRampUpTime;
 	private LinkedList<FeedMoment> shootInterval = new LinkedList<FeedMoment>();
 	private AtomicReference<Double> speedRef;
@@ -29,27 +29,15 @@ public class AutoShoot extends CommandBase {
 	private boolean isFinished = false;
 	private double power;
 
-	// public AutoShoot(Shooter newShooter, double speedValue) {
-	// 	this(newShooter, () -> speedValue);
-	// }
-
-	// public AutoShoot(Shooter newShooter, AtomicReference<Double> speedValue) {
-	// 	this(newShooter, speedValue::get);
-	// }
-
-	// public AutoShoot(Shooter newShooter, DoubleSupplier speedRef) {
-	// 	this._shooter = newShooter;
-	// 	this.speedRef = speedRef;
-	// }
-
 	public AutoShoot(Shooter newShooter, double value){
 		this._shooter = newShooter;
 		this.power = value;
+		this._limelight = null;
 	}
 
-	public AutoShoot(Shooter newShooter, AtomicReference<Double> value){
+	public AutoShoot(Shooter newShooter, LimeLight limelight){
+		this._limelight = limelight;
 		this._shooter = newShooter;
-		this.speedRef = value;
 	}
 	
 
@@ -97,14 +85,23 @@ public class AutoShoot extends CommandBase {
 			calculateDateBallFeedOff.add(GregorianCalendar.MILLISECOND, timelinePosition);
 			this.shootInterval.add(new FeedMoment(MomentType.Off, calculateDateBallFeedOff.getTime()));
 		}
+		if(_limelight != null){
+			_limelight.setLedMode(0);
+		}
 		
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		this._shooter.setShooterPower(speedRef.get());
-		System.out.println(power);
+		//System.out.println(power);
+		if(_limelight == null){
+			this._shooter.setShooterPower(power);
+		}
+		else{
+			this._shooter.setShooterPower(_limelight.getShooterPower());
+			System.out.println(_limelight.getShooterPower());
+		}
 
 		if (this.speedRampUpTime != null) {
 			this._shooter.setFeedPower(0);
@@ -156,6 +153,9 @@ public class AutoShoot extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
+		if(_limelight != null){
+			_limelight.setLedMode(1);
+		}
 		this._shooter.setFeedPower(0);
 		this._shooter.setShooterPower(0);
 	}

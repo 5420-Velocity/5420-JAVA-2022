@@ -87,6 +87,24 @@ public class LimeLight extends SubsystemBase {
 		return getDistanceNew(2);
 	}
 
+	public double getHeight(){
+		return this.table.getEntry("tvert").getDouble(0.0);
+	}
+
+	public double getShooterPower(){
+		System.out.println(getHeight());
+
+		if(getHeight() <= 0){
+			return 0.77;
+		}
+		else if(getHeight() < 6){
+			return 0.85;
+		}
+		else{
+			return ((-0.25/7) * getHeight()) + 1;
+		}
+	}
+
 	/**
 	 * Return the Distance from the Target Both Params should be constant, Both
 	 * Known Values The KnownArea is based off of the KnownDistance

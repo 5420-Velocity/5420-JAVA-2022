@@ -35,6 +35,8 @@ public class AutoDrive extends CommandBase {
   public void execute() {
     // If the encoder value is less than the target keep driving
     if (Math.abs(drivetrain.getWheelDriveEncoder(module.frontLeft) / 13460) < target) {
+      System.out.println(drivetrain.getWheelDriveEncoder(module.frontLeft) / 13460);
+      drivetrain.CanDrive(true);
       drivetrain.drive(-power, 0, 0, false);
     } else {
       drivetrain.drive(0, 0, 0, false);
