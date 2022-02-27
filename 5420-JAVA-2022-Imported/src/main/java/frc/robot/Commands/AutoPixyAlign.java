@@ -68,11 +68,11 @@ public class AutoPixyAlign extends CommandBase {
     
     @Override
     public void end(boolean interrupted) {
-      driveTrain.CanDrive(false);
+        
     }
 
     @Override
-    public boolean isFinished() {
-      return this.isFinished;
+    public boolean isFinished(){
+        return this.isFinished;
     }
 }
