@@ -12,19 +12,24 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.Drivetrain;
+import frc.robot.Constants;
+import frc.robot.Subsystems.*;
 
-public class AutoPixyAlign extends CommandBase {
+public class PixyPickup extends CommandBase {
   
     private Drivetrain driveTrain;
+    private Intake intake;
+    private double power;
     private boolean isFinished;
 
     private PIDController turnPidController = new PIDController(0.025, 0, 0);
 
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
 
-    public AutoPixyAlign(Drivetrain driveTrain){
+    public PixyPickup(Drivetrain driveTrain, Intake intake, double power){
         this.driveTrain = driveTrain;
+        this.intake = intake;
+        this.power = power;
     }
 
     @Override
@@ -38,14 +43,17 @@ public class AutoPixyAlign extends CommandBase {
         if (driveTrain.pixyAlgo.getPixyBest() != null) {
             hasTarget.setBoolean(true);
             
-            if(driveTrain.pixyAlgo.getPixyBest().getX() < 145 || driveTrain.pixyAlgo.getPixyBest().getX() > 155){
+            if((driveTrain.pixyAlgo.getPixyBest().getX() < 145 || driveTrain.pixyAlgo.getPixyBest().getX() > 155) || driveTrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
               // turn to ball
               double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
               driveTrain.CanDrive(true);
-              driveTrain.drive(0, 0, output, false);
+              driveTrain.drive(power, 0, output, false);
+              intake.setIntakePower(-0.5);
+              System.out.println(driveTrain.pixyAlgo.getPixyBest().getSignature());
             }
             else{
               driveTrain.CanDrive(false);
+              intake.setIntakePower(0);
               driveTrain.drive(0, 0, 0, false);
               this.isFinished = true;
             }

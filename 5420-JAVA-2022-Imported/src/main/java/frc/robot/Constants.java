@@ -7,7 +7,7 @@ import io.github.pseudoresonance.pixy2api.links.SPILink;
 public final class Constants {
     public static final class DriveTrainConstants {
         public static final double kMaxSpeed = 2; // Meters per second
-        public static final double kMaxAngularSpeed = Math.PI * 0.5 ; // 1/2 rotation per second
+        public static final double kMaxAngularSpeed = Math.PI * 0.75 ; // 1/2 rotation per second
 
         public static final double driveSpeedP = 0.18;
         public static final double driveSpeedI = 0;
@@ -54,7 +54,7 @@ public final class Constants {
         public static final Link pixyLink = new SPILink();
         public static final SPI.Port pixyLinkPort = SPI.Port.kOnboardCS0;
         
-        public static final double pixyTargetArea = 10000;
+        public static final double pixyTargetArea = 15000;
     }
 
     public static final class ShooterConstants {

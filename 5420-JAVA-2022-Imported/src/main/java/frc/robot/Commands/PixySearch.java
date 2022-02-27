@@ -38,15 +38,18 @@ public class PixySearch extends CommandBase {
     
     //Keep turning if the encoder value is less than the target.
     if(Math.abs(drivetrain.getWheelDriveEncoder(module.frontLeft)  / 13460)  < target){
+      drivetrain.CanDrive(true);
       drivetrain.drive(0, 0, power, false);
     }
     else{
       // Stop turning if the encoder value is the same as the target
+      drivetrain.CanDrive(false);
       drivetrain.drive(0, 0, 0, false);
       this.isFinished = true;
     }
 
     if(drivetrain.pixyAlgo.getPixyBest() != null) {
+      drivetrain.CanDrive(false);
         this.isFinished = true;
     }
   }

@@ -30,13 +30,15 @@ public class PixyDrive extends CommandBase {
     // Drive forward when it gets a target.
     if(drivetrain.pixyAlgo.getPixyBest() != null){
       if (drivetrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
+        drivetrain.CanDrive(true);
         drivetrain.drive(power, 0, 0, false);
-        intake.setIntakePower(0.4);
+        intake.setIntakePower(-0.5);
       }
       else{
         // Don't drive if it doesn't have a target.
         drivetrain.drive(0, 0, 0, false);
         intake.setIntakePower(0);
+        System.out.println("donedrive");
         this.isFinished = true;
       }
     }
@@ -44,8 +46,6 @@ public class PixyDrive extends CommandBase {
       this.isFinished = true;
   
     }
-    
-
 }
 
   // Called once the command ends or is interrupted.

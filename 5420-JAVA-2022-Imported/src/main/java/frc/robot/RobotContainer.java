@@ -96,7 +96,7 @@ public class RobotContainer {
 
         // Shoots the ball with a timed gap between shots
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new AutoShoot(m_shooter, m_limelight));
+            .whenHeld(new AutoShoot(m_shooter, m_limelight, 2));
 
         /**
 		 * Used to dynamically adjust the speed used for shooting.
@@ -119,14 +119,14 @@ public class RobotContainer {
         //     });
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new AutoShoot(m_shooter, 0.7));
+            .whenHeld(new AutoShoot(m_shooter, 0.75, 2));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new AutoShoot(m_shooter, 0.75));
+            .whenHeld(new AutoShoot(m_shooter, 0.78, 2));
 
 
         new JoystickDPad(m_operatorController, Position.kRight)
-            .whenHeld(new AutoShoot(m_shooter, 0.85));
+            .whenHeld(new AutoShoot(m_shooter, 0.8, 2));
 
      }
 
@@ -175,11 +175,6 @@ public class RobotContainer {
     }
 
     private void autoConfig() {
-        this.autoChooser.addOption("Default Auto", new SequentialCommandGroup(
-            new AutoDrive(m_swerve, 10, 0.5),
-            new AutoLimelight(m_limelight, m_swerve, true),
-            new AutoDoNothing(m_swerve)
-        ));
 
         this.autoChooser.addOption("pixy auto", new SequentialCommandGroup(
             new ShootWithTime(m_shooter),
@@ -194,11 +189,24 @@ public class RobotContainer {
         ));
 
         this.autoChooser.addOption("low shoot", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, m_limelight),
+            new AutoShoot(m_shooter, 0.7, 1),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 3, 1),
             new AutoReset(m_swerve),
-            new PixySearch(m_swerve, 3, 1)
+            new PixySearch(m_swerve, 3, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoReset(m_swerve),
+            new AutoTurn(m_swerve, 5, 1),
+            new PixySearch(m_swerve, 5, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoLimelight(m_limelight, m_swerve),
+            new AutoShoot(m_shooter, m_limelight, 2)
+        ));
+
+        this.autoChooser.addOption("other", new SequentialCommandGroup(
+            new AutoTurn(m_swerve, 5, 1)
         ));
 
         // Shoot low pick up 2 more balls shoot

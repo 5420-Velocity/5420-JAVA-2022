@@ -92,16 +92,14 @@ public class LimeLight extends SubsystemBase {
 	}
 
 	public double getShooterPower(){
-		System.out.println(getHeight());
-
+		//System.out.println(getHeight());
 		if(getHeight() <= 0){
 			return 0.77;
 		}
-		else if(getHeight() < 6){
-			return 0.85;
-		}
 		else{
-			return ((-0.25/7) * getHeight()) + 1;
+			//System.out.println((-1/(1.75 * getHeight())) + 0.89);
+			return (-1/(1.75 * getHeight())) + 0.89;
+			//return ((-0.25/7) * getHeight()) + 1;
 		}
 	}
 

@@ -28,16 +28,19 @@ public class AutoShoot extends CommandBase {
 	private FeedMoment currentDeadline;
 	private boolean isFinished = false;
 	private double power;
+	private int ballCount;
 
-	public AutoShoot(Shooter newShooter, double value){
+	public AutoShoot(Shooter newShooter, double value, int balls){
 		this._shooter = newShooter;
 		this.power = value;
 		this._limelight = null;
+		this.ballCount = balls;
 	}
 
-	public AutoShoot(Shooter newShooter, LimeLight limelight){
+	public AutoShoot(Shooter newShooter, LimeLight limelight, int balls){
 		this._limelight = limelight;
 		this._shooter = newShooter;
+		this.ballCount = balls;
 	}
 	
 
@@ -48,11 +51,10 @@ public class AutoShoot extends CommandBase {
 		this.isFinished = false;
 		this.currentDeadline = null;
 
-		int rampUpTime = 800; // Delay Time norm 1800 but I'm getting rid of it ~Jake
-		int feedForwardTime = 1500; // Forward Feed Time
+		int rampUpTime = 1200; // Delay Time norm 1800 but I'm getting rid of it ~Jake
+		int feedForwardTime = 1200; // Forward Feed Time
 		int feedReverseTime = 300; // Reverse Feed Time
-		int feedTimeSpace = 1700; // Off Time
-		int ballCount = 2;
+		int feedTimeSpace = 1500; // Off Time
 
 		Calendar calculateDate = GregorianCalendar.getInstance();
 		calculateDate.add(GregorianCalendar.MILLISECOND, rampUpTime);
@@ -100,7 +102,6 @@ public class AutoShoot extends CommandBase {
 		}
 		else{
 			this._shooter.setShooterPower(_limelight.getShooterPower());
-			System.out.println(_limelight.getShooterPower());
 		}
 
 		if (this.speedRampUpTime != null) {
