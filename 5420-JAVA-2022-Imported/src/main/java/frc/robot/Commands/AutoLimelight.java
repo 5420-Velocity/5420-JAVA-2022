@@ -38,17 +38,19 @@ public class AutoLimelight extends CommandBase {
     double output = (turnPidController.calculate(m_limelight.getTX(), 0))
           * Constants.DriveTrainConstants.kMaxAngularSpeed;
 
-
     if(this.m_limelight.hasTarget()){
       if(Math.abs(this.m_limelight.getTX()) < 0.3){
         m_drivetrain.CanDrive(true);
         m_drivetrain.drive(0, 0, output, false);
+        System.out.println("moving");
       }
       else{
+        System.out.println("done");
         this.isFinished = true;
       }
     }
     else{
+      System.out.println("no target");
       this.isFinished = true;
     }
   }

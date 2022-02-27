@@ -13,7 +13,7 @@ import frc.robot.Subsystems.*;
 
 public class IntakeRelease extends CommandBase {
   private Intake intake;
-  private int duration = 500;
+  private int duration = 1000;
   private Date endTime;
   private boolean isFinished;
   public IntakeRelease(Intake intake) {
@@ -32,14 +32,17 @@ public class IntakeRelease extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (new Date().after(this.endTime)) {
-        intake.setReleasePower(0);
-        this.isFinished = true;
-      }
-      else{
-        intake.setReleasePower(-0.4);
-      }
+    System.out.println("execute");
+    if (new Date().after(this.endTime)) {
+      intake.setReleasePower(0);
+      this.isFinished = true;
+      System.out.println("done");
     }
+    else{
+      intake.setReleasePower(-0.4);
+      System.out.println("running");
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

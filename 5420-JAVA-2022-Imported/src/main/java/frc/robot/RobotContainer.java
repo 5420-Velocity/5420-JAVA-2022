@@ -83,6 +83,9 @@ public class RobotContainer {
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake));
+        
+        // reverse intake
+        
 
         // Sets shooter speed
 		new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
@@ -188,25 +191,23 @@ public class RobotContainer {
             new AutoDoNothing(m_swerve)
         ));
 
-        this.autoChooser.addOption("low shoot", new SequentialCommandGroup(
+        this.autoChooser.addOption("Shoot pickup shoot", new SequentialCommandGroup(
             new AutoShoot(m_shooter, 0.7, 1),
             new AutoReset(m_swerve),
-            new AutoDrive(m_swerve, 3, 1),
+            new AutoTurn(m_swerve, 4, 1),
             new AutoReset(m_swerve),
-            new PixySearch(m_swerve, 3, 1),
+            new PixySearch(m_swerve, 1, 1),
             new PixyPickup(m_swerve, m_intake, 1),
             new TimedIntake(m_intake, 1000),
             new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 5, 1),
-            new PixySearch(m_swerve, 5, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
+            new AutoTurn(m_swerve, 3, 1),
             new AutoLimelight(m_limelight, m_swerve),
-            new AutoShoot(m_shooter, m_limelight, 2)
+            new AutoShoot(m_shooter, m_limelight, 1)
+            
         ));
 
         this.autoChooser.addOption("other", new SequentialCommandGroup(
-            new AutoTurn(m_swerve, 5, 1)
+            new AutoLimelight(m_limelight, m_swerve)
         ));
 
         // Shoot low pick up 2 more balls shoot

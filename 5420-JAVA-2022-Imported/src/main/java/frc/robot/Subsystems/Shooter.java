@@ -10,6 +10,10 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,6 +22,11 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonFX m_shootMotor2 = new WPI_TalonFX(Constants.ShooterConstants.shooterMotor2);
   private WPI_TalonSRX m_feedMotor = new WPI_TalonSRX(Constants.ShooterConstants.feedMotor);
   private WPI_TalonSRX m_feedMotor2 = new WPI_TalonSRX(53);
+  private AnalogInput m_rangeInput = new AnalogInput(0);
+  private AnalogPotentiometer m_rangeSensor = new AnalogPotentiometer(m_rangeInput);
+  private NetworkTableEntry RangeSensor = SmartDashboard.getEntry("RangeSensor");
+
+
 
   public Shooter() {
     m_shootMotor.configFactoryDefault();
@@ -40,6 +49,9 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    RangeSensor.setDouble(m_rangeSensor.get());
+  }
+  public double getRange(){
+    return m_rangeSensor.get();
   }
 }

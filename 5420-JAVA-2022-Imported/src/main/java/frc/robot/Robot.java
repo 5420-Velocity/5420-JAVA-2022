@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    CommandScheduler.getInstance().cancelAll();
     new IntakeRelease(m_robotContainer.m_intake).schedule();
     new AutoReset(m_robotContainer.m_swerve).schedule();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();

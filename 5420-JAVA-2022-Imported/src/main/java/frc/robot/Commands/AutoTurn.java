@@ -29,6 +29,7 @@ public class AutoTurn extends CommandBase {
   public void initialize() {
     drivetrain.resetAllDriveEncoders();
     this.isFinished = false;
+    System.out.println("turn start");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +38,7 @@ public class AutoTurn extends CommandBase {
     
     //Keep turning if the encoder value is less than the target.
     if(Math.abs(drivetrain.getWheelDriveEncoder(module.frontLeft)  / 13460)  < target){
+      drivetrain.CanDrive(true);
       drivetrain.drive(0, 0, power, false);
     }
     else{
@@ -51,6 +53,7 @@ public class AutoTurn extends CommandBase {
   public void end(boolean interrupted) {
     drivetrain.resetAllDriveEncoders();
     drivetrain.drive(0, 0, 0, false);
+    System.out.println("turn end");
   }
 
   // Returns true when the command should end.

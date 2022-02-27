@@ -113,10 +113,8 @@ public class AutoShoot extends CommandBase {
 		}
 		else {
 			// Speed Ramp Complete, Fire using the feeder
-
 			if (this.currentDeadline == null) {
 				// If we dont have a Deadline.
-
 				if (this.shootInterval.size() == 0) {
 					// We are out of tasks the Routine is Complete, Mark Command is finished
 					this.isFinished = true;

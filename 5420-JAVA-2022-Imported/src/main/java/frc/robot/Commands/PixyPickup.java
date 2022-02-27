@@ -77,6 +77,7 @@ public class PixyPickup extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       driveTrain.CanDrive(false);
+      intake.setIntakePower(0);
     }
 
     @Override
