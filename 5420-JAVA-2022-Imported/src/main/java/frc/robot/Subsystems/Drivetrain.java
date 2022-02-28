@@ -67,8 +67,6 @@ public class Drivetrain extends SubsystemBase {
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
   private NetworkTableEntry pixyStatus = SmartDashboard.getEntry("pixy status");
 
-
-
   public Drivetrain(){
     isRed.setBoolean(false);
     	// Tries to Communicate with the Pixy at this moment
