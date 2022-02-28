@@ -138,23 +138,21 @@ public class RobotContainer {
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
-        else{
-        }
     }
 
     public void driveWithJoystick(boolean fieldRelative) {
         // Get the x speed or forward speed
-        final var xSpeed = (-m_controller.getRawAxis(x)) * Constants.DriveTrainConstants.kMaxSpeed;
+        double xSpeed = (-m_controller.getRawAxis(x)) * Constants.DriveTrainConstants.kMaxSpeed;
 
         // Get the y speed or sideways/strafe speed.
-        final var ySpeed = -m_controller.getRawAxis(y) * Constants.DriveTrainConstants.kMaxSpeed;
+        double ySpeed = -m_controller.getRawAxis(y) * Constants.DriveTrainConstants.kMaxSpeed;
 
         // Get the rate of angular rotation.
-        final var rot = -m_controller.getRawAxis(r) * Constants.DriveTrainConstants.kMaxAngularSpeed;
+        double rot = -m_controller.getRawAxis(r) * Constants.DriveTrainConstants.kMaxAngularSpeed;
 
         // Increase max speed by throttle axis (inverted and add one makes the axis from 1 to 2)
         if (t != -1) {
-            final var throttle = (-m_controller.getRawAxis(t) + 1);
+            double throttle = (-m_controller.getRawAxis(t) + 1);
             m_swerve.setMaxSpeed(throttle);
         }
 
@@ -174,7 +172,6 @@ public class RobotContainer {
             m_swerve.CanDrive(true);
             m_swerve.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rot), fieldRelative);
         }
-         
     }
 
     private void autoConfig() {
