@@ -21,6 +21,7 @@ import frc.robot.Commands.*;
 import frc.robot.Subsystems.*;
 import frc.robot.utils.JoystickDPad;
 import frc.robot.utils.DPad.Position;
+
 /**
  * Add your docs here.
  */
@@ -39,9 +40,12 @@ public class RobotContainer {
     AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
     private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
 
-
     // PS2 joystick
-    private int x = Constants.ThrustMasterJoystick.Axis_Y, y = Constants.ThrustMasterJoystick.Axis_X, r = Constants.ThrustMasterJoystick.Axis_Rot, t = Constants.ThrustMasterJoystick.Axis_Throttle;
+    private int x = Constants.ThrustMasterJoystick.Axis_Y,
+            y = Constants.ThrustMasterJoystick.Axis_X,
+            r = Constants.ThrustMasterJoystick.Axis_Rot,
+            t = Constants.ThrustMasterJoystick.Axis_Throttle;
+
     // Logitech controller
     //private int x = 1, y = 0, r = 4, t = -1;
 
@@ -66,7 +70,7 @@ public class RobotContainer {
 
         // Zeros the gyro heading
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Middle)
-                .whenPressed(() -> m_swerve.zeroGyroHeading());
+                .whenPressed(m_swerve::zeroGyroHeading);
 
         // Set the default position for drivetrain to x or none
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Right)
@@ -159,14 +163,14 @@ public class RobotContainer {
          if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
                     && (Math.abs(ySpeed) < Constants.ControllerConstants.NoInputTolerance)
                     && (Math.abs(rot) < Constants.ControllerConstants.NoInputTolerance)) {
-                         if(m_swerve.isXDefault()){
-                             m_swerve.CanDrive(true);
-                             m_swerve.setWheelAngleStates(45, -45, -45, 45);
-                         }
-                         else{
-                            m_swerve.CanDrive(false);
-                            m_swerve.drive(0, 0, 0, fieldRelative);
-                        }
+             if(m_swerve.isXDefault()){
+                 m_swerve.CanDrive(true);
+                 m_swerve.setWheelAngleStates(45, -45, -45, 45);
+             }
+             else{
+                m_swerve.CanDrive(false);
+                m_swerve.drive(0, 0, 0, fieldRelative);
+            }
         }
         else{
             m_swerve.CanDrive(true);
