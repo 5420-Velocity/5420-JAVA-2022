@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -33,36 +34,35 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll();
+
     new IntakeRelease(m_robotContainer.m_intake).schedule();
     new AutoReset(m_robotContainer.m_swerve).schedule();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.schedule();
-		}
+    if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+    }
   }
 
   @Override
   public void autonomousPeriodic() {
-    CommandScheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
     CommandScheduler.getInstance().cancelAll();
+
     m_robotContainer.m_swerve.initialize();
   }
 
   @Override
   public void teleopPeriodic() {
     m_robotContainer.teleopExecute();
-    CommandScheduler.getInstance().run();
   }
-
-  
 
   @Override
   public void testInit() {
+    CommandScheduler.getInstance().cancelAll();
     m_robotContainer.m_limelight.setLedMode(0);
   }
 
