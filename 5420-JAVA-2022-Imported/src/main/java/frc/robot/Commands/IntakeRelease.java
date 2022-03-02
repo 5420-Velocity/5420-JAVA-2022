@@ -13,7 +13,7 @@ import frc.robot.Subsystems.*;
 
 public class IntakeRelease extends CommandBase {
   private Intake intake;
-  private int duration = 1000;
+  private int duration = 2000;
   private Date endTime;
   private boolean isFinished;
   public IntakeRelease(Intake intake) {

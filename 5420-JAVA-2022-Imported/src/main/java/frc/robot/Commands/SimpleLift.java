@@ -1,0 +1,61 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.Commands;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Lift;
+
+public class SimpleLift extends CommandBase {
+  private Lift lift;
+  private double power;
+  private AtomicBoolean liftLock;
+
+  public SimpleLift(Lift lift, double power, AtomicBoolean liftLock) {
+    this.lift = lift;
+    this.power = power;
+    this.liftLock = liftLock;
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if(power > 0){
+      if(lift.GetLiftEncoder() < 138000 || liftLock.get()){
+        lift.setMotorPower(power);
+      }
+      else{
+        lift.setMotorPower(0);
+      }
+    }
+    else{
+      if(lift.GetLiftEncoder() > 1000 || liftLock.get()){
+        lift.setMotorPower(power);
+      }
+      else{
+        lift.setMotorPower(0);
+      }
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    lift.setMotorPower(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

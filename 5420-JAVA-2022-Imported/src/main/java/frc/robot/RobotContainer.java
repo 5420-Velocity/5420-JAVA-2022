@@ -30,15 +30,17 @@ public class RobotContainer {
     public final Drivetrain m_swerve = new Drivetrain();
     private final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
+    public final Lift m_lift = new Lift();
+    //public final Intake m_reverse_intake = new reverseIntake();
 
     public LimeLight m_limelight = new LimeLight("two");
     private AtomicBoolean m_driveLocked = new AtomicBoolean();
+    private AtomicBoolean m_liftLockout = new AtomicBoolean();
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
     private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
-
 
     // PS2 joystick
     private int x = Constants.ThrustMasterJoystick.Axis_Y, y = Constants.ThrustMasterJoystick.Axis_X, r = Constants.ThrustMasterJoystick.Axis_Rot, t = Constants.ThrustMasterJoystick.Axis_Throttle;
@@ -50,6 +52,7 @@ public class RobotContainer {
         m_limelight.setLedMode(1);
         m_swerve.SetFieldRelative(true);
         m_driveLocked.set(false);
+        m_liftLockout.set(false);
 
         buttonConfig();
         autoConfig();
@@ -80,17 +83,30 @@ public class RobotContainer {
 		 * Setup Button Events for the Shooter on the Operator Controller
 		 */
 
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
+            .whileHeld(new SimpleLift(m_lift, 0.60, m_liftLockout))
+            .whenReleased(() -> this.m_lift.setMotorPower(0));
+
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+            .whileHeld(new SimpleLift(m_lift, -0.8, m_liftLockout))
+            .whenReleased(() -> this.m_lift.setMotorPower(0));
+
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
+            .whenPressed(() -> this.m_liftLockout.set(true))
+            .whenReleased(() -> this.m_liftLockout.set(false));
+
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake));
         
-        // reverse intake
-        
+        // // reverse intake
+        // new JoystickButton (m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
+        //     .whileHeld(new SimpleIntake(m_reverse_intake));
 
         // Sets shooter speed
-		new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(() -> this.m_shooter.setShooterPower(shooterSpeed.get()))
-            .whenReleased(() -> this.m_shooter.setShooterPower(0));
+		// new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+        //     .whileHeld(() -> this.m_shooter.setShooterPower(shooterSpeed.get()))
+        //     .whenReleased(() -> this.m_shooter.setShooterPower(0));
 
         // Sets the feed motors to put cargo in the shooter
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
@@ -122,14 +138,14 @@ public class RobotContainer {
         //     });
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new AutoShoot(m_shooter, 0.75, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.35, 2));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new AutoShoot(m_shooter, 0.78, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.45, 2));
 
 
         new JoystickDPad(m_operatorController, Position.kRight)
-            .whenHeld(new AutoShoot(m_shooter, 0.8, 2));
+            .whenHeld(new AutoShoot(m_shooter, 1, 2));
 
      }
 

@@ -49,6 +49,9 @@ public class Drivetrain extends SubsystemBase {
   private boolean isFieldRelative;
   private boolean isXDefault;
 
+  // Loop to prevent mass updates to the Pixy Block Values
+  private int lastUpdate = 0;
+
   private double MaxSpeed = Constants.DriveTrainConstants.kMaxSpeed;
   
   private int signature;
@@ -66,8 +69,6 @@ public class Drivetrain extends SubsystemBase {
 
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
   private NetworkTableEntry pixyStatus = SmartDashboard.getEntry("pixy status");
-
-
 
   public Drivetrain(){
     isRed.setBoolean(false);
@@ -90,8 +91,14 @@ public class Drivetrain extends SubsystemBase {
     else{
       signature = 2;
     }
-    int status = this.pixy.getCCC().getBlocks(false, signature, 4);
-    pixyStatus.setNumber(status);
+
+    if (this.lastUpdate % 10 == 0) {
+      this.lastUpdate = 1;
+      int status = this.pixy.getCCC().getBlocks(false, signature, 4);
+      pixyStatus.setNumber(status);
+    } else {
+      this.lastUpdate++;
+    }
   }
 
   public void setModule(double power){
