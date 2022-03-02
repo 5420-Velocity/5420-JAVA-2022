@@ -11,8 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicReference;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.FeedMoment;
 import frc.robot.FeedMoment.MomentType;
@@ -24,7 +22,6 @@ public class AutoShoot extends CommandBase {
 	private final LimeLight _limelight;
 	private Date speedRampUpTime;
 	private LinkedList<FeedMoment> shootInterval = new LinkedList<FeedMoment>();
-	private AtomicReference<Double> speedRef;
 	private FeedMoment currentDeadline;
 	private boolean isFinished = false;
 	private double power;
