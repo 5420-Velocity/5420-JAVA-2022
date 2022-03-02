@@ -96,7 +96,6 @@ public class AutoShoot extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		//System.out.println(power);
 		if(_limelight == null){
 			this._shooter.setShooterPower(power);
 		}

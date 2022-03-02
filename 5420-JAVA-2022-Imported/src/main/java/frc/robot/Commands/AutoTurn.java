@@ -29,7 +29,6 @@ public class AutoTurn extends CommandBase {
   public void initialize() {
     drivetrain.resetAllDriveEncoders();
     this.isFinished = false;
-    System.out.println("turn start");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,7 +52,6 @@ public class AutoTurn extends CommandBase {
   public void end(boolean interrupted) {
     drivetrain.resetAllDriveEncoders();
     drivetrain.drive(0, 0, 0, false);
-    System.out.println("turn end");
   }
 
   // Returns true when the command should end.

@@ -32,15 +32,12 @@ public class IntakeRelease extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("execute");
     if (new Date().after(this.endTime)) {
       intake.setReleasePower(0);
       this.isFinished = true;
-      System.out.println("done");
     }
     else{
       intake.setReleasePower(-0.4);
-      System.out.println("running");
     }
   }
 

@@ -30,7 +30,6 @@ public class AutoReset extends CommandBase {
     calculateDate.add(GregorianCalendar.MILLISECOND, 1000);
     this.finishTime = calculateDate.getTime();
     this.isFinished = false;
-    System.out.println("reset start");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +45,6 @@ public class AutoReset extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("reset end");
   }
 
   // Returns true when the command should end.
