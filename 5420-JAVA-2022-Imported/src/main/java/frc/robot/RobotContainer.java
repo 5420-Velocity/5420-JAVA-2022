@@ -40,8 +40,8 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
-    private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
+    // private AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
+    // private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
 
     // PS2 joystick
     private int x = Constants.ThrustMasterJoystick.Axis_Y,
@@ -89,11 +89,11 @@ public class RobotContainer {
 		 */
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new SimpleLift(m_lift, 0.80, m_liftLockout))
+            .whileHeld(new LiftControl(m_lift, 0.80))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new SimpleLift(m_lift, -0.6, m_liftLockout))
+            .whileHeld(new LiftControl(m_lift, -0.6))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)

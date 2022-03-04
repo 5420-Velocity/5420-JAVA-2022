@@ -7,10 +7,13 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
   private WPI_TalonFX liftMotor = new WPI_TalonFX(12);
+  private final DigitalInput upperLimit = new DigitalInput(1);
+	private final DigitalInput lowerLimit = new DigitalInput(2);
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
   }
@@ -21,6 +24,14 @@ public class Lift extends SubsystemBase {
 
   public void setMotorPower(double power){
     liftMotor.set(power);
+  }
+
+  public boolean GetUpper(){
+    return upperLimit.get();
+  }
+
+  public boolean GetLower(){
+    return lowerLimit.get();
   }
 
   public double GetLiftEncoder(){

@@ -121,8 +121,7 @@ public class Drivetrain extends SubsystemBase {
     return Rotation2d.fromDegrees(m_gyro.getFusedHeading());
   }
 
-  // used to zero the gyro at competition when the robot is lined up with the
-  // field
+  // used to zero the gyro at competition when the robot is lined up with the field
   public void zeroGyroHeading() {
     m_gyro.setFusedHeading(0.0);
   }
