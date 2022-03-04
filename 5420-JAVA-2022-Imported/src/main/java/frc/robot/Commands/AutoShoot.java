@@ -47,8 +47,14 @@ public class AutoShoot extends CommandBase {
 
 		this.isFinished = false;
 		this.currentDeadline = null;
+		int rampUpTime;
 
-		int rampUpTime = 1200; // Delay Time norm 1800 but I'm getting rid of it ~Jake
+		if(power < 0.6){
+			rampUpTime = 600;
+		}
+		else{
+			rampUpTime = 1200; // Delay Time norm 1800 but I'm getting rid of it ~Jake
+		}
 		int feedForwardTime = 1200; // Forward Feed Time
 		int feedReverseTime = 300; // Reverse Feed Time
 		int feedTimeSpace = 1500; // Off Time

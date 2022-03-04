@@ -22,7 +22,7 @@ public class PixyPickup extends CommandBase {
     private double power;
     private boolean isFinished;
 
-    private PIDController turnPidController = new PIDController(0.025, 0, 0);
+    private PIDController turnPidController = new PIDController(0.02, 0, 0);
 
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
 
@@ -43,13 +43,12 @@ public class PixyPickup extends CommandBase {
         if (driveTrain.pixyAlgo.getPixyBest() != null) {
             hasTarget.setBoolean(true);
             
-            if((driveTrain.pixyAlgo.getPixyBest().getX() < 145 || driveTrain.pixyAlgo.getPixyBest().getX() > 155) || driveTrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
+            if((driveTrain.pixyAlgo.getPixyBest().getX() < 140 || driveTrain.pixyAlgo.getPixyBest().getX() > 150) || driveTrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
               // turn to ball
               double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
               driveTrain.CanDrive(true);
               driveTrain.drive(power, 0, output, false);
               intake.setIntakePower(-0.5);
-              System.out.println(driveTrain.pixyAlgo.getPixyBest().getSignature());
             }
             else{
               driveTrain.CanDrive(false);
@@ -59,6 +58,9 @@ public class PixyPickup extends CommandBase {
             }
         }
         else{
+          driveTrain.CanDrive(false);
+          intake.setIntakePower(0);
+          driveTrain.drive(0, 0, 0, false);
           hasTarget.setBoolean(false);
             this.isFinished = true;
         }
@@ -77,6 +79,7 @@ public class PixyPickup extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       driveTrain.CanDrive(false);
+      driveTrain.drive(0, 0, 0, false);
       intake.setIntakePower(0);
     }
 

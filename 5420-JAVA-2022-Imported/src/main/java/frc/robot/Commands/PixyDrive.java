@@ -38,7 +38,6 @@ public class PixyDrive extends CommandBase {
         // Don't drive if it doesn't have a target.
         drivetrain.drive(0, 0, 0, false);
         intake.setIntakePower(0);
-        System.out.println("donedrive");
         this.isFinished = true;
       }
     }

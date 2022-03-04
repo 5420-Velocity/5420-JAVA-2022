@@ -64,7 +64,6 @@ public class PixyAlign extends CommandBase {
         // Determine rotation speed for y-axis.
         final var ySpeed = -m_joystick.getRawAxis(y) * Constants.DriveTrainConstants.kMaxSpeed;
         final var rotSpeed = -m_joystick.getRawAxis(r) * Constants.DriveTrainConstants.kMaxSpeed;
-        System.out.println(driveTrain.pixyAlgo.getPixyBlocks().size());
     
         if (driveTrain.pixyAlgo.getPixyBest() != null) {
             hasTarget.setBoolean(true);

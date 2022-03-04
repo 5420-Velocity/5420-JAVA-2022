@@ -12,8 +12,10 @@ import frc.robot.Subsystems.Intake;
 
 public class SimpleIntake extends CommandBase {
   private Intake _intake;
-  public SimpleIntake(Intake intake) {
+  private double power; 
+  public SimpleIntake(Intake intake, double power) {
     this._intake = intake;
+    this.power = power;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +26,7 @@ public class SimpleIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _intake.setIntakePower(-0.5);
+    _intake.setIntakePower(power);
   }
 
   // Called once the command ends or is interrupted.

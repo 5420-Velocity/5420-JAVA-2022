@@ -80,7 +80,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void initialize(){
-    isRed.setBoolean(false);
+    this.pixy.init(DriveTrainConstants.pixyLinkPort.value);
+		this.pixy.setLamp((byte) 1, (byte) 1);
+    this.pixy.setLED(129, 183, 219);
+    this.isRed.setBoolean(false);
+    signature = 2;
   }
 
   @Override
@@ -92,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
       signature = 2;
     }
 
-    if (this.lastUpdate % 10 == 0) {
+    if (this.lastUpdate % 15 == 0) {
       this.lastUpdate = 1;
       int status = this.pixy.getCCC().getBlocks(false, signature, 4);
       pixyStatus.setNumber(status);

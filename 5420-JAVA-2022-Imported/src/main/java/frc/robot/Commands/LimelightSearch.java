@@ -39,6 +39,7 @@ public class LimelightSearch extends CommandBase {
         // Stop turning if the encoder value is the same as the target
         _drivetrain.CanDrive(false);
         _drivetrain.drive(0, 0, 0, false);
+        this.isFinished = true;
       }
     }
     else{

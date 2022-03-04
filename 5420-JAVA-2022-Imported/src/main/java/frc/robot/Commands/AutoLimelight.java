@@ -39,16 +39,18 @@ public class AutoLimelight extends CommandBase {
           * Constants.DriveTrainConstants.kMaxAngularSpeed;
 
     if(this.m_limelight.hasTarget()){
-      if(Math.abs(this.m_limelight.getTX()) < 0.3){
+      if(Math.abs(this.m_limelight.getTX()) < 0.5){
         m_drivetrain.CanDrive(true);
         m_drivetrain.drive(0, 0, output, false);
       }
       else{
         this.isFinished = true;
+        System.out.println("end with target");
       }
     }
     else{
       this.isFinished = true;
+      System.out.println("end without target");
     }
   }
 
@@ -66,6 +68,8 @@ public class AutoLimelight extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.CanDrive(false);
+    m_drivetrain.drive(0, 0, 0, false);
+    System.out.println("limelight end");
     m_limelight.setLedMode(1);
   }
 

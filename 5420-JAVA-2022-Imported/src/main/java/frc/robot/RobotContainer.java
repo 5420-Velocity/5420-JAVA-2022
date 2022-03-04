@@ -89,11 +89,11 @@ public class RobotContainer {
 		 */
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new SimpleLift(m_lift, 0.60, m_liftLockout))
+            .whileHeld(new SimpleLift(m_lift, 0.80, m_liftLockout))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new SimpleLift(m_lift, -0.8, m_liftLockout))
+            .whileHeld(new SimpleLift(m_lift, -0.6, m_liftLockout))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
@@ -102,7 +102,7 @@ public class RobotContainer {
 
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
-            .whileHeld(new SimpleIntake(m_intake));
+            .whileHeld(new SimpleIntake(m_intake, -0.5));
         
         // // reverse intake
         // new JoystickButton (m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
@@ -115,8 +115,7 @@ public class RobotContainer {
 
         // Sets the feed motors to put cargo in the shooter
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
-            .whileHeld(() -> this.m_shooter.setFeedPower(-0.5))
-            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+            .whileHeld(new SimpleIntake(m_intake, 0.4));
 
         // Shoots the ball with a timed gap between shots
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
@@ -147,7 +146,6 @@ public class RobotContainer {
 
         new JoystickDPad(m_operatorController, Position.kUp)
             .whenHeld(new AutoShoot(m_shooter, 0.45, 2));
-
 
         new JoystickDPad(m_operatorController, Position.kRight)
             .whenHeld(new AutoShoot(m_shooter, 1, 2));
@@ -209,19 +207,31 @@ public class RobotContainer {
             new AutoDoNothing(m_swerve)
         ));
 
-        this.autoChooser.addOption("Shoot pickup shoot", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, 0.7, 1),
+        this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
+            new AutoShoot(m_shooter, 0.72, 1),
             new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 4, 1),
+            new AutoTurn(m_swerve, 3.5, 1),
             new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 0.5, 1),
             new PixySearch(m_swerve, 1, 1),
             new PixyPickup(m_swerve, m_intake, 1),
             new TimedIntake(m_intake, 1000),
             new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 3, 1),
+            new AutoDrive(m_swerve, 1, -1),
+            new AutoDoNothing(m_swerve)
+        ));
+
+        this.autoChooser.addOption("Shoot pickup shoot", new SequentialCommandGroup(
+            new AutoShoot(m_shooter, 0.74, 1),
+            new AutoReset(m_swerve),
+            new AutoTurn(m_swerve, 3.5, 1),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoTurn(m_swerve, 3.5, 1),
             new AutoLimelight(m_limelight, m_swerve),
             new AutoShoot(m_shooter, m_limelight, 1)
-            
         ));
 
         this.autoChooser.addOption("other", new SequentialCommandGroup(
