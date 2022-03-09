@@ -7,13 +7,17 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
   private WPI_TalonFX liftMotor = new WPI_TalonFX(12);
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
+  private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
+  private NetworkTableEntry lower = SmartDashboard.getEntry("lower");
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
   }
@@ -40,6 +44,7 @@ public class Lift extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    upper.setBoolean(upperLimit.get());
+    lower.setBoolean(lowerLimit.get());
   }
 }

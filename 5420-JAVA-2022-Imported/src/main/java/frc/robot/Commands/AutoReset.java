@@ -27,7 +27,7 @@ public class AutoReset extends CommandBase {
   @Override
   public void initialize() {
     Calendar calculateDate = GregorianCalendar.getInstance();
-    calculateDate.add(GregorianCalendar.MILLISECOND, 1000);
+    calculateDate.add(GregorianCalendar.MILLISECOND, 300);
     this.finishTime = calculateDate.getTime();
     this.isFinished = false;
   }

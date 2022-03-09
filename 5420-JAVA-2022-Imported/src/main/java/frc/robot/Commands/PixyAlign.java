@@ -83,7 +83,7 @@ public class PixyAlign extends CommandBase {
             }
             else{
                 driveTrain.CanDrive(true);
-                driveTrain.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rotSpeed), driveTrain.IsFieldRelative());
+                driveTrain.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rotSpeed), false);
             }
         }
     }

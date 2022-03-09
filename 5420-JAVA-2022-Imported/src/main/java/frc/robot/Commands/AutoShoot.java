@@ -50,10 +50,10 @@ public class AutoShoot extends CommandBase {
 		int rampUpTime;
 
 		if(power < 0.6){
-			rampUpTime = 600;
+			rampUpTime = 1800;
 		}
 		else{
-			rampUpTime = 1200; // Delay Time norm 1800 but I'm getting rid of it ~Jake
+			rampUpTime = 1800; // Delay Time norm 1800 but I'm getting rid of it ~Jake
 		}
 		int feedForwardTime = 1200; // Forward Feed Time
 		int feedReverseTime = 300; // Reverse Feed Time

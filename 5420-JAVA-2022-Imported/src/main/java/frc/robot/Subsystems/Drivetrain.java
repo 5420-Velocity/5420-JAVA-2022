@@ -21,6 +21,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -36,13 +38,13 @@ public class Drivetrain extends SubsystemBase {
   private final Translation2d m_backRightLocation = new Translation2d(-0.3, -0.3);
 
   private final SwerveModule m_frontLeft = new SwerveModule(DriveTrainConstants.frontLeftDrive, DriveTrainConstants.frontLeftTurn,
-   DriveTrainConstants.frontLeftEncoder, 310.43);
+   DriveTrainConstants.frontLeftEncoder, 359.824);
   private final SwerveModule m_frontRight = new SwerveModule(DriveTrainConstants.frontRightDrive, DriveTrainConstants.frontRightTurn,
-   DriveTrainConstants.frontRightEncoder, 157.5);
+   DriveTrainConstants.frontRightEncoder, 1.758);
   private final SwerveModule m_backLeft = new SwerveModule(DriveTrainConstants.backLeftDrive, DriveTrainConstants.backLeftTurn,
-   DriveTrainConstants.backLeftEncoder, 97.119);
+   DriveTrainConstants.backLeftEncoder, 0.088);
   private final SwerveModule m_backRight = new SwerveModule(DriveTrainConstants.backRightDrive, DriveTrainConstants.backRightTurn,
-   DriveTrainConstants.backRightEncoder, 88.77);
+   DriveTrainConstants.backRightEncoder, 0.703);
 
   private final PigeonIMU m_gyro = new PigeonIMU(DriveTrainConstants.pigeon);
 
@@ -89,11 +91,16 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
 	public void periodic() {
-    if(isRed.getBoolean(false)){
+    if(DriverStation.getAlliance() == Alliance.Red){
       signature = 1;
+      this.isRed.setBoolean(true);
     }
-    else{
+    else if(DriverStation.getAlliance() == Alliance.Blue) {
       signature = 2;
+      this.isRed.setBoolean(false);
+    }
+    else if (DriverStation.getAlliance() == Alliance.Invalid) {
+      System.out.println("Error in game data");
     }
 
     if (this.lastUpdate % 15 == 0) {

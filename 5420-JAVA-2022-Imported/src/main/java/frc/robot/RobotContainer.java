@@ -84,16 +84,21 @@ public class RobotContainer {
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
 
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Right_Left)
+                .whileHeld(() -> m_swerve.drive(0.8, 0, 0, false))
+                .whileHeld(() -> m_driveLocked.set(true))
+                .whenReleased(() -> m_driveLocked.set(false));
+
          /**
 		 * Setup Button Events for the Shooter on the Operator Controller
 		 */
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new LiftControl(m_lift, 0.80))
+            .whileHeld(new LiftControl(m_lift, 0.90))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new LiftControl(m_lift, -0.6))
+            .whileHeld(new LiftControl(m_lift, -0.9))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
@@ -121,6 +126,10 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
             .whenHeld(new AutoShoot(m_shooter, m_limelight, 2));
 
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
+            .whenPressed(() -> this.m_intake.setReleasePower(-1))
+            .whenReleased(() -> this.m_intake.setReleasePower(0));
+
         /**
 		 * Used to dynamically adjust the speed used for shooting.
 		 */
@@ -142,10 +151,10 @@ public class RobotContainer {
         //     });
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new AutoShoot(m_shooter, 0.35, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.40, 2));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new AutoShoot(m_shooter, 0.45, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.858, 2));
 
         new JoystickDPad(m_operatorController, Position.kRight)
             .whenHeld(new AutoShoot(m_shooter, 1, 2));
@@ -161,10 +170,14 @@ public class RobotContainer {
 
     public void driveWithJoystick(boolean fieldRelative) {
         // Get the x speed or forward speed
+
         double xSpeed = (-m_controller.getRawAxis(x)) * Constants.DriveTrainConstants.kMaxSpeed;
 
         // Get the y speed or sideways/strafe speed.
         double ySpeed = -m_controller.getRawAxis(y) * Constants.DriveTrainConstants.kMaxSpeed;
+        if(Math.abs(ySpeed) < 0.15){
+            ySpeed = 0;
+        }
 
         // Get the rate of angular rotation.
         double rot = -m_controller.getRawAxis(r) * Constants.DriveTrainConstants.kMaxAngularSpeed;
@@ -195,34 +208,50 @@ public class RobotContainer {
 
     private void autoConfig() {
 
-        this.autoChooser.addOption("pixy auto", new SequentialCommandGroup(
-            new ShootWithTime(m_shooter),
-            new AutoTurn(m_swerve, 3, 1),
+        this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
+            new AutoShoot(m_shooter, 0.69, 1),
             new AutoReset(m_swerve),
-            new AutoDrive(m_swerve, 2, -1),
+            new AutoTurn(m_swerve, 3.5, 1),
             new AutoReset(m_swerve),
-            new PixySearch(m_swerve, 2, 1.5),
-            new PixyAlign(m_swerve),
-            new PixyDrive(m_swerve, 1, m_intake),
+            new PixySearch(m_swerve, -0.2, 1),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoReset(m_swerve),
+            new AutoDrive(m_swerve, 3, -1),
             new AutoDoNothing(m_swerve)
         ));
 
-        this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
+        this.autoChooser.addOption("Shoot taxi", new SequentialCommandGroup(
+            new AutoShoot(m_shooter, 0.69, 1),
+            new AutoReset(m_swerve),
+            //distance
+            new AutoDrive(m_swerve, 6, 1),
+            new AutoDoNothing(m_swerve)
+        ));
+
+        this.autoChooser.addOption("Shoot pickup pickup", new SequentialCommandGroup(
             new AutoShoot(m_shooter, 0.72, 1),
             new AutoReset(m_swerve),
             new AutoTurn(m_swerve, 3.5, 1),
             new AutoReset(m_swerve),
-            new PixySearch(m_swerve, 0.5, 1),
+            new PixySearch(m_swerve, -0.5, 1),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
             new PixySearch(m_swerve, 1, 1),
             new PixyPickup(m_swerve, m_intake, 1),
             new TimedIntake(m_intake, 1000),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 1, -1),
+            // new AutoShoot(m_shooter, 0.69, 1),
+            // new AutoTurn(m_swerve, 3.5, 1),
             new AutoDoNothing(m_swerve)
         ));
+        
 
         this.autoChooser.addOption("Shoot pickup shoot", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, 0.74, 1),
+            new AutoShoot(m_shooter, 0.72, 1),
             new AutoReset(m_swerve),
             new AutoTurn(m_swerve, 3.5, 1),
             new AutoReset(m_swerve),

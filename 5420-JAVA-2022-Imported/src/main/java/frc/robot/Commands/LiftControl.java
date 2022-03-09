@@ -4,32 +4,38 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.*;
 
 public class LiftControl extends CommandBase {
   private Lift lift;
   private double power;
+
+
   public LiftControl(Lift lift, Double power) {
     this.lift = lift;
     this.power = power;
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+ 
+  }
 
   @Override
   public void execute() {
-    if(power > 0){
-      if(lift.GetUpper()){
-        lift.setMotorPower(0);
+    if(power < 0){
+      if(!lift.GetUpper()){
+        lift.setMotorPower(0); 
       }
       else{
         lift.setMotorPower(power);
       }
     }
     else{
-      if(lift.GetLower()){
+      if(!lift.GetLower()){
         lift.setMotorPower(0);
       }
       else{
