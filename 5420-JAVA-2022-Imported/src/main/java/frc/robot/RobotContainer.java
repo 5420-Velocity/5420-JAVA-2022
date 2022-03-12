@@ -126,8 +126,11 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
             .whenHeld(new AutoShoot(m_shooter, m_limelight, 2));
 
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Joystick_Left_Button)
+            .whenHeld(new ShootWithRPM(m_shooter, 2000));
+
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
-            .whenPressed(() -> this.m_intake.setReleasePower(-1))
+            .whenPressed(() -> this.m_intake.setReleasePower(0.8))
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
         /**

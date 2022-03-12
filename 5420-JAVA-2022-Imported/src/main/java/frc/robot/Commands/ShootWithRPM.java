@@ -11,7 +11,7 @@ import frc.robot.Subsystems.*;
 public class ShootWithRPM extends CommandBase {
   private Shooter _shooter;
   private double target;
-  private PIDController shootPID = new PIDController(0.0001, 0, 0);
+  private PIDController shootPID = new PIDController(0.05, 0, 0);
   public ShootWithRPM(Shooter shooter, double target) {
     this._shooter = shooter;
     this.target = target;
@@ -26,19 +26,14 @@ public class ShootWithRPM extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(_shooter.GetShooterRPM());
     double output = shootPID.calculate(_shooter.GetShooterRPM(), target);
-    if(output > 0.8){
-      output = 0.8;
-    }
-    else if(output < -0.8){
-      output = -0.8;
-    }
     _shooter.setShooterPower(output);
-    if(Math.abs(_shooter.GetShooterRPM() - target) < 100){
-      //_shooter.setFeedPower(0.2);
+    if(Math.abs(_shooter.GetShooterRPM() - target) < 300){
+      _shooter.setFeedPower(0.2);
     }
     else{
-      //_shooter.setFeedPower(0);
+      _shooter.setFeedPower(0);
     }
   }
 
@@ -46,6 +41,7 @@ public class ShootWithRPM extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     _shooter.setShooterPower(0);
+    _shooter.setFeedPower(0);
   }
 
   // Returns true when the command should end.

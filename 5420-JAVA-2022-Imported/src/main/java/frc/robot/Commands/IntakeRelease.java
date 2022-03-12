@@ -37,7 +37,7 @@ public class IntakeRelease extends CommandBase {
       this.isFinished = true;
     }
     else{
-      intake.setReleasePower(-0.6);
+      intake.setReleasePower(0.6);
     }
   }
 

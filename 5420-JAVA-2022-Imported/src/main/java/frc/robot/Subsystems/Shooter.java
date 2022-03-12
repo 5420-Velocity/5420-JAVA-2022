@@ -25,8 +25,7 @@ public class Shooter extends SubsystemBase {
   private AnalogInput m_rangeInput = new AnalogInput(0);
   private AnalogPotentiometer m_rangeSensor = new AnalogPotentiometer(m_rangeInput);
   private NetworkTableEntry RangeSensor = SmartDashboard.getEntry("RangeSensor");
-
-
+  private NetworkTableEntry ShooterRPM = SmartDashboard.getEntry("Shooter RPM");
 
   public Shooter() {
     m_shootMotor.configFactoryDefault();
@@ -44,11 +43,13 @@ public class Shooter extends SubsystemBase {
   }
 
   public double GetShooterRPM(){
-    return m_shootMotor.getSensorCollection().getIntegratedSensorVelocity();
+    //convert to rpm 
+    return (m_shootMotor.getSensorCollection().getIntegratedSensorVelocity()/2048)*600;
   }
 
   @Override
   public void periodic() {
+    ShooterRPM.setDouble(GetShooterRPM());
     RangeSensor.setDouble(m_rangeSensor.get());
   }
   public double getRange(){
