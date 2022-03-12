@@ -26,7 +26,7 @@ public class LiftControl extends CommandBase {
 
   @Override
   public void execute() {
-    if(power < 0){
+    if(power > 0){
       if(!lift.GetUpper()){
         lift.setMotorPower(0); 
       }

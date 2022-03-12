@@ -208,6 +208,18 @@ public class RobotContainer {
 
     private void autoConfig() {
 
+        // add a new auto that picks up then turns around and shoot outside of the tarmac
+
+        this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
+            new AutoDrive(m_swerve, 3, 1),
+            new AutoPixyAlign(m_swerve),
+            new AutoReset(m_swerve),
+            new AutoTurn(m_swerve, 2, 1),
+            new AutoLimelight(m_limelight, m_swerve),
+            new AutoShoot(m_shooter, 0.8, 2),
+            new AutoDoNothing(m_swerve)
+        ));
+
         this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
             new AutoShoot(m_shooter, 0.69, 1),
             new AutoReset(m_swerve),
