@@ -7,6 +7,8 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -30,11 +32,23 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     m_shootMotor.configFactoryDefault();
     m_feedMotor.configFactoryDefault();
+    
+    m_shootMotor.config_kP(0, 0.05);
+    m_shootMotor2.config_kP(0, 0.05);
+
+    
+    m_shootMotor.config_kD(0, 0.002);
+    m_shootMotor2.config_kD(0, 0.002);
   }
 
   public void setShooterPower(double power){
     m_shootMotor.set(power);
     m_shootMotor2.set(-power);
+  }
+
+  public void setShooterVelocity(double value){
+    m_shootMotor.set(ControlMode.Velocity, value);
+    m_shootMotor2.set(ControlMode.Velocity, -value);
   }
 
   public void setFeedPower(double power){

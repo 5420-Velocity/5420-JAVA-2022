@@ -55,7 +55,7 @@ public class AutoShoot extends CommandBase {
 		else{
 			rampUpTime = 1800; // Delay Time norm 1800 but I'm getting rid of it ~Jake
 		}
-		int feedForwardTime = 1200; // Forward Feed Time
+		int feedForwardTime = 800; // Forward Feed Time
 		int feedReverseTime = 300; // Reverse Feed Time
 		int feedTimeSpace = 1500; // Off Time
 
@@ -140,7 +140,7 @@ public class AutoShoot extends CommandBase {
 						this._shooter.setFeedPower(0);
 					}
 					else if (this.currentDeadline.type == MomentType.Forward) {
-						this._shooter.setFeedPower(-0.5);
+						this._shooter.setFeedPower(-0.6);
 					}
 					else if (this.currentDeadline.type == MomentType.Reverse) {
 						this._shooter.setFeedPower(-0.4);
