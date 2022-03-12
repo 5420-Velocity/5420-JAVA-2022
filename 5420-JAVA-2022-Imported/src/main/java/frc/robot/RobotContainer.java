@@ -81,24 +81,19 @@ public class RobotContainer {
                 .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));  
                 
         // Alligns the robot intake with a cargo of your alliances cargo
-        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Left)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
-
-        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Right_Left)
-                .whileHeld(() -> m_swerve.drive(0.8, 0, 0, false))
-                .whileHeld(() -> m_driveLocked.set(true))
-                .whenReleased(() -> m_driveLocked.set(false));
 
          /**
 		 * Setup Button Events for the Shooter on the Operator Controller
 		 */
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new LiftControl(m_lift, 0.90))
+            .whileHeld(new LiftControl(m_lift, 1.0))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new LiftControl(m_lift, -0.9))
+            .whileHeld(new LiftControl(m_lift, -1.0))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
@@ -108,58 +103,33 @@ public class RobotContainer {
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
             .whileHeld(new SimpleIntake(m_intake, -0.5));
-        
-        // // reverse intake
-        // new JoystickButton (m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
-        //     .whileHeld(new SimpleIntake(m_reverse_intake));
-
-        // Sets shooter speed
-		// new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-        //     .whileHeld(() -> this.m_shooter.setShooterPower(shooterSpeed.get()))
-        //     .whenReleased(() -> this.m_shooter.setShooterPower(0));
 
         // Sets the feed motors to put cargo in the shooter
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
             .whileHeld(new SimpleIntake(m_intake, 0.4));
 
         // Shoots the ball with a timed gap between shots
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new AutoShoot(m_shooter, m_limelight, 2));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Joystick_Left_Button)
-            .whenHeld(new ShootWithRPM(m_shooter, 2000));
+            .whenHeld(new ShootWithRPM(m_shooter, 4000 * 5));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
             .whenPressed(() -> this.m_intake.setReleasePower(0.8))
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
-        /**
-		 * Used to dynamically adjust the speed used for shooting.
-		 */
-
-        // new JoystickDPad(m_operatorController, Position.kUp)
-        //     .whenPressed(() -> {
-        //         double increaseBy = 0.01;
-        //         double newSpeed = shooterSpeed.get() + increaseBy;
-        //         shooterSpeed.set(newSpeed);
-        //         shootSpeed.setDouble(shooterSpeed.get());
-        // });
-
-        // new JoystickDPad(m_operatorController, Position.kDown)
-        //     .whenPressed(() -> {
-        //         double decreaseBy = -0.01;
-        //         double newSpeed = shooterSpeed.get() + decreaseBy;
-        //         shooterSpeed.set(newSpeed);
-        //         shootSpeed.setDouble(shooterSpeed.get());
-        //     });
-
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new AutoShoot(m_shooter, 0.40, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.75, 2));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new AutoShoot(m_shooter, 0.858, 2));
+            .whenHeld(new AutoShoot(m_shooter, 0.80, 2));
 
         new JoystickDPad(m_operatorController, Position.kRight)
+            .whenHeld(new AutoShoot(m_shooter, 0.85, 2));
+            
+        new JoystickDPad(m_operatorController, Position.kDown)
+            .whenHeld(new AutoShoot(m_shooter, 0.4, 2));
+        
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
             .whenHeld(new AutoShoot(m_shooter, 1, 2));
 
      }
