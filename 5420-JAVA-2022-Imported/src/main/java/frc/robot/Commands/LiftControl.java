@@ -31,6 +31,7 @@ public class LiftControl extends CommandBase {
         lift.setMotorPower(0); 
       }
       else{
+        System.out.println(power);
         lift.setMotorPower(power);
       }
     }

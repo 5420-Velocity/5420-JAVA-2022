@@ -26,7 +26,7 @@ public final class Constants {
         public static final double limeD = 0;
 
         public static final double driveMaxOutput = 0.8;
-        public static final double turnMaxOutput = 0.3;
+        public static final double turnMaxOutput = 0.45;
 
         public static final double driveEncoderMultiplier = (Math.PI * 0.102) / 14150;
         public static final double turnEncoderMultiplier = (2 * Math.PI) / 360;
