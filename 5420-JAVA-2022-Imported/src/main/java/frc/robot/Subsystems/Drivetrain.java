@@ -38,7 +38,7 @@ public class Drivetrain extends SubsystemBase {
   private final Translation2d m_backRightLocation = new Translation2d(-0.3, -0.3);
 
   private final SwerveModule m_frontLeft = new SwerveModule(DriveTrainConstants.frontLeftDrive, DriveTrainConstants.frontLeftTurn,
-   DriveTrainConstants.frontLeftEncoder, 359.824);
+   DriveTrainConstants.frontLeftEncoder, 359.473);
   private final SwerveModule m_frontRight = new SwerveModule(DriveTrainConstants.frontRightDrive, DriveTrainConstants.frontRightTurn,
    DriveTrainConstants.frontRightEncoder, 1.758);
   private final SwerveModule m_backLeft = new SwerveModule(DriveTrainConstants.backLeftDrive, DriveTrainConstants.backLeftTurn,
