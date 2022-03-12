@@ -11,6 +11,7 @@ import java.lang.Math;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.DriveTrainConstants;
 import io.github.pseudoresonance.pixy2api.Pixy2;
+import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 import frc.robot.Constants;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -23,6 +24,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -56,7 +59,6 @@ public class Drivetrain extends SubsystemBase {
 
   private double MaxSpeed = Constants.DriveTrainConstants.kMaxSpeed;
   
-  private int signature;
   private NetworkTableEntry isRed = SmartDashboard.getEntry("Red");
 
   private final Pixy2 pixy = Pixy2.createInstance(DriveTrainConstants.pixyLink);
@@ -72,13 +74,22 @@ public class Drivetrain extends SubsystemBase {
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
   private NetworkTableEntry pixyStatus = SmartDashboard.getEntry("pixy status");
 
+  private SendableChooser<Integer> pixyTargetColor = new SendableChooser<>();
+
   public Drivetrain(){
     isRed.setBoolean(false);
     	// Tries to Communicate with the Pixy at this moment
 		this.pixy.init(DriveTrainConstants.pixyLinkPort.value);
 		this.pixy.setLamp((byte) 1, (byte) 1);
     this.pixy.setLED(129, 183, 219);
-    signature = 2;
+
+    SmartDashboard.putData("Pixy Color Target", this.pixyTargetColor);
+
+    // Add the drop down for the Pixy Color Selector
+    this.pixyTargetColor.addOption("All", Integer.valueOf(Pixy2CCC.CCC_SIG_ALL));
+    this.pixyTargetColor.addOption("Red", Integer.valueOf(1));
+    this.pixyTargetColor.addOption("Blue", Integer.valueOf(2));
+    this.pixyTargetColor.setDefaultOption("All", Integer.valueOf(Pixy2CCC.CCC_SIG_ALL));
   }
 
   public void initialize(){
@@ -86,30 +97,42 @@ public class Drivetrain extends SubsystemBase {
 		this.pixy.setLamp((byte) 1, (byte) 1);
     this.pixy.setLED(129, 183, 219);
     this.isRed.setBoolean(false);
-    signature = 2;
   }
 
   @Override
 	public void periodic() {
-    if(DriverStation.getAlliance() == Alliance.Red){
+    int signature = Pixy2CCC.CCC_SIG_ALL; // Default
+  
+    if (DriverStation.getMatchType() == MatchType.None) {
+      // Use user input FROM DRIVER STATION
       signature = 1;
-      this.isRed.setBoolean(true);
+
     }
-    else if(DriverStation.getAlliance() == Alliance.Blue) {
-      signature = 2;
-      this.isRed.setBoolean(false);
-    }
-    else if (DriverStation.getAlliance() == Alliance.Invalid) {
-      System.out.println("Error in game data");
+    else {
+      // Use DriverStation information
+      if(DriverStation.getAlliance() == Alliance.Red){
+        signature = 1;
+        this.isRed.setBoolean(true);
+      }
+      else if(DriverStation.getAlliance() == Alliance.Blue) {
+        signature = 2;
+        this.isRed.setBoolean(false);
+      }
+      else {
+        System.out.println(DriverStation.getAlliance());
+      }
     }
 
     if (this.lastUpdate % 15 == 0) {
       this.lastUpdate = 1;
-      int status = this.pixy.getCCC().getBlocks(false, signature, 4);
+    
+      int status = this.pixy.getCCC().getBlocks(false, signature, 2);
+      System.out.println("Pixy Target: " + signature);
       pixyStatus.setNumber(status);
     } else {
       this.lastUpdate++;
     }
+
   }
 
   public void setModule(double power){

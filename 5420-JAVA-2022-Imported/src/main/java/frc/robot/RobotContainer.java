@@ -84,6 +84,9 @@ public class RobotContainer {
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Left)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
 
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Right)
+                .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
+
          /**
 		 * Setup Button Events for the Shooter on the Operator Controller
 		 */
