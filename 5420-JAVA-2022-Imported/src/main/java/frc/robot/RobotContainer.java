@@ -69,7 +69,7 @@ public class RobotContainer {
                 .whileHeld(new LimelightAimDrive(m_limelight, m_swerve, m_controller, x, y, r, m_driveLocked));
 
         // Toggles if we drive with field relative
-        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Left)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb)
                 .whenPressed(() -> m_swerve.SetFieldRelative(!m_swerve.IsFieldRelative()));
 
         // Zeros the gyro heading
@@ -78,8 +78,11 @@ public class RobotContainer {
 
         // Set the default position for drivetrain to x or none
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Right)
-                .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));  
-                
+                .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));
+        
+        // new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
+        //         .whileHeld(new AutoLimelight(m_limelight, m_swerve));
+
         // Alligns the robot intake with a cargo of your alliances cargo
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Left)
                 .whileHeld(new PixyAlign(m_swerve, m_driveLocked, false, m_controller, x, y, r));
@@ -186,7 +189,10 @@ public class RobotContainer {
 
         // add a new auto that picks up then turns around and shoot outside of the tarmac
 
+        
         this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
+
+            new IntakeRelease(m_intake),
             new AutoDrive(m_swerve, 3, 1),
             new AutoPixyAlign(m_swerve),
             new AutoReset(m_swerve),
@@ -197,6 +203,8 @@ public class RobotContainer {
         ));
 
         this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
+
+            new IntakeRelease(m_intake), 
             new AutoShoot(m_shooter, 0.69, 1),
             new AutoReset(m_swerve),
             new AutoTurn(m_swerve, 3.5, 1),
@@ -207,6 +215,24 @@ public class RobotContainer {
             new TimedIntake(m_intake, 1000),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 3, -1),
+            new AutoShoot (m_shooter, 0.69, 1),
+            new AutoDoNothing(m_swerve)
+        ));
+
+        this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
+
+            new IntakeRelease(m_intake),
+            // new AutoDrive(m_swerve, 3, 0),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, -0.2, 1),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoReset(m_swerve),
+            new AutoTurn(m_swerve, 3, 1),
+            new AutoReset(m_swerve),
+            new AutoLimelight(m_limelight, m_swerve),
+            new AutoShoot (m_shooter, 0.72, 1),
             new AutoDoNothing(m_swerve)
         ));
 

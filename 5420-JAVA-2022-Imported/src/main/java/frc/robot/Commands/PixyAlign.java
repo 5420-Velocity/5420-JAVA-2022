@@ -25,7 +25,7 @@ public class PixyAlign extends CommandBase {
     private boolean finishable;
     private boolean isFinished;
 
-    private PIDController turnPidController = new PIDController(0.02, 0, 0);
+    private PIDController turnPidController = new PIDController(0.02 , 0, 0);
 
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
 

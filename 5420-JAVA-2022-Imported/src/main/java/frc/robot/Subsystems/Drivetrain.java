@@ -127,7 +127,7 @@ public class Drivetrain extends SubsystemBase {
       this.lastUpdate = 1;
     
       int status = this.pixy.getCCC().getBlocks(false, signature, 2);
-      System.out.println("Pixy Target: " + signature);
+      // System.out.println("Pixy Target: " + signature);
       pixyStatus.setNumber(status);
     } else {
       this.lastUpdate++;

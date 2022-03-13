@@ -116,6 +116,7 @@ public final class Constants {
         public static final int Axis_Rot = 2;
         public static final int Axis_Throttle = 3;
         public static final int Button_Trigger = 1;
+        public static final int Button_Thumb = 2;
         public static final int Button_Thumb_Down = 2;
         public static final int Button_Thumb_Left = 3;
         public static final int Button_Thumb_Right = 4;

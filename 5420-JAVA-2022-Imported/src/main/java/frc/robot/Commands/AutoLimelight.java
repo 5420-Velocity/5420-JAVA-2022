@@ -11,13 +11,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Subsystems.*;
+import frc.robot.utils.StateList;
 
 public class AutoLimelight extends CommandBase {
   private LimeLight m_limelight;
   private Drivetrain m_drivetrain;
   private PIDController turnPidController = new PIDController(Constants.DriveTrainConstants.limeP, 
   Constants.DriveTrainConstants.limeI, Constants.DriveTrainConstants.limeD);
-  private boolean isFinished;
+  
+  private StateList<Boolean> stateList = StateList.bool(5);
 
 
   public AutoLimelight(LimeLight limelight, Drivetrain drivetrain) {
@@ -28,8 +30,7 @@ public class AutoLimelight extends CommandBase {
 
   @Override
   public void initialize() {
-    this.isFinished = false;
-    m_limelight.setLedMode(0);
+    m_limelight.setLedMode(3);
   }
 
   @Override
@@ -38,20 +39,8 @@ public class AutoLimelight extends CommandBase {
     double output = (turnPidController.calculate(m_limelight.getTX(), 0))
           * Constants.DriveTrainConstants.kMaxAngularSpeed;
 
-    if(this.m_limelight.hasTarget()){
-      if(Math.abs(this.m_limelight.getTX()) < 0.5){
-        m_drivetrain.CanDrive(true);
-        m_drivetrain.drive(0, 0, output, false);
-      }
-      else{
-        this.isFinished = true;
-        System.out.println("end with target");
-      }
-    }
-    else{
-      this.isFinished = true;
-      System.out.println("end without target");
-    }
+    m_drivetrain.CanDrive(true);
+    m_drivetrain.drive(0, 0, output, false);
   }
 
   // Curves speed imput.
@@ -70,11 +59,17 @@ public class AutoLimelight extends CommandBase {
     m_drivetrain.CanDrive(false);
     m_drivetrain.drive(0, 0, 0, false);
     System.out.println("limelight end");
-    m_limelight.setLedMode(1);
+    m_limelight.setLedMode(0);
   }
 
   @Override
   public boolean isFinished() {
-    return this.isFinished;
+    // If we are NOT in the tollerance then continue to run
+    // TODO: add a condition for has target.
+
+    // boolean isGoodGood = Math.abs(this.m_limelight.getTX()) < 0.5;
+    // this.stateList.add(isGoodGood);
+    // return this.stateList.get();
+    return (Math.abs(this.m_limelight.getTX()) < 0.5) && this.m_limelight.hasTarget();
   }
 }
