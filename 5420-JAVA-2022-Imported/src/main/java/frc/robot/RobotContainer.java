@@ -277,6 +277,26 @@ public class RobotContainer {
             new AutoShoot(m_shooter, m_limelight, 1)
         ));
 
+        this.autoChooser.addOption("shoot + terminal", new SequentialCommandGroup(
+            //ball 1
+            new AutoShoot(m_shooter, 0.72, 1),
+            new AutoReset(m_swerve),
+            //ball 2 pickup
+            new AutoTurn(m_swerve, 3.5, 1),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 1000),
+            new AutoReset(m_swerve),
+            //ball 2 shoot
+            new AutoTurn (m_swerve, 3.5, 1),
+            new AutoLimelight(m_limelight, m_swerve),
+            new AutoShoot(m_shooter, m_limelight, 1),
+            new AutoReset(m_swerve),
+            //go to terminal
+            new AutoTurn(m_swerve, 3.5, 1),
+            new AutoDrive(m_swerve, 10, 1)
+        ));
+
         this.autoChooser.addOption("other", new SequentialCommandGroup(
             new AutoLimelight(m_limelight, m_swerve)
         ));
