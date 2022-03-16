@@ -278,7 +278,7 @@ public class RobotContainer {
         ));
 
         this.autoChooser.addOption("shoot terminal right", new SequentialCommandGroup(
-        // ball 1
+        // ball 1 and 2
         new PixySearch (m_swerve, 1, 1),
         new PixyPickup (m_swerve, m_intake, 1),
         new TimedIntake(m_intake, 1000),
@@ -286,6 +286,7 @@ public class RobotContainer {
         new TurnWithGyro (m_swerve, m_swerve.GetGyroDegrees() + 180),
         new AutoLimelight(m_limelight, m_swerve),
         new AutoShoot(m_shooter, m_limelight, 2),
+        //turn to terminal and run intake for 10 seconds
         new TurnWithGyro(m_swerve, 200.0),
         new TimedIntake(m_intake, 10000)
 
