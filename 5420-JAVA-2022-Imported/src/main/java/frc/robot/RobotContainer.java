@@ -147,6 +147,8 @@ public class RobotContainer {
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
+        new liftRotationControl(m_lift, m_operatorController, 3);
+        
     }
 
     public void driveWithJoystick(boolean fieldRelative) {

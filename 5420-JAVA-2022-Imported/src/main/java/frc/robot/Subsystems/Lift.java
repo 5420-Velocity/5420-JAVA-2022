@@ -6,6 +6,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
   private WPI_TalonFX liftMotor = new WPI_TalonFX(12);
+  private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(13);
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
   private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
@@ -28,6 +30,10 @@ public class Lift extends SubsystemBase {
 
   public void setMotorPower(double power){
     liftMotor.set(power);
+  }
+
+  public void setRotationPower(double power){
+    liftRotationMotor.set(power);
   }
 
   public boolean GetUpper(){
