@@ -12,7 +12,7 @@ public class ShootWithRPM extends CommandBase {
   private Shooter _shooter;
   private double target;
 
-  private PIDController shootPID = new PIDController(0.0005, 0, 0);
+  private PIDController shootPID = new PIDController(0.01, 0, 0);
 
   public ShootWithRPM(Shooter shooter, double rpm) {
     this._shooter = shooter;

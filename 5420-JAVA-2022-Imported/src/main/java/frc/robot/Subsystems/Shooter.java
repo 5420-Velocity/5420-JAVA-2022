@@ -7,7 +7,10 @@
 
 package frc.robot.Subsystems;
 
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -31,17 +34,20 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     m_shootMotor.configFactoryDefault();
+    m_shootMotor2.configFactoryDefault();
     m_feedMotor.configFactoryDefault();
-    
-    m_shootMotor.config_kP(0, 0.05);
-    m_shootMotor2.config_kP(0, 0.05);
 
+    m_shootMotor.setNeutralMode(NeutralMode.Coast);
+    m_shootMotor2.setNeutralMode(NeutralMode.Coast);
     
-    m_shootMotor.config_kD(0, 0.002);
-    m_shootMotor2.config_kD(0, 0.002);
+    m_shootMotor.config_kP(0, 0.1);
+    m_shootMotor2.config_kP(0, 0.1);
 
-    m_shootMotor.config_kF(0, 0);
-    m_shootMotor2.config_kF(0, 0);
+    m_shootMotor.config_kD(0, 0);
+    m_shootMotor2.config_kD(0, 0);
+
+    m_shootMotor.config_kF(0, 0.0467);
+    m_shootMotor2.config_kF(0, 0.0467);
   }
 
 

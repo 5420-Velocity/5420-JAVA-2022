@@ -117,7 +117,9 @@ public class RobotContainer {
         // Shoots the ball with a timed gap between shots
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Joystick_Left_Button)
-            .whenHeld(new ShootWithRPM(m_shooter, 4000 * 5));
+            .whenHeld(new shootWithVelocity(m_shooter, 4000.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
             .whenPressed(() -> this.m_intake.setReleasePower(0.8))

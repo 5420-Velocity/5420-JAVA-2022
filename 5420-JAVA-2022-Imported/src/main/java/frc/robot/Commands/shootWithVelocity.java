@@ -20,16 +20,16 @@ public class shootWithVelocity extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.shooter.setShooterVelocity(speed);
+    this.shooter.setShooterVelocity(speed * 3.4);
     
-    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 300){
-      this.shooter.setFeedPower(-0.5);
+    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 50){
+      this.shooter.setFeedPower(-0.6);
+      System.out.println(this.shooter.GetShooterRPM() + " " + speed);
     }
     else {
       this.shooter.setFeedPower(0);
@@ -38,7 +38,11 @@ public class shootWithVelocity extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    this.shooter.setShooterVelocity(0);
+    this.shooter.setShooterPower(0);
+    this.shooter.setFeedPower(0);
+  }
 
   // Returns true when the command should end.
   @Override
