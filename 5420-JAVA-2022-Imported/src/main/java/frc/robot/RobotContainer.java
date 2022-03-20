@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.*;
@@ -39,6 +40,7 @@ public class RobotContainer {
     private AtomicBoolean m_liftLockout = new AtomicBoolean();
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private Command liftCommand = new NewLiftControl(m_lift, m_operatorController);
 
     // private AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
     // private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
@@ -61,6 +63,7 @@ public class RobotContainer {
 
         buttonConfig();
         autoConfig();
+        configDefaultCommands();
     }
 
     private void buttonConfig() {
@@ -95,11 +98,11 @@ public class RobotContainer {
 		 */
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new LiftControl(m_lift, 1.0))
+            .whileHeld(new LiftControl(m_lift, 0.5))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new LiftControl(m_lift, -1.0))
+            .whileHeld(new LiftControl(m_lift, 0.5))
             .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
@@ -117,7 +120,7 @@ public class RobotContainer {
         // Shoots the ball with a timed gap between shots
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Joystick_Left_Button)
-            .whenHeld(new shootWithVelocity(m_shooter, 4000.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 6300.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
@@ -126,19 +129,29 @@ public class RobotContainer {
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new AutoShoot(m_shooter, 0.75, 2));
+            .whenHeld(new shootWithVelocity(m_shooter, 2000.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new AutoShoot(m_shooter, 0.80, 2));
+            .whenHeld(new shootWithVelocity(m_shooter, 4500.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kRight)
-            .whenHeld(new AutoShoot(m_shooter, 0.85, 2));
+            .whenHeld(new shootWithVelocity(m_shooter, 5300.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
             
         new JoystickDPad(m_operatorController, Position.kDown)
-            .whenHeld(new AutoShoot(m_shooter, 0.4, 2));
+            .whenHeld(new shootWithVelocity(m_shooter, 5700.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
         
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new AutoShoot(m_shooter, 1, 2));
+            .whenHeld(new shootWithVelocity(m_shooter, 6300.0)) //5584
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
      }
 
@@ -189,39 +202,35 @@ public class RobotContainer {
         }
     }
 
+    private void configDefaultCommands(){
+        CommandScheduler scheduler = CommandScheduler.getInstance();
+
+		scheduler.setDefaultCommand(this.m_lift, liftCommand);
+    }
+
     private void autoConfig() {
 
-        // add a new auto that picks up then turns around and shoot outside of the tarmac
+        this.autoChooser.addOption("pickup terminal right", new SequentialCommandGroup(
+        // ball 1 and 2
+        new PixySearch (m_swerve, 1, 1),
+        new PixyPickup (m_swerve, m_intake, 1),
+        new TimedIntake(m_intake, 1000),
+        new AutoReset(m_swerve),
+        new TurnWithGyro (m_swerve, 50.0),
+        new AutoLimelight(m_limelight, m_swerve),
+        new AutoShoot(m_shooter, m_limelight, 2),
+        //turn to terminal and run intake for 10 seconds
+        new TurnWithGyro(m_swerve, 200.0),
+        new TimedIntake(m_intake, 10000)
 
-        
-        this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
-
-            new IntakeRelease(m_intake),
-            new AutoDrive(m_swerve, 3, 1),
-            new AutoPixyAlign(m_swerve),
-            new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 2, 1),
-            new AutoLimelight(m_limelight, m_swerve),
-            new AutoShoot(m_shooter, 0.8, 2),
-            new AutoDoNothing(m_swerve)
         ));
 
-        this.autoChooser.addOption("Shoot pickup", new SequentialCommandGroup(
+        this.autoChooser.addOption("other", new SequentialCommandGroup(
+            new TurnWithGyro(m_swerve, 320.0),
+            new AutoLimelight(m_limelight, m_swerve)
 
-            new IntakeRelease(m_intake), 
-            new AutoShoot(m_shooter, 0.69, 1),
-            new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 3.5, 1),
-            new AutoReset(m_swerve),
-            new PixySearch(m_swerve, -0.2, 1),
-            new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
-            new AutoReset(m_swerve),
-            new AutoDrive(m_swerve, 3, -1),
-            new AutoShoot (m_shooter, 0.69, 1),
-            new AutoDoNothing(m_swerve)
         ));
+
 
         this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
 
@@ -281,25 +290,8 @@ public class RobotContainer {
             new AutoShoot(m_shooter, m_limelight, 1)
         ));
 
-        this.autoChooser.addOption("shoot terminal right", new SequentialCommandGroup(
-        // ball 1 and 2
-        new PixySearch (m_swerve, 1, 1),
-        new PixyPickup (m_swerve, m_intake, 1),
-        new TimedIntake(m_intake, 1000),
-        new AutoReset(m_swerve),
-        new TurnWithGyro (m_swerve, m_swerve.GetGyroDegrees() + 180),
-        new AutoLimelight(m_limelight, m_swerve),
-        new AutoShoot(m_shooter, m_limelight, 2),
-        //turn to terminal and run intake for 10 seconds
-        new TurnWithGyro(m_swerve, 200.0),
-        new TimedIntake(m_intake, 10000)
 
-        ));
-
-        this.autoChooser.addOption("other", new SequentialCommandGroup(
-            new AutoLimelight(m_limelight, m_swerve)
-        ));
-
+        
         // Shoot low pick up 2 more balls shoot
         // Pick up 1 ball shoot both high
 

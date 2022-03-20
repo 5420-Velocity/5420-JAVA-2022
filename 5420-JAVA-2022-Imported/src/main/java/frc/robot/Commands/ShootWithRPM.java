@@ -29,7 +29,6 @@ public class ShootWithRPM extends CommandBase {
   @Override
   public void execute() {
     double output = shootPID.calculate(_shooter.GetShooterRPM(), target);
-    System.out.println(_shooter.GetShooterRPM() + " " + output);
 
     if (output < 0) {
       return;

@@ -58,7 +58,6 @@ public class AutoLimelight extends CommandBase {
   public void end(boolean interrupted) {
     m_drivetrain.CanDrive(false);
     m_drivetrain.drive(0, 0, 0, false);
-    System.out.println("limelight end");
     m_limelight.setLedMode(0);
   }
 

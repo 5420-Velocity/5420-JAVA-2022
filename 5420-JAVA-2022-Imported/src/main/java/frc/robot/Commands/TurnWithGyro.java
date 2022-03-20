@@ -27,13 +27,15 @@ public class TurnWithGyro extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     if (Math.abs(target - drivetrain.GetGyroDegrees()) < 5) {
       drivetrain.drive(0, 0, 0,false);
       drivetrain.CanDrive(false);
       this.isFinished = true;
     }
     else{
-      drivetrain.drive(0, 0, 1, false);
+      System.out.println(Math.abs(target - drivetrain.GetGyroDegrees()));
+      drivetrain.drive(0, 0, 2, false);
       drivetrain.CanDrive(true);
     }
   }

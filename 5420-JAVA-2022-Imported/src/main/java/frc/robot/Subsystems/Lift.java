@@ -16,18 +16,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
   private WPI_TalonFX liftMotor = new WPI_TalonFX(12);
-  private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(13);
+  private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(57);
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
 
   // This encoder will tell you the position of between the upper and lower encoder
-  private final DutyCycleEncoder positioEncoder = new DutyCycleEncoder(3);
+  private final DutyCycleEncoder positionEncoder = new DutyCycleEncoder(3);
 
   private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
   private NetworkTableEntry lower = SmartDashboard.getEntry("lower");
+  private NetworkTableEntry liftEncoder = SmartDashboard.getEntry("Lift Encoder");
 
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
+    liftRotationMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void ZeroLiftEncoder(){
@@ -51,12 +53,13 @@ public class Lift extends SubsystemBase {
   }
 
   public double GetLiftEncoder(){
-    return liftMotor.getSensorCollection().getIntegratedSensorPosition();
+    return positionEncoder.get();
   }
 
   @Override
   public void periodic() {
     upper.setBoolean(upperLimit.get());
     lower.setBoolean(lowerLimit.get());
+    liftEncoder.setDouble(GetLiftEncoder());
   }
 }

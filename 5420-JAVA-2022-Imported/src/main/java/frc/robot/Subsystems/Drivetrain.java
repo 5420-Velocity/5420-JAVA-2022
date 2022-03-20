@@ -74,6 +74,8 @@ public class Drivetrain extends SubsystemBase {
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getAngle());
   private NetworkTableEntry pixyStatus = SmartDashboard.getEntry("pixy status");
 
+  private NetworkTableEntry nGyro = SmartDashboard.getEntry("gyro");
+
   private SendableChooser<Integer> pixyTargetColor = new SendableChooser<>();
 
   public Drivetrain(){
@@ -101,6 +103,8 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
 	public void periodic() {
+    
+    nGyro.setString(GetGyroDegrees() + "degrees");
     int signature = Pixy2CCC.CCC_SIG_ALL; // Default
   
     if (DriverStation.getMatchType() == MatchType.None) {
@@ -152,7 +156,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Double GetGyroDegrees(){
-    return m_gyro.getFusedHeading();
+    return Math.abs(m_gyro.getFusedHeading() % 360);
   }
 
   // used to zero the gyro at competition when the robot is lined up with the field

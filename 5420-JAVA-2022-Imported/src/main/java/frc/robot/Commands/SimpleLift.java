@@ -31,7 +31,6 @@ public class SimpleLift extends CommandBase {
   public void execute() {
     if(power < 0){
       if(-lift.GetLiftEncoder() < 138000 || liftLock.get()){
-        System.out.println(lift.GetLiftEncoder() + "under");
         lift.setMotorPower(power);
       }
       else{
@@ -40,7 +39,6 @@ public class SimpleLift extends CommandBase {
     }
     else{
       if(-lift.GetLiftEncoder() > 1000 || liftLock.get()){
-        System.out.println(lift.GetLiftEncoder() + "over");
         lift.setMotorPower(power);
       }
       else{

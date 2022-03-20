@@ -27,7 +27,7 @@ public class shootWithVelocity extends CommandBase {
   public void execute() {
     this.shooter.setShooterVelocity(speed * 3.4);
     
-    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 50){
+    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 150){
       this.shooter.setFeedPower(-0.6);
       System.out.println(this.shooter.GetShooterRPM() + " " + speed);
     }

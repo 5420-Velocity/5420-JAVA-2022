@@ -46,8 +46,8 @@ public class Shooter extends SubsystemBase {
     m_shootMotor.config_kD(0, 0);
     m_shootMotor2.config_kD(0, 0);
 
-    m_shootMotor.config_kF(0, 0.0467);
-    m_shootMotor2.config_kF(0, 0.0467);
+    m_shootMotor.config_kF(0, 0.047);
+    m_shootMotor2.config_kF(0, 0.047);
   }
 
 

@@ -30,21 +30,11 @@ public class LiftControl extends CommandBase {
     
 
     if(power > 0){
-      if(!lift.GetUpper()){
-        lift.setMotorPower(0); 
-      }
-      else{
-        System.out.println(power);
         lift.setMotorPower(power);
       }
-    }
+    
     else{
-      if(!lift.GetLower()){
-        lift.setMotorPower(0);
-      }
-      else{
         lift.setMotorPower(power);
-      }
     }
   }
 
