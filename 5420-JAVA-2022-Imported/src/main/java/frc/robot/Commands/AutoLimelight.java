@@ -7,6 +7,10 @@
 
 package frc.robot.Commands;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -20,17 +24,24 @@ public class AutoLimelight extends CommandBase {
   Constants.DriveTrainConstants.limeI, Constants.DriveTrainConstants.limeD);
   
   private StateList<Boolean> stateList = StateList.bool(5);
+  private int duration;
+  private Date endTime;
+  private boolean isFinished;
 
-
-  public AutoLimelight(LimeLight limelight, Drivetrain drivetrain) {
+  public AutoLimelight(LimeLight limelight, Drivetrain drivetrain, int duration) {
     this.m_limelight = limelight;
     this.m_drivetrain = drivetrain;
     addRequirements(drivetrain);
+    this.duration = duration;
   }
 
   @Override
   public void initialize() {
     m_limelight.setLedMode(3);
+    Calendar calculateDate = GregorianCalendar.getInstance();
+    calculateDate.add(GregorianCalendar.MILLISECOND, duration);
+		this.endTime = calculateDate.getTime();
+    this.isFinished = false;
   }
 
   @Override
@@ -41,6 +52,10 @@ public class AutoLimelight extends CommandBase {
 
     m_drivetrain.CanDrive(true);
     m_drivetrain.drive(0, 0, output, false);
+    //if limelight x value is less than 2 stop turning
+    if((Math.abs(this.m_limelight.getTX()) < 2) && this.m_limelight.hasTarget() || new Date().after(endTime)){
+      this.isFinished = true;
+    }
   }
 
   // Curves speed imput.
@@ -69,6 +84,6 @@ public class AutoLimelight extends CommandBase {
     // boolean isGoodGood = Math.abs(this.m_limelight.getTX()) < 0.5;
     // this.stateList.add(isGoodGood);
     // return this.stateList.get();
-    return (Math.abs(this.m_limelight.getTX()) < 0.5) && this.m_limelight.hasTarget();
+    return this.isFinished;
   }
 }

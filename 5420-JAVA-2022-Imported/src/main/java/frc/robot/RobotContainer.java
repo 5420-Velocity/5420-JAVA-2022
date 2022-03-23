@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.*;
@@ -212,22 +213,27 @@ public class RobotContainer {
 
         this.autoChooser.addOption("pickup terminal right", new SequentialCommandGroup(
         // ball 1 and 2
+        new AutoDelay(2000),
         new PixySearch (m_swerve, 1, 1),
         new PixyPickup (m_swerve, m_intake, 1),
-        new TimedIntake(m_intake, 1000),
+        new TimedIntake(m_intake, 1200),
+        new AutoDrive(m_swerve, 2, -2),
         new AutoReset(m_swerve),
-        new TurnWithGyro (m_swerve, 50.0),
-        new AutoLimelight(m_limelight, m_swerve),
-        new AutoShoot(m_shooter, m_limelight, 2),
+        new TurnWithGyro (m_swerve, 180.0),
+        new AutoLimelight(m_limelight, m_swerve, 1000),
+        new shootWithVelocity(m_shooter, 4400.0, 4000),
         //turn to terminal and run intake for 10 seconds
-        new TurnWithGyro(m_swerve, 200.0),
-        new TimedIntake(m_intake, 10000)
-
+        new TurnWithGyro(m_swerve, 30.0),
+        new AutoReset(m_swerve),
+        new AutoDrive(m_swerve, 3, -2),
+        new ParallelCommandGroup(
+        new TimedIntake(m_intake, 10000),
+        new AutoDoNothing(m_swerve))
         ));
 
         this.autoChooser.addOption("other", new SequentialCommandGroup(
             new TurnWithGyro(m_swerve, 320.0),
-            new AutoLimelight(m_limelight, m_swerve)
+            new AutoLimelight(m_limelight, m_swerve, 1000)
 
         ));
 
@@ -244,7 +250,7 @@ public class RobotContainer {
             new AutoReset(m_swerve),
             new AutoTurn(m_swerve, 3, 1),
             new AutoReset(m_swerve),
-            new AutoLimelight(m_limelight, m_swerve),
+            new AutoLimelight(m_limelight, m_swerve, 1000),
             new AutoShoot (m_shooter, 0.72, 1),
             new AutoDoNothing(m_swerve)
         ));
@@ -286,7 +292,7 @@ public class RobotContainer {
             new PixyPickup(m_swerve, m_intake, 1),
             new TimedIntake(m_intake, 1000),
             new AutoTurn(m_swerve, 3.5, 1),
-            new AutoLimelight(m_limelight, m_swerve),
+            new AutoLimelight(m_limelight, m_swerve, 1000),
             new AutoShoot(m_shooter, m_limelight, 1)
         ));
 

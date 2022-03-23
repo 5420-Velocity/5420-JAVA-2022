@@ -4,40 +4,36 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.Drivetrain;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class TurnWithGyro extends CommandBase {
-  private Drivetrain drivetrain;
-  private Boolean isFinished;
-  private Double target;
-  
-  /** Creates a new TurnWithGyro. */
-  public TurnWithGyro(Drivetrain drivetrain, Double target) {
-    this.drivetrain = drivetrain;
-    this.target = target;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import io.github.pseudoresonance.pixy2api.Pixy2;
+
+public class AutoDelay extends CommandBase {
+  private int duration;
+  private Date endTime;
+  private boolean isFinished;
+  public AutoDelay(int duration) {
+    this.duration = duration;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Calendar calculateDate = GregorianCalendar.getInstance();
+    calculateDate.add(GregorianCalendar.MILLISECOND, duration);
+		this.endTime = calculateDate.getTime();
     this.isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (Math.abs(target - drivetrain.GetGyroDegrees()) < 7) {
-      drivetrain.drive(0, 0, 0,false);
-      drivetrain.CanDrive(false);
+    if(new Date().after(endTime)){
       this.isFinished = true;
-    }
-    else{
-      System.out.println(Math.abs(target - drivetrain.GetGyroDegrees()));
-      drivetrain.drive(0, 0, 2, false);
-      drivetrain.CanDrive(true);
-    }
+     }
   }
 
   // Called once the command ends or is interrupted.

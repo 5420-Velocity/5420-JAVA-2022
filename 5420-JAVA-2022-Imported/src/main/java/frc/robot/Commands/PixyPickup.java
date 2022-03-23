@@ -9,6 +9,11 @@ package frc.robot.Commands;
 
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,9 +27,14 @@ public class PixyPickup extends CommandBase {
     private double power;
     private boolean isFinished;
 
-    private PIDController turnPidController = new PIDController(0.02, 0, 0);
+    private PIDController turnPidController = new PIDController(0.015, 0, 0);
 
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
+
+    private Date endTime;
+    private int duration = 3000;
+  
+
 
     public PixyPickup(Drivetrain driveTrain, Intake intake, double power){
         this.driveTrain = driveTrain;
@@ -34,36 +44,43 @@ public class PixyPickup extends CommandBase {
 
     @Override
     public void initialize() {
-        this.isFinished = false;
+      Calendar calculateDate = GregorianCalendar.getInstance();
+      calculateDate.add(GregorianCalendar.MILLISECOND, duration);
+      this.endTime = calculateDate.getTime();
+      this.isFinished = false;
     }
 
     @Override
      public void execute() {
-    
-        if (driveTrain.pixyAlgo.getPixyBest() != null) {
-            hasTarget.setBoolean(true);
-            
-            if((driveTrain.pixyAlgo.getPixyBest().getX() < 140 || driveTrain.pixyAlgo.getPixyBest().getX() > 150) || driveTrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
-              // turn to ball
-              double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
-              driveTrain.CanDrive(true);
-              driveTrain.drive(power, 0, output, false);
-              intake.setIntakePower(-0.5);
-            }
-            else{
-              driveTrain.CanDrive(false);
-              intake.setIntakePower(0);
-              driveTrain.drive(0, 0, 0, false);
-              this.isFinished = true;
-            }
-        }
-        else{
-          driveTrain.CanDrive(false);
-          intake.setIntakePower(0);
-          driveTrain.drive(0, 0, 0, false);
-          hasTarget.setBoolean(false);
+
+      if(new Date().after(endTime)){
+        this.isFinished = true;
+      }
+      
+      if (driveTrain.pixyAlgo.getPixyBest() != null) {
+          hasTarget.setBoolean(true);
+          
+          if((driveTrain.pixyAlgo.getPixyBest().getX() < 140 || driveTrain.pixyAlgo.getPixyBest().getX() > 150) || driveTrain.pixyAlgo.getPixyBest().getArea() <= Constants.DriveTrainConstants.pixyTargetArea){
+            // turn to ball
+            double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
+            driveTrain.CanDrive(true);
+            driveTrain.drive(power, 0, output, false);
+            intake.setIntakePower(-0.5);
+          }
+          else{
+            driveTrain.CanDrive(false);
+            intake.setIntakePower(0);
+            driveTrain.drive(0, 0, 0, false);
             this.isFinished = true;
-        }
+          }
+      }
+      else{
+        driveTrain.CanDrive(false);
+        intake.setIntakePower(0);
+        driveTrain.drive(0, 0, 0, false);
+        hasTarget.setBoolean(false);
+          this.isFinished = true;
+      }
     }
 
     public static double getCurve(double input) {

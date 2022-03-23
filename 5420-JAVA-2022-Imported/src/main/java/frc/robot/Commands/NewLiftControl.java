@@ -30,10 +30,10 @@ public class NewLiftControl extends CommandBase {
   @Override
   public void execute() {
     if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) > 0.1 && lift.GetLower()){
-        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.4);
+        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.8);
     }  
     else if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) < -0.1 && lift.GetUpper()){
-        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.4);
+        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.8);
     }
     else{
       this.lift.setRotationPower(0);
@@ -50,9 +50,7 @@ public class NewLiftControl extends CommandBase {
     }  
     else if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS) < -0.1){
       double output = liftPID.calculate(lift.GetLiftEncoder(), 8.5);
-      System.out.println("negative");
-      System.out.println(output);
-      this.lift.setMotorPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS) * output );
+      this.lift.setMotorPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS));
     }
     else{
       this.lift.setMotorPower(0);

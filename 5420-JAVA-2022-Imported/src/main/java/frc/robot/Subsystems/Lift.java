@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,7 +22,7 @@ public class Lift extends SubsystemBase {
 	private final DigitalInput lowerLimit = new DigitalInput(2);
 
   // This encoder will tell you the position of between the upper and lower encoder
-  private final DutyCycleEncoder positionEncoder = new DutyCycleEncoder(3);
+  private final Encoder positionEncoder = new Encoder(3, 4);
 
   private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
   private NetworkTableEntry lower = SmartDashboard.getEntry("lower");
@@ -30,10 +31,11 @@ public class Lift extends SubsystemBase {
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
     liftRotationMotor.setNeutralMode(NeutralMode.Brake);
+    // positionEncoder.setConnectedFrequencyThreshold(975);
   }
 
   public void ZeroLiftEncoder(){
-    liftMotor.getSensorCollection().setIntegratedSensorPosition(0, 0);
+    
   }
 
   public void setMotorPower(double power){
@@ -53,7 +55,7 @@ public class Lift extends SubsystemBase {
   }
 
   public double GetLiftEncoder(){
-    return positionEncoder.get();
+    return positionEncoder.get() * 100;
   }
 
   @Override
