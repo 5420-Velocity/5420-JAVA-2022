@@ -109,8 +109,7 @@ public class Drivetrain extends SubsystemBase {
   
     if (DriverStation.getMatchType() == MatchType.None) {
       // Use user input FROM DRIVER STATION
-      signature = 1;
-
+      signature = this.pixyTargetColor.getSelected();
     }
     else {
       // Use DriverStation information
@@ -127,7 +126,7 @@ public class Drivetrain extends SubsystemBase {
       }
     }
 
-    if (this.lastUpdate % 15 == 0) {
+    if (this.lastUpdate % 10 == 0) {
       this.lastUpdate = 1;
     
       int status = this.pixy.getCCC().getBlocks(false, signature, 2);
@@ -136,7 +135,6 @@ public class Drivetrain extends SubsystemBase {
     } else {
       this.lastUpdate++;
     }
-
   }
 
   public void setModule(double power){

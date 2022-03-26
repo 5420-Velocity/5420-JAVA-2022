@@ -32,7 +32,7 @@ public class PixyPickup extends CommandBase {
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
 
     private Date endTime;
-    private int duration = 3000;
+    private int duration = 5000;
   
 
 

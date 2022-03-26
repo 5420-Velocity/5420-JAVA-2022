@@ -7,6 +7,7 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Drivetrain;
 import frc.robot.Subsystems.Drivetrain.module;
@@ -16,6 +17,8 @@ public class AutoDrive extends CommandBase {
   private double target;
   private double power;
   private boolean isFinished;
+  private PIDController gyroPID = new PIDController(0.05, 0, 0);
+  private double angle;
 
   public AutoDrive(Drivetrain drivetrain, double targetDistance, double power) {
     this.drivetrain = drivetrain;
@@ -27,6 +30,7 @@ public class AutoDrive extends CommandBase {
   @Override
   public void initialize() {
     drivetrain.resetAllDriveEncoders();
+    angle = drivetrain.GetGyroDegrees();
     this.isFinished = false;
   }
 
@@ -36,7 +40,8 @@ public class AutoDrive extends CommandBase {
     // If the encoder value is less than the target keep driving
     if (Math.abs(drivetrain.getWheelDriveEncoder(module.frontLeft) / 13460) < target) {
       drivetrain.CanDrive(true);
-      drivetrain.drive(-power, 0, 0, false);
+      double output = gyroPID.calculate(drivetrain.GetGyroDegrees(), angle);
+      drivetrain.drive(-power, 0, output, false);
     } else {
       drivetrain.drive(0, 0, 0, false);
       drivetrain.CanDrive(false);

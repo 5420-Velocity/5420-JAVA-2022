@@ -4,50 +4,36 @@
 
 package frc.robot.Commands;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.*;
 
-public class TimedIntake extends CommandBase {
-  private Intake intake;
-  private int duration;
-  private Date endTime;
+public class ResetGyro extends CommandBase {
+  private Drivetrain drivetrain;
   private boolean isFinished;
-
-  public TimedIntake(Intake intake, int duration) {
-    this.intake = intake;
-    this.duration = duration;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ResetGyro(Drivetrain drivetrain) {
+    this.drivetrain = drivetrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Calendar calculateDate = GregorianCalendar.getInstance();
-    calculateDate.add(GregorianCalendar.MILLISECOND, duration);
-		this.endTime = calculateDate.getTime();
     this.isFinished = false;
+    drivetrain.zeroGyroHeading();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(new Date().after(endTime)){
-      intake.setIntakePower(0);
+    drivetrain.zeroGyroHeading();
+    if(drivetrain.GetGyroDegrees() <= 0.1){
       this.isFinished = true;
-    }
-    else{
-      intake.setIntakePower(-0.8);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.setIntakePower(0);
+    drivetrain.zeroGyroHeading();
   }
 
   // Returns true when the command should end.

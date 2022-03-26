@@ -4,6 +4,8 @@
 
 package frc.robot.Commands;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,7 +15,7 @@ import frc.robot.Subsystems.Lift;
 public class NewLiftControl extends CommandBase {
   private Lift lift;
   private Joystick controller;
-  private PIDController liftPID = new PIDController(0.4, 0, 0);
+  private PIDController liftPID = new PIDController(0.1, 0, 0);
 
 
   public NewLiftControl(Lift lift, Joystick controller) {
@@ -29,37 +31,42 @@ public class NewLiftControl extends CommandBase {
 
   @Override
   public void execute() {
-    if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) > 0.1 && lift.GetLower()){
-        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.8);
+    double liftAngleInput = -controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS);
+    double liftInput = controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_RIGHT_Y_AXIS);
+
+    if((liftAngleInput > 0.1 && lift.GetLower()) || (liftAngleInput < -0.1 && lift.GetUpper())){
+        this.lift.setRotationPower(liftAngleInput * 0.5);
     }  
-    else if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) < -0.1 && lift.GetUpper()){
-        this.lift.setRotationPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS) * 0.8);
-    }
     else{
       this.lift.setRotationPower(0);
     }
 
-    if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS) > 0.1){
-      // System.out.println("positive");
-      // double output = liftPID.calculate(lift.GetLiftEncoder(), 0.5);
-      // if(lift.GetLiftEncoder() > 0.5){
-      //   output = Math.abs(output);
-      // }
-      // System.out.println(output);
-      this.lift.setMotorPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS));
-    }  
-    else if(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS) < -0.1){
-      double output = liftPID.calculate(lift.GetLiftEncoder(), 8.5);
-      this.lift.setMotorPower(controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_Y_AXIS));
+    
+
+    if(controller.getRawButton(Constants.ControllerConstants.Joystick_Left_Button)){
+      this.lift.setMotorPower(liftInput );
     }
     else{
-      this.lift.setMotorPower(0);
+      if(liftInput > 0.1 && this.lift.GetLiftEncoder() < -10){
+        this.lift.setMotorPower(liftInput);
+      }  
+      else if(liftInput < -0.1 && lift.GetLiftEncoder() > -15247){
+        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), -15247));
+        System.out.println(output);
+        this.lift.setMotorPower(liftInput * 0.7);
+      }
+      else{
+        this.lift.setMotorPower(0);
+      }
     }
 
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    this.lift.setMotorPower(0);
+    this.lift.setRotationPower(0);
+  }
 
   @Override
   public boolean isFinished() {

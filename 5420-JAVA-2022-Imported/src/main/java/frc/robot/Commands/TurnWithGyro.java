@@ -11,11 +11,13 @@ public class TurnWithGyro extends CommandBase {
   private Drivetrain drivetrain;
   private Boolean isFinished;
   private Double target;
+  private double power;
   
   /** Creates a new TurnWithGyro. */
-  public TurnWithGyro(Drivetrain drivetrain, Double target) {
+  public TurnWithGyro(Drivetrain drivetrain, Double target, double power) {
     this.drivetrain = drivetrain;
     this.target = target;
+    this.power = power;
   }
 
   // Called when the command is initially scheduled.
@@ -34,8 +36,7 @@ public class TurnWithGyro extends CommandBase {
       this.isFinished = true;
     }
     else{
-      System.out.println(Math.abs(target - drivetrain.GetGyroDegrees()));
-      drivetrain.drive(0, 0, 2, false);
+      drivetrain.drive(0, 0, power, false);
       drivetrain.CanDrive(true);
     }
   }

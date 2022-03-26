@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
-  private WPI_TalonFX liftMotor = new WPI_TalonFX(12);
+  private WPI_TalonSRX liftMotor = new WPI_TalonSRX(54);
+  private WPI_TalonSRX liftMotor2 = new WPI_TalonSRX(55);
   private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(57);
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
@@ -30,16 +31,18 @@ public class Lift extends SubsystemBase {
 
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
+    liftMotor2.setNeutralMode(NeutralMode.Brake);
     liftRotationMotor.setNeutralMode(NeutralMode.Brake);
     // positionEncoder.setConnectedFrequencyThreshold(975);
   }
 
   public void ZeroLiftEncoder(){
-    
+    positionEncoder.reset();
   }
 
   public void setMotorPower(double power){
     liftMotor.set(power);
+    liftMotor2.set(power);
   }
 
   public void setRotationPower(double power){
@@ -55,7 +58,7 @@ public class Lift extends SubsystemBase {
   }
 
   public double GetLiftEncoder(){
-    return positionEncoder.get() * 100;
+    return positionEncoder.get();
   }
 
   @Override

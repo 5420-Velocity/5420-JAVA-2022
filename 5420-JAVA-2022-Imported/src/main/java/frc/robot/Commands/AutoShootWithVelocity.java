@@ -38,7 +38,7 @@ public class AutoShootWithVelocity extends CommandBase {
     long deltaTime = timeSinceStart - oldTimeSinceStart;
     oldTimeSinceStart = timeSinceStart;
     
-    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 300){
+    if(Math.abs(this.shooter.GetShooterRPM() - speed) < 150){
       this.shooter.setFeedPower(-0.5);
       feedTimer += deltaTime;
     }

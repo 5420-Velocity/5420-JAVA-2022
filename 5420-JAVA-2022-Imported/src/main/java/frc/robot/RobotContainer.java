@@ -73,7 +73,7 @@ public class RobotContainer {
                 .whileHeld(new LimelightAimDrive(m_limelight, m_swerve, m_controller, x, y, r, m_driveLocked));
 
         // Toggles if we drive with field relative
-        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Left)
                 .whenPressed(() -> m_swerve.SetFieldRelative(!m_swerve.IsFieldRelative()));
 
         // Zeros the gyro heading
@@ -83,9 +83,6 @@ public class RobotContainer {
         // Set the default position for drivetrain to x or none
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Right)
                 .whenPressed(() -> m_swerve.setXDefault(!m_swerve.isXDefault()));
-        
-        // new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
-        //         .whileHeld(new AutoLimelight(m_limelight, m_swerve));
 
         // Alligns the robot intake with a cargo of your alliances cargo
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Left)
@@ -98,59 +95,55 @@ public class RobotContainer {
 		 * Setup Button Events for the Shooter on the Operator Controller
 		 */
 
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
-            .whileHeld(new LiftControl(m_lift, 0.5))
-            .whenReleased(() -> this.m_lift.setMotorPower(0));
+        // new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
+        //     .whileHeld(new LiftControl(m_lift, 0.5))
+        //     .whenReleased(() -> this.m_lift.setMotorPower(0));
 
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
-            .whileHeld(new LiftControl(m_lift, 0.5))
-            .whenReleased(() -> this.m_lift.setMotorPower(0));
-
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
-            .whenPressed(() -> this.m_liftLockout.set(true))
-            .whenReleased(() -> this.m_liftLockout.set(false));
+        // new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+        //     .whileHeld(new LiftControl(m_lift, 0.5))
+        //     .whenReleased(() -> this.m_lift.setMotorPower(0));
 
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
-            .whileHeld(new SimpleIntake(m_intake, -0.5));
+            .whileHeld(new SimpleIntake(m_intake, -0.7));
 
         // Sets the feed motors to put cargo in the shooter
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
-            .whileHeld(new SimpleIntake(m_intake, 0.4));
-
-        // Shoots the ball with a timed gap between shots
-
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Joystick_Left_Button)
-            .whenHeld(new shootWithVelocity(m_shooter, 6300.0))
-            .whenReleased(() -> this.m_shooter.setShooterPower(0))
-            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+            .whileHeld(new SimpleIntake(m_intake, 0.5));
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
             .whenPressed(() -> this.m_intake.setReleasePower(0.8))
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
-        new JoystickDPad(m_operatorController, Position.kLeft)
+        // Shoot buttons with preset speeds
+
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
             .whenHeld(new shootWithVelocity(m_shooter, 2000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
-        new JoystickDPad(m_operatorController, Position.kUp)
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+            .whenHeld(new shootWithVelocity(m_shooter, 6700.0)) 
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+        new JoystickDPad(m_operatorController, Position.kDown)
             .whenHeld(new shootWithVelocity(m_shooter, 4500.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
-        new JoystickDPad(m_operatorController, Position.kRight)
+        new JoystickDPad(m_operatorController, Position.kLeft)
             .whenHeld(new shootWithVelocity(m_shooter, 5300.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
-            
-        new JoystickDPad(m_operatorController, Position.kDown)
+
+        new JoystickDPad(m_operatorController, Position.kUp)
             .whenHeld(new shootWithVelocity(m_shooter, 5700.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
-        
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-            .whenHeld(new shootWithVelocity(m_shooter, 6300.0)) //5584
+            
+        new JoystickDPad(m_operatorController, Position.kRight)
+            .whenHeld(new shootWithVelocity(m_shooter, 6000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
@@ -211,95 +204,92 @@ public class RobotContainer {
 
     private void autoConfig() {
 
-        this.autoChooser.addOption("pickup terminal right", new SequentialCommandGroup(
-        // ball 1 and 2
-        new AutoDelay(2000),
-        new PixySearch (m_swerve, 1, 1),
-        new PixyPickup (m_swerve, m_intake, 1),
-        new TimedIntake(m_intake, 1200),
-        new AutoDrive(m_swerve, 2, -2),
-        new AutoReset(m_swerve),
-        new TurnWithGyro (m_swerve, 180.0),
-        new AutoLimelight(m_limelight, m_swerve, 1000),
-        new shootWithVelocity(m_shooter, 4400.0, 4000),
-        //turn to terminal and run intake for 10 seconds
-        new TurnWithGyro(m_swerve, 30.0),
-        new AutoReset(m_swerve),
-        new AutoDrive(m_swerve, 3, -2),
-        new ParallelCommandGroup(
-        new TimedIntake(m_intake, 10000),
-        new AutoDoNothing(m_swerve))
+        this.autoChooser.addOption("shoot terminal center", new SequentialCommandGroup(
+            // ball 1 and 2
+            new ResetGyro(m_swerve),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 2000),
+            new AutoReset(m_swerve),
+            new TurnWithGyro (m_swerve, 180.0, 2),
+            new ParallelCommandGroup(
+                new AutoLimelight(m_limelight, m_swerve, 1000),
+                new shootWithVelocity(m_shooter, 4400.0, 4000)),
+            //turn to terminal and run intake for 10 seconds
+            new TurnWithGyro(m_swerve, 40.0, 2),
+            new AutoReset(m_swerve),
+            new AutoDrive(m_swerve, 3, -2),
+            new PickupAndSearch(m_swerve, m_intake, 30)
+        ));
+
+        this.autoChooser.addOption("shoot terminal right", new SequentialCommandGroup(
+                        // ball 1 and 2
+            new ResetGyro(m_swerve),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 2000),
+            new AutoReset(m_swerve),
+            new TurnWithGyro (m_swerve, 180.0, 2),
+            new ParallelCommandGroup(
+                new AutoLimelight(m_limelight, m_swerve, 1000),
+                new shootWithVelocity(m_shooter, 4400.0, 4000)),
+            //turn to terminal and run intake for 10 seconds
+            new TurnWithGyro(m_swerve, 60.0, 2),
+            new AutoReset(m_swerve),
+            new AutoDrive(m_swerve, 3, -2),
+            new PickupAndSearch(m_swerve, m_intake, 30)
+        ));
+
+        this.autoChooser.addOption("shoot terminal left", new SequentialCommandGroup(
+
+                    // ball 1 and 2
+                    new ResetGyro(m_swerve),
+                    new AutoReset(m_swerve),
+                    new PixySearch(m_swerve, 1, 1),
+                    new PixyPickup(m_swerve, m_intake, 1),
+                    new TimedIntake(m_intake, 2000),
+                    new AutoReset(m_swerve),
+                    new TurnWithGyro (m_swerve, 180.0, 2),
+                    new ParallelCommandGroup(
+                        new AutoLimelight(m_limelight, m_swerve, 1000),
+                        new shootWithVelocity(m_shooter, 4400.0, 4000)),
+                    //turn to terminal and run intake for 10 seconds
+                    new TurnWithGyro(m_swerve, 130.0, 2),
+                    new AutoReset(m_swerve),
+                    new AutoDrive(m_swerve, 3, -2),
+                    new PickupAndSearch(m_swerve, m_intake, 30)
+                ));
+
+        this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
+            new ResetGyro(m_swerve),
+            new AutoReset(m_swerve),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new TimedIntake(m_intake, 2000),
+            new AutoReset(m_swerve),
+            new TurnWithGyro (m_swerve, 180.0, 2),
+            new ParallelCommandGroup(
+            new AutoLimelight(m_limelight, m_swerve, 1000),
+            new shootWithVelocity(m_shooter, 4400.0, 4000)),
+            new AutoDoNothing(m_swerve)
         ));
 
         this.autoChooser.addOption("other", new SequentialCommandGroup(
-            new TurnWithGyro(m_swerve, 320.0),
-            new AutoLimelight(m_limelight, m_swerve, 1000)
-
-        ));
-
-
-        this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
-
-            new IntakeRelease(m_intake),
-            // new AutoDrive(m_swerve, 3, 0),
+            new ResetGyro(m_swerve),
+            new AutoDrive(m_swerve, 3, -1.4),
+            new TurnWithGyro(m_swerve, 30.0, 2),
             new AutoReset(m_swerve),
-            new PixySearch(m_swerve, -0.2, 1),
+            new AutoDrive(m_swerve, 8, -1.4),
             new PixySearch(m_swerve, 1, 1),
             new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
-            new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 3, 1),
-            new AutoReset(m_swerve),
-            new AutoLimelight(m_limelight, m_swerve, 1000),
-            new AutoShoot (m_shooter, 0.72, 1),
-            new AutoDoNothing(m_swerve)
-        ));
+            new TimedIntake(m_intake, 2000), 
+            new PickupAndSearch(m_swerve, m_intake, 30)
 
-        this.autoChooser.addOption("Shoot taxi", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, 0.69, 1),
-            new AutoReset(m_swerve),
-            //distance
-            new AutoDrive(m_swerve, 6, 1),
-            new AutoDoNothing(m_swerve)
         ));
-
-        this.autoChooser.addOption("Shoot pickup pickup", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, 0.72, 1),
-            new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 3.5, 1),
-            new AutoReset(m_swerve),
-            new PixySearch(m_swerve, -0.5, 1),
-            new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
-            new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
-            new AutoReset(m_swerve),
-            new AutoDrive(m_swerve, 1, -1),
-            // new AutoShoot(m_shooter, 0.69, 1),
-            // new AutoTurn(m_swerve, 3.5, 1),
-            new AutoDoNothing(m_swerve)
-        ));
-        
-
-        this.autoChooser.addOption("Shoot pickup shoot", new SequentialCommandGroup(
-            new AutoShoot(m_shooter, 0.72, 1),
-            new AutoReset(m_swerve),
-            new AutoTurn(m_swerve, 3.5, 1),
-            new AutoReset(m_swerve),
-            new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 1000),
-            new AutoTurn(m_swerve, 3.5, 1),
-            new AutoLimelight(m_limelight, m_swerve, 1000),
-            new AutoShoot(m_shooter, m_limelight, 1)
-        ));
-
 
         
-        // Shoot low pick up 2 more balls shoot
-        // Pick up 1 ball shoot both high
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
