@@ -280,16 +280,13 @@ public class RobotContainer {
             new PixySearch(m_swerve, 1, 1),
             new PixyPickup(m_swerve, m_intake, 1.5),
             new ParallelCommandGroup(
-                new TimedIntake(m_intake, 900),
-                //placeholder distance
+                new IntakeUsingColorSensor(m_intake),
                 new AutoDrive(m_swerve, 1, -2)
             ),
             new AutoReset(m_swerve),
             new TurnWithGyro (m_swerve, 180.0, 3),
-            new ParallelCommandGroup(
-                new AutoLimelight(m_limelight, m_swerve, 1000),
-                //placeholder rpm, updated for longer distance
-                new shootWithVelocity(m_shooter, 4600.0, 3500)),
+            new AutoLimelight(m_limelight, m_swerve, 1000),
+            new shootWithVelocity(m_shooter, 4600.0, 3500),
             new AutoDoNothing(m_swerve)
         ));
 
