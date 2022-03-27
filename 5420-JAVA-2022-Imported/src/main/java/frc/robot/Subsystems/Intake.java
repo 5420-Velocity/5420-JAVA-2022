@@ -9,18 +9,30 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-//import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.ColorTargets;
 
 public class Intake extends SubsystemBase {
   
   private WPI_TalonFX _intakeMotor = new WPI_TalonFX(11);
   private WPI_TalonSRX _releaseMotor = new WPI_TalonSRX(52);
-  //private final ColorSensorV3 colorSensor = new ColorSensorV3(ControlPanelConstants.ColorSensorPort);
+  private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  private NetworkTableEntry hasBall = SmartDashboard.getEntry("has ball");
+	private final ColorMatch colorMatch = new ColorMatch();
+
 
   public Intake() {
-
+    this.colorMatch.addColorMatch(ColorTargets.COLOR_RED);
+    this.colorMatch.addColorMatch(ColorTargets.COLOR_BLUE);
   }
 
   public void setIntakePower(double power){
@@ -32,8 +44,15 @@ public class Intake extends SubsystemBase {
     _releaseMotor.set(power);
   }
 
+  public ColorMatchResult getColor() {
+    return this.colorMatch.matchClosestColor(colorSensor.getColor());
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    Color cvalue = colorSensor.getColor();
+
+    //prints out color to dashboard
+    hasBall.setBoolean(getColor().confidence > 0.9);
   }
 }

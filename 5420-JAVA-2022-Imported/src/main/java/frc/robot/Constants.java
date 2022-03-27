@@ -1,6 +1,10 @@
 package frc.robot;
 
+import com.revrobotics.ColorMatch;
+
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.util.Color;
 import io.github.pseudoresonance.pixy2api.links.Link;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
 
@@ -61,6 +65,22 @@ public final class Constants {
         public static final int shooterMotor1 = 10;
         public static final int shooterMotor2 = 9;
         public static final int feedMotor = 56;
+    }
+
+    //colors
+    
+    public static final class ColorTargets {
+
+		public static final class I2C {
+			public static final Port ColorSensor = Port.kMXP;
+		}
+
+        // Blue
+        public static final Color COLOR_BLUE = new Color(0.19384, 0.44287, 0.36376);
+        
+        // Red
+        public static final Color COLOR_RED = new Color(0.44555, 0.392822, 0.161865);
+
     }
 
     public static final class ControllerConstants {
