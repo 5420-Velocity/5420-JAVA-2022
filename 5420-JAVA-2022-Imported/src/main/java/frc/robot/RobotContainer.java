@@ -72,9 +72,10 @@ public class RobotContainer {
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Trigger)
                 .whileHeld(new LimelightAimDrive(m_limelight, m_swerve, m_controller, x, y, r, m_driveLocked));
 
-        // Toggles if we drive with field relative
-        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Left)
-                .whenPressed(() -> m_swerve.SetFieldRelative(!m_swerve.IsFieldRelative()));
+        // Toggles if we drive with field relative (CHANGED TO TOGGLE -Jimmy)
+        new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Thumb_Down)
+                .whenPressed(() -> m_swerve.SetFieldRelative(false))
+                .whenReleased(() -> m_swerve.SetFieldRelative(true));
 
         // Zeros the gyro heading
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Left_Middle)
@@ -133,12 +134,12 @@ public class RobotContainer {
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new shootWithVelocity(m_shooter, 5300.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 5000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new shootWithVelocity(m_shooter, 5700.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 5500.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
             
@@ -209,15 +210,18 @@ public class RobotContainer {
             new ResetGyro(m_swerve),
             new AutoReset(m_swerve),
             new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 2000),
+            new PixyPickup(m_swerve, m_intake, 1.5),
+            new ParallelCommandGroup(
+                new TimedIntake(m_intake, 800),
+                new AutoDrive(m_swerve, 0.5, -2)
+            ),
             new AutoReset(m_swerve),
-            new TurnWithGyro (m_swerve, 180.0, 2),
+            new TurnWithGyro (m_swerve, 180.0, 3),
             new ParallelCommandGroup(
                 new AutoLimelight(m_limelight, m_swerve, 1000),
-                new shootWithVelocity(m_shooter, 4400.0, 4000)),
+                new shootWithVelocity(m_shooter, 4400.0, 3500)),
             //turn to terminal and run intake for 10 seconds
-            new TurnWithGyro(m_swerve, 40.0, 2),
+            new TurnWithGyro(m_swerve, 300.0, 3),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 3, -2),
             new PickupAndSearch(m_swerve, m_intake, 30)
@@ -228,15 +232,18 @@ public class RobotContainer {
             new ResetGyro(m_swerve),
             new AutoReset(m_swerve),
             new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 2000),
+            new PixyPickup(m_swerve, m_intake, 1.5),
+            new ParallelCommandGroup(
+                new TimedIntake(m_intake, 800),
+                new AutoDrive(m_swerve, 0.5, -2)
+            ),
             new AutoReset(m_swerve),
-            new TurnWithGyro (m_swerve, 180.0, 2),
+            new TurnWithGyro (m_swerve, 180.0, 3),
             new ParallelCommandGroup(
                 new AutoLimelight(m_limelight, m_swerve, 1000),
-                new shootWithVelocity(m_shooter, 4400.0, 4000)),
+                new shootWithVelocity(m_shooter, 4400.0, 3500)),
             //turn to terminal and run intake for 10 seconds
-            new TurnWithGyro(m_swerve, 60.0, 2),
+            new TurnWithGyro(m_swerve, 270.0, 3),
             new AutoReset(m_swerve),
             new AutoDrive(m_swerve, 3, -2),
             new PickupAndSearch(m_swerve, m_intake, 30)
@@ -248,15 +255,18 @@ public class RobotContainer {
                     new ResetGyro(m_swerve),
                     new AutoReset(m_swerve),
                     new PixySearch(m_swerve, 1, 1),
-                    new PixyPickup(m_swerve, m_intake, 1),
-                    new TimedIntake(m_intake, 2000),
+                    new PixyPickup(m_swerve, m_intake, 1.5),
+                    new ParallelCommandGroup(
+                        new TimedIntake(m_intake, 800),
+                        new AutoDrive(m_swerve, 0.5, -2)
+                    ),
                     new AutoReset(m_swerve),
-                    new TurnWithGyro (m_swerve, 180.0, 2),
+                    new TurnWithGyro (m_swerve, 180.0, 3),
                     new ParallelCommandGroup(
                         new AutoLimelight(m_limelight, m_swerve, 1000),
-                        new shootWithVelocity(m_shooter, 4400.0, 4000)),
+                        new shootWithVelocity(m_shooter, 4400.0, 3500)),
                     //turn to terminal and run intake for 10 seconds
-                    new TurnWithGyro(m_swerve, 130.0, 2),
+                    new TurnWithGyro(m_swerve, 30.0, 3),
                     new AutoReset(m_swerve),
                     new AutoDrive(m_swerve, 3, -2),
                     new PickupAndSearch(m_swerve, m_intake, 30)
@@ -265,14 +275,19 @@ public class RobotContainer {
         this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
             new ResetGyro(m_swerve),
             new AutoReset(m_swerve),
+            new AutoDelay(500),
             new PixySearch(m_swerve, 1, 1),
-            new PixyPickup(m_swerve, m_intake, 1),
-            new TimedIntake(m_intake, 2000),
-            new AutoReset(m_swerve),
-            new TurnWithGyro (m_swerve, 180.0, 2),
+            new PixyPickup(m_swerve, m_intake, 1.5),
             new ParallelCommandGroup(
-            new AutoLimelight(m_limelight, m_swerve, 1000),
-            new shootWithVelocity(m_shooter, 4400.0, 4000)),
+                new TimedIntake(m_intake, 800),
+                new AutoDrive(m_swerve, 0.5, -2)
+            ),
+            
+            new AutoReset(m_swerve),
+            new TurnWithGyro (m_swerve, 180.0, 3),
+            new ParallelCommandGroup(
+                new AutoLimelight(m_limelight, m_swerve, 1000),
+                new shootWithVelocity(m_shooter, 4400.0, 3500)),
             new AutoDoNothing(m_swerve)
         ));
 
