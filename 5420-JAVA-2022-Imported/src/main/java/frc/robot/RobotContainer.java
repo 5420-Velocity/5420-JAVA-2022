@@ -129,22 +129,22 @@ public class RobotContainer {
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kDown)
-            .whenHeld(new shootWithVelocity(m_shooter, 4500.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 4000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kLeft)
-            .whenHeld(new shootWithVelocity(m_shooter, 5000.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 4500.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
         new JoystickDPad(m_operatorController, Position.kUp)
-            .whenHeld(new shootWithVelocity(m_shooter, 5500.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 5000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
             
         new JoystickDPad(m_operatorController, Position.kRight)
-            .whenHeld(new shootWithVelocity(m_shooter, 6000.0))
+            .whenHeld(new shootWithVelocity(m_shooter, 5500.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 

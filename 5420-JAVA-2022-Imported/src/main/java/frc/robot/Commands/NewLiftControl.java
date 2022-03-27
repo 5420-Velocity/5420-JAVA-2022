@@ -48,7 +48,7 @@ public class NewLiftControl extends CommandBase {
       if(liftInput > 0.1 && this.lift.GetLiftEncoder() < 50){
         this.lift.setMotorPower(liftInput);
       } 
-      else if(liftInput < -0.1 && lift.GetLiftEncoder() > -15400){
+      else if(liftInput < -0.1 && lift.GetLiftEncoder() > -15500){
         double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), -15247));
         System.out.println(output);
         this.lift.setMotorPower(liftInput * 0.7);
