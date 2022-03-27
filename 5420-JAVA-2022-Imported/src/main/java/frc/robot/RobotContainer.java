@@ -289,7 +289,7 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new AutoLimelight(m_limelight, m_swerve, 1000),
                 //placeholder rpm, updated for longer distance
-                new shootWithVelocity(m_shooter, 5000.0, 3500)),
+                new shootWithVelocity(m_shooter, 4600.0, 3500)),
             new AutoDoNothing(m_swerve)
         ));
 
