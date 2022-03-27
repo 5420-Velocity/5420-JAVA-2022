@@ -31,7 +31,7 @@ public class NewLiftControl extends CommandBase {
 
   @Override
   public void execute() {
-    double liftAngleInput = -controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_LEFT_X_AXIS);
+    double liftAngleInput = controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_RIGHT_X_AXIS);
     double liftInput = controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_RIGHT_Y_AXIS);
 
     if((liftAngleInput > 0.1 && lift.GetLower()) || (liftAngleInput < -0.1 && lift.GetUpper())){
@@ -47,9 +47,9 @@ public class NewLiftControl extends CommandBase {
       this.lift.setMotorPower(liftInput );
     }
     else{
-      if(liftInput > 0.1 && this.lift.GetLiftEncoder() < -10){
+      if(liftInput > 0.1 && this.lift.GetLiftEncoder() < 50){
         this.lift.setMotorPower(liftInput);
-      }  
+      } 
       else if(liftInput < -0.1 && lift.GetLiftEncoder() > -15400){
         double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), -15247));
         System.out.println(output);
