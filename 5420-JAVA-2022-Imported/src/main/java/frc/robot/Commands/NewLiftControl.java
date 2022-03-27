@@ -41,8 +41,6 @@ public class NewLiftControl extends CommandBase {
       this.lift.setRotationPower(0);
     }
 
-    
-
     if(controller.getRawButton(Constants.ControllerConstants.Joystick_Left_Button)){
       this.lift.setMotorPower(liftInput );
     }
