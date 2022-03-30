@@ -287,7 +287,7 @@ public class RobotContainer {
             new TurnWithGyro(m_swerve, 180.0, 3),
             // aim and shoot
             new AutoLimelight(m_limelight, m_swerve, 1000),
-            new shootWithVelocity(m_swerve, 4400.0, 3500),
+            new shootWithVelocity(m_shooter, 4400.0, 3500),
             // turn to terminal and get a ball from the human player
             //intake runs for 10 seconds
             //placeholder turn angle that may have to be changed cuz I didn't do the math lol 
@@ -299,6 +299,10 @@ public class RobotContainer {
             // turn and look for the target
             // placeholder angle
             // use turnWithGyro
+            new TurnWithGyro(m_swerve, -30.0, 1),
+            new AutoLimelight(m_limelight, m_swerve, 1000),
+            new AutoShoot(m_swerve, m_limelight, 2)
+
         ));
 
                 //updated for longer distance taxi
