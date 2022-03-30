@@ -271,6 +271,35 @@ public class RobotContainer {
                     new AutoDrive(m_swerve, 3, -2),
                     new PickupAndSearch(m_swerve, m_intake, 30)
                 ));
+                 
+                //experimental: shoot 4 balls total (including shooting a ball from terminal)
+        this.autoChooser.addOption("shoot 4 balls", new SequentialCommandGroup(
+        //balls 1 and 2
+            new ResetGyro(m_swerve),
+            new PixySearch(m_swerve, 1, 1),
+            new PixyPickup(m_swerve, m_intake, 1),
+            new ParallelCommandGroup(
+                new TimedIntake(m_intake, 800),
+                new AutoDrive(m_swerve, 0.5, -2)
+            ),
+            //reset encoders and turn to hub
+            new AutoReset (m_swerve),
+            new TurnWithGyro(m_swerve, 180.0, 3),
+            // aim and shoot
+            new AutoLimelight(m_limelight, m_swerve, 1000),
+            new shootWithVelocity(m_swerve, 4400.0, 3500),
+            // turn to terminal and get a ball from the human player
+            //intake runs for 10 seconds
+            //placeholder turn angle that may have to be changed cuz I didn't do the math lol 
+            new AutoReset(m_swerve),
+            new TurnWithGyro(m_swerve, 30.0, 3),
+            new AutoReset(m_swerve),
+            new AutoDrive(m_swerve, 3, -2),
+            new PickupAndSearch(m_swerve, m_intake, 30),
+            // turn and look for the target
+            // placeholder angle
+            // use turnWithGyro
+        ));
 
                 //updated for longer distance taxi
         this.autoChooser.addOption("pickup shoot", new SequentialCommandGroup(
@@ -302,8 +331,6 @@ public class RobotContainer {
             new PickupAndSearch(m_swerve, m_intake, 30)
 
         ));
-
-        
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
