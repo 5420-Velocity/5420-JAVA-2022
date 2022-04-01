@@ -8,6 +8,7 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Subsystems.Intake;
 
 // .add(new InakeUsingColorSensor(intake))
@@ -23,7 +24,14 @@ public class IntakeUsingColorSensor extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (intake.getColor().color == Constants.ColorTargets.COLOR_BLUE || intake.getColor().color == Constants.ColorTargets.COLOR_RED) {
+      intake.setIntakePower(0.5);
+    }
+    else {
+      intake.setIntakePower (0);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -40,6 +48,7 @@ public class IntakeUsingColorSensor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println(intake.getColor().confidence);
     return intake.getColor().confidence > 0.9;
   }
 }
