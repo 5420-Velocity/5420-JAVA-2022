@@ -30,6 +30,7 @@ import frc.robot.utils.DPad.Position;
 public class RobotContainer {
     private final Joystick m_controller = new Joystick(0);
     private final Joystick m_operatorController = new Joystick(1);
+    private final Joystick m_xboxOperatorController = new Joystick(3);
     public final Drivetrain m_swerve = new Drivetrain();
     private final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
@@ -68,6 +69,58 @@ public class RobotContainer {
     }
 
     private void buttonConfig() {
+//Xbox controller
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Blue_Button_ID)
+            .whileHeld(new SimpleIntake(m_intake, -0.7));
+
+        // Sets the feed motors to put cargo in the shooter
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Red_Button_ID)
+            .whileHeld(new SimpleIntake(m_intake, 0.5));
+
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
+            .whenPressed(() -> this.m_intake.setReleasePower(0.8))
+            .whenReleased(() -> this.m_intake.setReleasePower(0));
+
+        // GREEN BUTTON FOR SEMIAUTOCLIMB
+            //when pressed, run SemiAutoClimb
+        // Shoot buttons with preset speeds
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
+        .whileHeld(new SemiAutoClimb (m_lift, 1));
+        
+
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
+            .whenHeld(new shootWithVelocity(m_shooter, 2000.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+            //change this button for zach?
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
+            .whenHeld(new shootWithVelocity(m_shooter, 6700.0)) 
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+        new JoystickDPad(m_operatorController, Position.kDown)
+            .whenHeld(new shootWithVelocity(m_shooter, 4000.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+        new JoystickDPad(m_operatorController, Position.kLeft)
+            .whenHeld(new shootWithVelocity(m_shooter, 4500.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+        new JoystickDPad(m_operatorController, Position.kUp)
+            .whenHeld(new shootWithVelocity(m_shooter, 5000.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+            
+        new JoystickDPad(m_operatorController, Position.kRight)
+            .whenHeld(new shootWithVelocity(m_shooter, 5500.0))
+            .whenReleased(() -> this.m_shooter.setShooterPower(0))
+            .whenReleased(() -> this.m_shooter.setFeedPower(0));
+
+
+
         // Turns robot to limelight target
         new JoystickButton(m_controller, Constants.ThrustMasterJoystick.Button_Trigger)
                 .whileHeld(new LimelightAimDrive(m_limelight, m_swerve, m_controller, x, y, r, m_driveLocked));
@@ -117,7 +170,8 @@ public class RobotContainer {
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
         // GREEN BUTTON FOR SEMIAUTOCLIMB
-        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID);
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
+        .whileHeld(new SemiAutoClimb (m_lift, 1));
             //when pressed, run SemiAutoClimb
         // Shoot buttons with preset speeds
 

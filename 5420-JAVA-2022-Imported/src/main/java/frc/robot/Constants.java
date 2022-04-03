@@ -145,4 +145,30 @@ public final class Constants {
         public static final int Button_Right_Middle = 12;
         public static final int Button_Right_Left = 13;
     }
+
+    //xbox controller constants
+    // button IDs will need to be changed
+    public static final class xboxController{
+        // axis inputs will need to be changed.
+        public static final int JOYSTICK_RIGHT_X_AXIS = 4;
+        public static final int JOYSTICK_RIGHT_Y_AXIS = 5;
+        public static final int JOYSTICK_LEFT_X_AXIS = 0;
+        public static final int JOYSTICK_LEFT_Y_AXIS = 1;
+//stay the same, just change colors?
+        public static final int Red_Button_ID = 2;
+        public static final int Yellow_Button_ID = 1;
+        public static final int Blue_Button_ID = 4;
+        public static final int Green_Button_ID = 3;
+
+        public static final int Left_Bumper = 5;
+        public static final int Right_Bumper = 6;
+        public static final int Right_Trigger = 3;
+        public static final int Left_Trigger = 2;
+
+        public static final int Joystick_Left_Button = 9;
+        public static final int Joystick_Right_Button = 10;
+
+        // Range for inputs that we will consider to be no input
+        public static double NoInputTolerance = 0.25;
+    }
 }
