@@ -116,6 +116,9 @@ public class RobotContainer {
             .whenPressed(() -> this.m_intake.setReleasePower(0.8))
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
+        // GREEN BUTTON FOR SEMIAUTOCLIMB
+        new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID);
+            //when pressed, run SemiAutoClimb
         // Shoot buttons with preset speeds
 
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
@@ -123,6 +126,7 @@ public class RobotContainer {
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
             .whenReleased(() -> this.m_shooter.setFeedPower(0));
 
+            //change this button for zach?
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
             .whenHeld(new shootWithVelocity(m_shooter, 6700.0)) 
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
