@@ -17,6 +17,10 @@ public class NewLiftControl extends CommandBase {
   private Joystick controller;
   private PIDController liftPID = new PIDController(0.1, 0, 0);
 
+  private static final int EXTEND_ENCODER_LIMIT = -16050;
+  private static final double RETRACT_SPEEDLIMIT = 0.9;
+  private static final double EXTEND_SPEEDLIMIT = 0.7;
+
 
   public NewLiftControl(Lift lift, Joystick controller) {
     this.lift = lift;
@@ -46,12 +50,12 @@ public class NewLiftControl extends CommandBase {
     }
     else{
       if(liftInput > 0.1 && this.lift.GetLiftEncoder() < 50){
-        this.lift.setMotorPower(liftInput);
+        this.lift.setMotorPower(liftInput * RETRACT_SPEEDLIMIT);
       } 
-      else if(liftInput < -0.1 && lift.GetLiftEncoder() > -15500){
-        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), -15247));
+      else if(liftInput < -0.1 && lift.GetLiftEncoder() > EXTEND_ENCODER_LIMIT){
+        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), EXTEND_ENCODER_LIMIT));
         System.out.println(output);
-        this.lift.setMotorPower(liftInput * 0.7);
+        this.lift.setMotorPower(liftInput * EXTEND_SPEEDLIMIT);
       }
       else{
         this.lift.setMotorPower(0);

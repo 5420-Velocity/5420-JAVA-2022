@@ -4,7 +4,6 @@
 
 package frc.robot.Commands;
 
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,31 +13,21 @@ import frc.robot.utils.StateList;
 public class SemiAutoClimb extends CommandBase {
   // extends limitSwitch
   private StateList<Boolean> stateList = StateList.bool(3);
-private boolean isHooked;
-private Lift lift;
-private Joystick joystick;
+  private boolean isHooked;
+  private Lift lift;
+  private Joystick joystick;
 
-
-// public class SemiAutoClimb {
-//   private boolean isHooked;
-
-// }
-
-//can get rid of joystick because this will be added in robotContainer as (.whileHeld)?
   public SemiAutoClimb(Lift lift, Double power, boolean isHooked, Joystick joystick) {
     this.lift = lift;
     this.joystick = joystick;
 
   }
 
- 
-
   public SemiAutoClimb(Lift m_lift, int i) {
-}
-//ur mom
+    this.lift = m_lift;
+  }
 
-
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 

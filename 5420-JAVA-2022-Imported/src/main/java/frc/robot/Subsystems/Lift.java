@@ -5,18 +5,16 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
-  private WPI_TalonSRX liftMotor = new WPI_TalonSRX(55);
+  private WPI_TalonSRX liftMotor = new WPI_TalonSRX(12); //was ID55
   // private WPI_TalonSRX liftMotor2 = new WPI_TalonSRX(55);
   private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(57);
   private final DigitalInput upperLimit = new DigitalInput(1);
