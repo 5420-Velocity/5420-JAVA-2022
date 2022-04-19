@@ -553,6 +553,25 @@ public class RobotContainer {
 
         ));
 
+        this.autoChooser.addOption("ShootDemo", new SequentialCommandGroup(
+           new ResetGyro(m_swerve),
+           new PixyAlign(m_swerve) ,
+           new PixyPickup(m_swerve, m_intake, 1),
+           new TurnWithGyro(m_swerve, 180.0, 2),
+           new AutoShoot(m_shooter, m_limelight, 2)
+        ));
+
+        this.autoChooser.addOption("autoDriveDemo", new SequentialCommandGroup(
+            new ResetGyro(m_swerve),
+            new AutoDrive(m_swerve, 5, .75),
+            new TurnWithGyro(m_swerve, 180.0, .75),
+            new AutoDrive(m_swerve, 5, .75),
+            new TurnWithGyro(m_swerve, 180.0, 1),
+            new AutoDrive(m_swerve, -5, .75),
+            new AutoDrive(m_swerve, 5, .75)
+        ));
+
+
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
