@@ -571,6 +571,16 @@ public class RobotContainer {
             new AutoDrive(m_swerve, 5, .75)
         ));
 
+        this.autoChooser.addOption("PixyTest", new SequentialCommandGroup(
+            
+           new PixySearch(m_swerve, 1, 1),
+           new PixyPickup(m_swerve, m_intake, 1),
+           new ResetGyro(m_swerve),
+           //new AutoDelay(1000),
+           new PixySearch(m_swerve, 1, 1),
+           new PixyPickup(m_swerve, m_intake, 1)
+
+        ));
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
