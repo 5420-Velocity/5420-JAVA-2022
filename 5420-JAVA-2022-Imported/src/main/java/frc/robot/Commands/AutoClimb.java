@@ -4,18 +4,34 @@
 
 package frc.robot.Commands;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.Lift;
 
 public class AutoClimb extends CommandBase {
   private Lift lift;
   private Boolean isFinished;
+  private final Boolean isHooked;
 
-  public AutoClimb(Lift lift) {
+
+  public AutoClimb(Lift lift, boolean isHooked) {
     this.lift = lift;
+    this.boolean = isHooked;
     //do i need this
     addRequirements(lift);
+    // implementing limit switch 
+    //fix boolean, code will only work if there's more than one limit switch?
+    DigitalInput stationaryHookSwitch = new DigitalInput(1);
+    if (stationaryHookSwitch.get()){
+        this.boolean.isHooked = true;
+        output = Math.min(output, 0);
+    }
   }
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -26,9 +42,24 @@ public class AutoClimb extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute(boolean ) {
     // implement limit switch
     //implement current sensor
+    //use boolean?
+    new SequentialCommandGroup(
+      //first part, starting on first bar
+    if (this.boolean.isHooked = true){
+     System.out.println("going to next bar");
+     new SequentialCommandGroup(
+       this.lift.setMotorPower(1),
+       this.lift.setRotationPower(1),
+      System.out.println("on next bar"),
+     
+     );
+// climb pattern begins
+
+    );
+    }
   }
 
   // Called once the command ends or is interrupted.
