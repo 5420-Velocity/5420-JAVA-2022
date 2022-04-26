@@ -157,6 +157,7 @@ public class RobotContainer {
         // new JoystickButton(m_operatorController, Constants.ControllerConstants.Right_Bumper)
         //     .whileHeld(new LiftControl(m_lift, 0.5))
         //     .whenReleased(() -> this.m_lift.setMotorPower(0));
+        
 
         // Sets the intake speed
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Yellow_Button_ID)
@@ -172,7 +173,7 @@ public class RobotContainer {
 
         // GREEN BUTTON FOR SEMIAUTOCLIMB
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-        .whileHeld(new SemiAutoClimb(m_lift, 1));
+        .whileHeld(new AutoClimb(m_lift, 1));
             //when pressed, run SemiAutoClimb
         // Shoot buttons with preset speeds
 
@@ -579,7 +580,7 @@ public class RobotContainer {
            //new AutoDelay(1000),
            new PixySearch(m_swerve, 1, 1),
            new PixyPickup(m_swerve, m_intake, 1)
-
+            
         ));
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
