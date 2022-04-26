@@ -15,19 +15,25 @@ import frc.robot.Subsystems.Lift;
 public class AutoClimb extends CommandBase {
   private Lift lift;
   private Boolean isFinished;
-  private final Boolean isHooked;
+  public Boolean isHooked;
+  private int output;
+  private boolean interrupted;
 
 
   public AutoClimb(Lift lift, boolean isHooked) {
     this.lift = lift;
-    this.boolean = isHooked;
+    this.isHooked = new boolean;
+    int a = 1;
+    int b = 0;
+    boolean a1 = true;
+    boolean b1 = false;
     //do i need this
     addRequirements(lift);
     // implementing limit switch 
     //fix boolean, code will only work if there's more than one limit switch?
     DigitalInput stationaryHookSwitch = new DigitalInput(1);
     if (stationaryHookSwitch.get()){
-        this.boolean.isHooked = true;
+        this.isHooked = true;
         output = Math.min(output, 0);
     }
   }
@@ -42,35 +48,38 @@ public class AutoClimb extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(boolean ) {
+  public void execute() {
     //implement current sensor
       //first part, starting on first bar
-    if (this.boolean.isHooked = true){
+    if (this.isHooked = true){
       System.out.println("going to next bar");
       //fix sequential command so it doesn't end with if statement
       new SequentialCommandGroup(
         this.lift.setMotorPower(1));
-        //need to have this to stop the lift?
-        if (this.lift.GetLiftEncoder()=-16050){
+        //clean this code up
+        if (this.lift.GetLiftEncoder() ==-16050){
           this.lift.setMotorPower(0);
-        this.lift.setRotationPower(1),
-       System.out.println("on next bar"),
-      end(interrupted)
-      );
+        this.lift.setRotationPower(1);
+        this.lift.setMotorPower(-1);
+        if (this.lift.GetLiftEncoder() == 5){
+          this.lift.setMotorPower(0);
+      end(interrupted);
     }
     //second part, pattern begins
-    if (this.boolean.isHooked = true){
+    if (this.isHooked = true){
       System.out.println("going to next bar");
       //fix sequential command so it doesn't end with if statement
       new SequentialCommandGroup(
         this.lift.setMotorPower(1));
-        //need to have this to stop the lift?
-        if (this.lift.GetLiftEncoder()=-16050){
+        //clean this code up
+        if (this.lift.GetLiftEncoder() ==-16050){
           this.lift.setMotorPower(0);
-        this.lift.setRotationPower(1),
-       System.out.println("on next bar"),
-      end(interrupted)
-      );
+        this.lift.setRotationPower(1);
+        this.lift.setRotationPower(-1);
+        if (this.lift.GetLiftEncoder() == 5){
+          this.lift.setMotorPower(0);
+        }
+      end(interrupted);
     }
   }
 }
