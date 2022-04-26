@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Drivetrain;
 import frc.robot.Subsystems.Shooter;
 
 
@@ -33,7 +34,9 @@ public class shootWithVelocity extends CommandBase {
     this.duration = 0;
     }
 
-  // Called when the command is initially scheduled.
+  public shootWithVelocity(Drivetrain m_swerve, double speed2, int duration2) {
+}
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Calendar calculateDate = GregorianCalendar.getInstance();

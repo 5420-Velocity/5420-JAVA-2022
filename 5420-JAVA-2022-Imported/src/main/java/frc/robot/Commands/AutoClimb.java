@@ -43,24 +43,41 @@ public class AutoClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(boolean ) {
-    // implement limit switch
     //implement current sensor
-    //use boolean?
-    new SequentialCommandGroup(
       //first part, starting on first bar
     if (this.boolean.isHooked = true){
-     System.out.println("going to next bar");
-     new SequentialCommandGroup(
-       this.lift.setMotorPower(1),
-       this.lift.setRotationPower(1),
-      System.out.println("on next bar"),
-     
-     );
-// climb pattern begins
-
-    );
+      System.out.println("going to next bar");
+      //fix sequential command so it doesn't end with if statement
+      new SequentialCommandGroup(
+        this.lift.setMotorPower(1));
+        //need to have this to stop the lift?
+        if (this.lift.GetLiftEncoder()=-16050){
+          this.lift.setMotorPower(0);
+        this.lift.setRotationPower(1),
+       System.out.println("on next bar"),
+      end(interrupted)
+      );
+    }
+    //second part, pattern begins
+    if (this.boolean.isHooked = true){
+      System.out.println("going to next bar");
+      //fix sequential command so it doesn't end with if statement
+      new SequentialCommandGroup(
+        this.lift.setMotorPower(1));
+        //need to have this to stop the lift?
+        if (this.lift.GetLiftEncoder()=-16050){
+          this.lift.setMotorPower(0);
+        this.lift.setRotationPower(1),
+       System.out.println("on next bar"),
+      end(interrupted)
+      );
     }
   }
+}
+  }
+
+
+    
 
   // Called once the command ends or is interrupted.
   @Override
