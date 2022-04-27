@@ -20,6 +20,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.*;
+import frc.robot.Commands.newAutoStuff.ExtendArm;
+import frc.robot.Commands.newAutoStuff.ExtendArmPartial;
+import frc.robot.Commands.newAutoStuff.RetractArm;
+import frc.robot.Commands.newAutoStuff.RetractArmPartial;
+import frc.robot.Commands.newAutoStuff.RotateArmBack;
+import frc.robot.Commands.newAutoStuff.RotateArmForward;
 import frc.robot.Subsystems.*;
 import frc.robot.utils.JoystickDPad;
 import frc.robot.utils.DPad.Position;
@@ -171,12 +177,14 @@ public class RobotContainer {
             .whenPressed(() -> this.m_intake.setReleasePower(0.8))
             .whenReleased(() -> this.m_intake.setReleasePower(0));
 
-        // GREEN BUTTON FOR SEMIAUTOCLIMB
+        // Green button for AutoClimb
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-        .whileHeld(new AutoClimb(m_lift, 1));
-            //when pressed, run SemiAutoClimb
-        // Shoot buttons with preset speeds
-
+        .whileHeld(new SequentialCommandGroup(
+            //bar1
+          
+        ));
+            //when pressed, run AutoClimb
+    
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
             .whenHeld(new shootWithVelocity(m_shooter, 2000.0))
             .whenReleased(() -> this.m_shooter.setShooterPower(0))
