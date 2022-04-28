@@ -186,17 +186,16 @@ public class RobotContainer {
         .whileHeld(new SequentialCommandGroup(
             //bar1
             // to check if the robot is all the way up on the bar, shouldn't do anything if >= encoder limit.
-            // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented
-            //Sys.out.println("AutoClimb started"),
+            // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented  
           new RetractArm(m_lift),
           new WaitCommand(1000),
-          new ExtendArmPartial(m_lift),
           new RotateArmForward(m_lift),
+          new ExtendArmPartial(m_lift),
           new ExtendArm(m_lift),
           new RotateArmBackPartial(m_lift),
           new RetractArm(m_lift),
           new RotateArmBack(m_lift)
-          //Sys.out.println("AutoClimb finished")
+        
         ));
             //when pressed, run AutoClimb
     
