@@ -10,6 +10,8 @@ package frc.robot;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.ejml.ops.ReadMatrixCsv;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.*;
 import frc.robot.Commands.newAutoStuff.ExtendArm;
@@ -25,6 +28,7 @@ import frc.robot.Commands.newAutoStuff.ExtendArmPartial;
 import frc.robot.Commands.newAutoStuff.RetractArm;
 import frc.robot.Commands.newAutoStuff.RetractArmPartial;
 import frc.robot.Commands.newAutoStuff.RotateArmBack;
+import frc.robot.Commands.newAutoStuff.RotateArmBackPartial;
 import frc.robot.Commands.newAutoStuff.RotateArmForward;
 import frc.robot.Subsystems.*;
 import frc.robot.utils.JoystickDPad;
@@ -181,7 +185,18 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
         .whileHeld(new SequentialCommandGroup(
             //bar1
-          
+            // to check if the robot is all the way up on the bar, shouldn't do anything if >= encoder limit.
+            // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented
+            //Sys.out.println("AutoClimb started"),
+          new RetractArm(m_lift),
+          new WaitCommand(1000),
+          new ExtendArmPartial(m_lift),
+          new RotateArmForward(m_lift),
+          new ExtendArm(m_lift),
+          new RotateArmBackPartial(m_lift),
+          new RetractArm(m_lift),
+          new RotateArmBack(m_lift)
+          //Sys.out.println("AutoClimb finished")
         ));
             //when pressed, run AutoClimb
     
