@@ -7,7 +7,7 @@ import frc.robot.Subsystems.Lift;
 public class ExtendArmPartial extends CommandBase {
     private Lift lift;
 
-    public static final int EXTEND_ENCODER_LIMIT = -16050;
+    public static final int EXTEND_ENCODER_LIMIT_PARTIAL = -5000;
     private static final double EXTEND_POWERLIMIT = -0.5;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);
@@ -19,7 +19,7 @@ public class ExtendArmPartial extends CommandBase {
 
     @Override
     public void execute() {
-        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), EXTEND_ENCODER_LIMIT / 2));
+        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), EXTEND_ENCODER_LIMIT_PARTIAL));
         if (Math.abs(output) > 1) {
             output = 1 * Math.signum(output);
         }
@@ -35,6 +35,6 @@ public class ExtendArmPartial extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return this.lift.GetLiftEncoder() < EXTEND_ENCODER_LIMIT;
+        return this.lift.GetLiftEncoder() < EXTEND_ENCODER_LIMIT_PARTIAL;
     }
 }

@@ -7,6 +7,7 @@ import frc.robot.Subsystems.Lift;
 public class RetractArmPartial extends CommandBase {
     private Lift lift;
 
+    private static final int   RETRACT_ENCODER_LIMIT_PARTIAL = -5000;
     private static final double EXTEND_POWERLIMIT = 0.7;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);
@@ -18,7 +19,7 @@ public class RetractArmPartial extends CommandBase {
 
     @Override
     public void execute() {
-        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), ExtendArmPartial.EXTEND_ENCODER_LIMIT * 0.8));
+        double output = Math.abs(liftPID.calculate(lift.GetLiftEncoder(), RetractArmPartial.RETRACT_ENCODER_LIMIT_PARTIAL));
         if (Math.abs(output) > 1) {
             output = 1 * Math.signum(output);
         }
@@ -35,7 +36,7 @@ public class RetractArmPartial extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return this.lift.GetLiftEncoder() > ExtendArmPartial.EXTEND_ENCODER_LIMIT * 0.8;
+        return this.lift.GetLiftEncoder() > RetractArmPartial.RETRACT_ENCODER_LIMIT_PARTIAL;
     }
     
 }

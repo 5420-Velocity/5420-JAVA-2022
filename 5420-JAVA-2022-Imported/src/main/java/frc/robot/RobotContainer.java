@@ -187,15 +187,17 @@ public class RobotContainer {
             //bar1
             // to check if the robot is all the way up on the bar, shouldn't do anything if >= encoder limit.
             // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented  
-          new RetractArm(m_lift),
-          new WaitCommand(1000),
-          new RotateArmForward(m_lift),
-          new ExtendArmPartial(m_lift),
-          new ExtendArm(m_lift),
-          new RotateArmBackPartial(m_lift),
-          new RetractArm(m_lift),
-          new RotateArmBack(m_lift)
-        
+            new ExtendArmPartial(m_lift),
+
+            new ParallelCommandGroup(
+                new RotateArmForward(m_lift),
+                new ExtendArm(m_lift)
+            ),
+            
+            new RotateArmBackPartial(m_lift),
+            new RetractArmPartial(m_lift),
+            new RotateArmBack(m_lift),
+            new RetractArm(m_lift)
         ));
             //when pressed, run AutoClimb
     
