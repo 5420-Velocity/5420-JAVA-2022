@@ -52,11 +52,17 @@ public final class Constants {
 
         public static final int pigeon = 24;
 
+        // current sensor
+        public static final int LiftCurrentSensor = 1;
+        public static final String LiftCurrentSensorNT = "Lift Current Sensor";
+
         // Pixy
         public static final Link pixyLink = new SPILink();
         public static final SPI.Port pixyLinkPort = SPI.Port.kOnboardCS0;
         
         public static final double pixyTargetArea = 15000;
+
+
     }
 
     public static final class ShooterConstants {

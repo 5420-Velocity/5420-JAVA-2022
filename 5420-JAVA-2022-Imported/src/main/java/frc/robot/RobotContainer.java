@@ -183,23 +183,25 @@ public class RobotContainer {
 
         // Green button for AutoClimb
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Green_Button_ID)
-        .whileHeld(new SequentialCommandGroup(
+            .whileHeld(new SequentialCommandGroup(
+            
             //bar1
             // to check if the robot is all the way up on the bar, shouldn't do anything if >= encoder limit.
+            new RetractArm(m_lift),
             // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented  
             new ExtendArmPartial(m_lift),
 
-            new ParallelCommandGroup(
-                new RotateArmForward(m_lift),
-                new ExtendArm(m_lift)
-            ),
+            new RotateArmForward(m_lift),
+            new ExtendArm(m_lift),
             
             new RotateArmBackPartial(m_lift),
             new RetractArmPartial(m_lift),
             new RotateArmBack(m_lift),
             new RetractArm(m_lift)
         ));
-            //when pressed, run AutoClimb
+        //Logs when AutoClimb ends
+        
+           
     
         new JoystickButton(m_operatorController, Constants.ControllerConstants.Left_Bumper)
             .whenHeld(new shootWithVelocity(m_shooter, 2000.0))
