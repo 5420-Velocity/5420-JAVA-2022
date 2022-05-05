@@ -22,7 +22,7 @@ public class Lift extends SubsystemBase {
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
 
-  private final AnalogInput LiftCurrentSensor = new AnalogInput(Constants.DriveTrainConstants.LiftCurrentSensor);
+  public final AnalogInput LiftCurrentSensor = new AnalogInput(Constants.DriveTrainConstants.LiftCurrentSensor);
   private final NetworkTableEntry LiftCurrentSensorNT = SmartDashboard.getEntry(Constants.DriveTrainConstants.LiftCurrentSensorNT);
   private final NetworkTableEntry LiftCurrentSensorNTVolts = SmartDashboard.getEntry(Constants.DriveTrainConstants.LiftCurrentSensorNT + " Volts");
 
