@@ -8,10 +8,9 @@ public class RetractWithCurrentSensor extends CommandBase {
     private Lift lift;
     
 
-    public static final int RETRACT_ENCODER_LIMIT_PARTIAL = 2000;
+    public static final int RETRACT_ENCODER_LIMIT_PARTIAL = -2000;
     private static final double RETRACT_POWERLIMIT = 0.9;
 
-    private PIDController liftPID = new PIDController(0.1, 0, 0);
     
     public RetractWithCurrentSensor(Lift lift) {
         this.lift = lift;
@@ -20,7 +19,7 @@ public class RetractWithCurrentSensor extends CommandBase {
 
     @Override
     public void execute() {
-        double output = this.lift.LiftCurrentSensor.getAverageVoltage();
+        double output = this.lift.LiftCurrentSensor.getAverageValue();
  
         if (Math.abs(output) > 520){
             this.lift.setMotorPower(RETRACT_POWERLIMIT);
