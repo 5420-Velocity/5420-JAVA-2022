@@ -56,6 +56,10 @@ public final class Constants {
         public static final int LiftCurrentSensor = 1;
         public static final String LiftCurrentSensorNT = "Lift Current Sensor";
 
+        // rigid hook limit switch
+        public static int RigidHookLimitSwitch = 5;
+        public static final String RigidHookLimitSwitchNT = "Rigid Hook Limit Switch";
+
         // Pixy
         public static final Link pixyLink = new SPILink();
         public static final SPI.Port pixyLinkPort = SPI.Port.kOnboardCS0;

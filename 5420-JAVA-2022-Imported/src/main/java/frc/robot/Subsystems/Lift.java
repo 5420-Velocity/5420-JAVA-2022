@@ -22,10 +22,14 @@ public class Lift extends SubsystemBase {
   private final DigitalInput upperLimit = new DigitalInput(1);
 	private final DigitalInput lowerLimit = new DigitalInput(2);
 
+  //current sensor
   public final AnalogInput LiftCurrentSensor = new AnalogInput(Constants.DriveTrainConstants.LiftCurrentSensor);
   private final NetworkTableEntry LiftCurrentSensorNT = SmartDashboard.getEntry(Constants.DriveTrainConstants.LiftCurrentSensorNT);
   private final NetworkTableEntry LiftCurrentSensorNTVolts = SmartDashboard.getEntry(Constants.DriveTrainConstants.LiftCurrentSensorNT + " Volts");
 
+  //rigid hook limit switch
+  public final AnalogInput RigidHookLimitSwitch = new AnalogInput(Constants.DriveTrainConstants.RigidHookLimitSwitch);
+  public final NetworkTableEntry RigidHookLimitSwitchNT = SmartDashboard.getEntry(Constants.DriveTrainConstants.RigidHookLimitSwitchNT);
 
   // This encoder will tell you the position of between the upper and lower encoder
   private final Encoder positionEncoder = new Encoder(3, 4);
