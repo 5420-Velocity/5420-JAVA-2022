@@ -35,6 +35,7 @@ public class RetractWithCurrentSensor extends CommandBase {
     @Override
     public boolean isFinished() {
         return this.lift.GetLiftEncoder() < RETRACT_ENCODER_LIMIT_PARTIAL;
+        
     }
 }
 
