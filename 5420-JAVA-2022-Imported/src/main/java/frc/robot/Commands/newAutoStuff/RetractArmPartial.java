@@ -7,7 +7,7 @@ import frc.robot.Subsystems.Lift;
 public class RetractArmPartial extends CommandBase {
     private Lift lift;
 
-    private static final int   RETRACT_ENCODER_LIMIT_PARTIAL = -5000;
+    private static final int   RETRACT_ENCODER_LIMIT_PARTIAL = -8000;
     private static final double EXTEND_POWERLIMIT = 0.7;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);

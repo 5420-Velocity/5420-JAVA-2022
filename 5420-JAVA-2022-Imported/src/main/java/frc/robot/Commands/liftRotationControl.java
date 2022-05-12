@@ -41,4 +41,7 @@ public class liftRotationControl extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
+public static void set(double power) {
+}
 }
