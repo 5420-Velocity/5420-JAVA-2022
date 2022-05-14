@@ -11,21 +11,25 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Subsystems.Lift;
+import frc.robot.Subsystems.LiftRotationMechanism;
 
 public class NewLiftControl extends CommandBase {
   private Lift lift;
   private Joystick controller;
   private PIDController liftPID = new PIDController(0.1, 0, 0);
+  private LiftRotationMechanism LiftRotationMechanism;
 
   private static final int EXTEND_ENCODER_LIMIT = -16050;
   private static final double RETRACT_POWERLIMIT = 0.9;
   private static final double EXTEND_POWERLIMIT = 0.7;
 
 
-  public NewLiftControl(Lift lift, Joystick controller) {
+  public NewLiftControl(Lift lift, LiftRotationMechanism liftRotationMechanism, Joystick controller) {
     this.lift = lift;
     this.controller = controller;
+    this.LiftRotationMechanism = liftRotationMechanism;
     addRequirements(lift);
+    addRequirements(liftRotationMechanism);
   }
 
   @Override
@@ -38,11 +42,11 @@ public class NewLiftControl extends CommandBase {
     double liftAngleInput = controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_RIGHT_X_AXIS);
     double liftInput = controller.getRawAxis(Constants.ControllerConstants.JOYSTICK_RIGHT_Y_AXIS);
 
-    if((liftAngleInput > 0.1 && lift.GetLower()) || (liftAngleInput < -0.1 && lift.GetUpper())){
-        this.lift.setRotationPower(liftAngleInput * 0.5);
+    if((liftAngleInput > 0.1 && LiftRotationMechanism.GetLower()) || (liftAngleInput < -0.1 && LiftRotationMechanism.GetUpper())){
+        this.LiftRotationMechanism.setRotationPower(liftAngleInput * 0.5);
     }  
     else{
-      this.lift.setRotationPower(0);
+      this.LiftRotationMechanism.setRotationPower(0);
     }
 
     if(controller.getRawButton(Constants.ControllerConstants.Joystick_Left_Button)){
@@ -67,7 +71,7 @@ public class NewLiftControl extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     this.lift.setMotorPower(0);
-    this.lift.setRotationPower(0);
+    this.LiftRotationMechanism.setRotationPower(0);
   }
 
   @Override

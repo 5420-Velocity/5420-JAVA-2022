@@ -45,6 +45,7 @@ public class RobotContainer {
     private final Shooter m_shooter = new Shooter();
     public final Intake m_intake = new Intake();
     public final Lift m_lift = new Lift();
+    public final LiftRotationMechanism m_LiftRotationMechanism = new LiftRotationMechanism();
     //public final Intake m_reverse_intake = new reverseIntake();
 
     public LimeLight m_limelight = new LimeLight("two");
@@ -52,7 +53,7 @@ public class RobotContainer {
     private AtomicBoolean m_liftLockout = new AtomicBoolean();
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-    private Command liftCommand = new NewLiftControl(m_lift, m_operatorController);
+    private Command liftCommand = new NewLiftControl(m_lift, m_LiftRotationMechanism, m_operatorController);
 
     // private AtomicReference<Double> shooterSpeed = new AtomicReference<Double>(0.5);
     // private NetworkTableEntry shootSpeed = SmartDashboard.getEntry("Shoot Speed");
@@ -187,17 +188,21 @@ public class RobotContainer {
             
             //bar1
             // to check if the robot is all the way up on the bar, shouldn't do anything if >= encoder limit.
-            new RetractArm(m_lift),
-            // makes sure the bot is fully on the first bar, will be changed when limitSwitch gets implemented  
-            new ExtendArmPartial(m_lift),
 
-            new RotateArmForward(m_lift),
-            new ExtendArm(m_lift),
-            
-            new RotateArmBackPartial(m_lift),
-            new RetractArmPartial(m_lift),
-            new RotateArmBack(m_lift),
-            new RetractArm(m_lift)
+            new ParallelCommandGroup(
+                new RotateArmBack(m_LiftRotationMechanism),
+                new RetractArm(m_lift)
+            ),
+
+             new ExtendArmPartial(m_lift),
+             new RotateArmForward(m_LiftRotationMechanism),
+             new ExtendArm(m_lift),
+             new RotateArmBackPartial(m_LiftRotationMechanism)
+
+            //  new ParallelCommandGroup(
+            //      new RotateArmBack(m_LiftRotationMechanism),
+            //      new RetractArm(m_lift)
+            //  )
         ));
         //Logs when AutoClimb ends
         
@@ -241,7 +246,7 @@ public class RobotContainer {
         if (!m_driveLocked.get()) {
             driveWithJoystick(m_swerve.IsFieldRelative());
         }
-        new liftRotationControl(m_lift, m_operatorController, 3);
+        new liftRotationControl(m_LiftRotationMechanism, m_operatorController, 3);
         
     }
 

@@ -7,15 +7,15 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.Lift;
+import frc.robot.Subsystems.LiftRotationMechanism;
 
 public class liftRotationControl extends CommandBase {
-  /** Creates a new liftRotationControl. */
-  private Lift lift;
+  /** Creates a new liftRotationMechanismRotationControl. */
+  private LiftRotationMechanism liftRotationMechanism;
   private Joystick joystick;
   private int axis;
-  public liftRotationControl(Lift lift, Joystick joystick, int axis) {
-    this.lift = lift;
+  public liftRotationControl(LiftRotationMechanism liftRotationMechanism, Joystick joystick, int axis) {
+    this.liftRotationMechanism = liftRotationMechanism;
     this.joystick = joystick;
     this.axis = axis;
   }
@@ -27,13 +27,13 @@ public class liftRotationControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.lift.setRotationPower(joystick.getRawAxis(axis) * 0.6);
+    this.liftRotationMechanism.setRotationPower(joystick.getRawAxis(axis) * 0.6);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.lift.setRotationPower(0);
+    this.liftRotationMechanism.setRotationPower(0);
   }
 
   // Returns true when the command should end.

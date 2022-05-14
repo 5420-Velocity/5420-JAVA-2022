@@ -22,7 +22,7 @@ public class LiftRotationMechanism extends SubsystemBase {
 
 
   // This encoder will tell you the position of between the upper and lower encoder
-  private final Encoder positionEncoder = new Encoder(3, 4);
+//   private final Encoder positionEncoder = new Encoder(3, 4);
 
   private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
   private NetworkTableEntry lower = SmartDashboard.getEntry("lower");
@@ -46,7 +46,7 @@ public class LiftRotationMechanism extends SubsystemBase {
 
   @Override
   public void periodic() {
-    upper.setBoolean(upperLimit.get());
-    lower.setBoolean(lowerLimit.get());
+    upper.setBoolean(!upperLimit.get());
+    lower.setBoolean(!lowerLimit.get());
   }
 }

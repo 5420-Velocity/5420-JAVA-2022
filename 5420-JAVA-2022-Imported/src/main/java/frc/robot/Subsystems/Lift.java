@@ -18,10 +18,7 @@ import frc.robot.Constants;
 public class Lift extends SubsystemBase {
   private WPI_TalonSRX liftMotor = new WPI_TalonSRX(12); //was ID55
   // private WPI_TalonSRX liftMotor2 = new WPI_TalonSRX(55);
-  private WPI_TalonSRX liftRotationMotor = new WPI_TalonSRX(57);
-  private final DigitalInput upperLimit = new DigitalInput(1);
-	private final DigitalInput lowerLimit = new DigitalInput(2);
-
+  
   //current sensor
   public final AnalogInput LiftCurrentSensor = new AnalogInput(Constants.DriveTrainConstants.LiftCurrentSensor);
   private final NetworkTableEntry LiftCurrentSensorNT = SmartDashboard.getEntry(Constants.DriveTrainConstants.LiftCurrentSensorNT);
@@ -33,16 +30,11 @@ public class Lift extends SubsystemBase {
 
   // This encoder will tell you the position of between the upper and lower encoder
   private final Encoder positionEncoder = new Encoder(3, 4);
-
-  private NetworkTableEntry upper = SmartDashboard.getEntry("upper");
-  private NetworkTableEntry lower = SmartDashboard.getEntry("lower");
   private NetworkTableEntry liftEncoder = SmartDashboard.getEntry("Lift Encoder");
 
   public Lift() {
     liftMotor.setNeutralMode(NeutralMode.Brake);
     // liftMotor2.setNeutralMode(NeutralMode.Brake);
-    liftRotationMotor.setNeutralMode(NeutralMode.Brake);
-    // positionEncoder.setConnectedFrequencyThreshold(975);
   }
 
   public void ZeroLiftEncoder(){
@@ -54,26 +46,12 @@ public class Lift extends SubsystemBase {
     // liftMotor2.set(power);
   }
 
-  public void setRotationPower(double power){
-    liftRotationMotor.set(power);
-  }
-
-  public boolean GetUpper(){
-    return upperLimit.get();
-  }
-
-  public boolean GetLower(){
-    return lowerLimit.get();
-  }
-
   public double GetLiftEncoder(){
     return positionEncoder.get();
   }
 
   @Override
   public void periodic() {
-    upper.setBoolean(upperLimit.get());
-    lower.setBoolean(lowerLimit.get());
     liftEncoder.setDouble(GetLiftEncoder());
     
     LiftCurrentSensorNT.setNumber(LiftCurrentSensor.getAverageValue());
