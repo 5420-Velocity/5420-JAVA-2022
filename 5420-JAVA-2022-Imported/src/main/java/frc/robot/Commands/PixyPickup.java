@@ -27,12 +27,12 @@ public class PixyPickup extends CommandBase {
     private double power;
     private boolean isFinished;
 
-    private PIDController turnPidController = new PIDController(0.015, 0, 0);
+    private PIDController turnPidController = new PIDController(0.02, 0, 0);
 
     private NetworkTableEntry hasTarget = SmartDashboard.getEntry("has target");
 
     private Date endTime;
-    private int duration = 5000;
+    private int duration = 6000;
   
 
 
