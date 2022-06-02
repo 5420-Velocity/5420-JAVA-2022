@@ -8,7 +8,7 @@ public class RetractArmPartial extends CommandBase {
     private Lift lift;
 
     private static final int   RETRACT_ENCODER_LIMIT_PARTIAL = -8000;
-    private static final double EXTEND_POWERLIMIT = 0.7;
+    private static final double EXTEND_POWERLIMIT = 1.0;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);
     

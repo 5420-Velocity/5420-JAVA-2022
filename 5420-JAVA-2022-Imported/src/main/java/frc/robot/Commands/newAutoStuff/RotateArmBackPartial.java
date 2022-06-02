@@ -9,7 +9,7 @@ import frc.robot.Subsystems.LiftRotationMechanism;
 
 public class RotateArmBackPartial extends CommandBase{
     private LiftRotationMechanism liftRotationMechanism;
-    private double liftAngleInput = 0.25;
+    private double liftAngleInput = 0.5;
     
     private Date endTime;
 

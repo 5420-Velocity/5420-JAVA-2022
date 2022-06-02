@@ -6,7 +6,7 @@ import frc.robot.Subsystems.LiftRotationMechanism;
 
 public class RotateArmBack extends CommandBase{
     private LiftRotationMechanism liftRotationMechanism;
-    private double liftAngleInput = 0.3;
+    private double liftAngleInput = 0.5;
 
     public RotateArmBack(LiftRotationMechanism liftRotationMechanism) {
         this.liftRotationMechanism = liftRotationMechanism;

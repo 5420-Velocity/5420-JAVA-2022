@@ -11,7 +11,7 @@ public class RetractWithCurrentSensor extends CommandBase {
     private StateList stateList;
 
     public static final int RETRACT_ENCODER_LIMIT_PARTIAL = -2000;
-    private static final double RETRACT_POWERLIMIT = 0.9;
+    private static final double RETRACT_POWERLIMIT = 1.0;
 
     
     public RetractWithCurrentSensor(Lift lift) {

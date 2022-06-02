@@ -8,7 +8,7 @@ public class ExtendArm extends CommandBase {
     private Lift lift;
 
     private static final int EXTEND_ENCODER_LIMIT = -16050;
-    private static final double EXTEND_POWERLIMIT = -0.5;
+    private static final double EXTEND_POWERLIMIT = -1.0;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);
     

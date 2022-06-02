@@ -8,7 +8,7 @@ public class ExtendArmPartial extends CommandBase {
     private Lift lift;
 
     public static final int EXTEND_ENCODER_LIMIT_PARTIAL = -5000;
-    private static final double EXTEND_POWERLIMIT = -0.5;
+    private static final double EXTEND_POWERLIMIT = -1.0;
 
     private PIDController liftPID = new PIDController(0.1, 0, 0);
     
