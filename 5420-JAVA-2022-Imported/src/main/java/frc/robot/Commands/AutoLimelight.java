@@ -59,15 +59,15 @@ public class AutoLimelight extends CommandBase {
   }
 
   // Curves speed imput.
-  public static double getCurve(double input) {
-    double sign = Math.signum(input);
+//   public static double getCurve(double input) {
+//     double sign = Math.signum(input);
 
-    double value = Math.abs(input);
-    value = Math.pow(value, 2);
-    value += 0.02;
+//     double value = Math.abs(input);
+//     value = Math.pow(value, 2);
+//     value += 0.02;
 
-    return sign * value;
-}
+//     return sign * value;
+// }
 
   @Override
   public void end(boolean interrupted) {

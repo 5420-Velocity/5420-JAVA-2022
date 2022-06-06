@@ -56,7 +56,7 @@ public class LimelightAimDrive extends CommandBase {
 
     if(this.m_limelight.hasTarget()){
       m_drivetrain.CanDrive(true);
-      m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, false);
+      m_drivetrain.drive(xSpeed, ySpeed, output, false);
     }
     else{
       if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
@@ -66,21 +66,21 @@ public class LimelightAimDrive extends CommandBase {
       }
       else{
         m_drivetrain.CanDrive(true);
-        m_drivetrain.drive(getCurve(xSpeed), getCurve(ySpeed), getCurve(rotSpeed), m_drivetrain.IsFieldRelative());
+        m_drivetrain.drive( xSpeed, ySpeed, rotSpeed, m_drivetrain.IsFieldRelative());
       }
     }
   }
 
   // Curves speed imput.
-  public static double getCurve(double input) {
-    double sign = Math.signum(input);
+  // public static double getCurve(double input) {
+  //   double sign = Math.signum(input);
 
-    double value = Math.abs(input);
-    value = Math.pow(value, 2);
-    value += 0.02;
+  //   double value = Math.abs(input);
+  //   value = Math.pow(value, 2);
+  //   value += 0.02;
 
-    return sign * value;
-}
+  //   return sign * value;
+//}
 
   @Override
   public void end(boolean interrupted) {

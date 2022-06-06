@@ -10,6 +10,7 @@ package frc.robot.Commands;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,6 +60,8 @@ public class PixyAlign extends CommandBase {
 
     @Override
      public void execute() {
+//int value, int low, int high
+        MathUtil.clamp(int turnPidController.calculate(), int 0, int 0.5);
 
         final var xSpeed = -m_joystick.getRawAxis(x) * Constants.DriveTrainConstants.kMaxSpeed;
         // Determine rotation speed for y-axis.
