@@ -60,8 +60,7 @@ public class PixyAlign extends CommandBase {
 
     @Override
      public void execute() {
-//int value, int low, int high
-        MathUtil.clamp(int turnPidController.calculate(), int 0, int 0.5);
+
 
         final var xSpeed = -m_joystick.getRawAxis(x) * Constants.DriveTrainConstants.kMaxSpeed;
         // Determine rotation speed for y-axis.
@@ -74,9 +73,11 @@ public class PixyAlign extends CommandBase {
             double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
             driveTrain.CanDrive(true);
             driveTrain.drive(xSpeed, getCurve(ySpeed), output, false);
+            //int value, int low, int highs
+        MathUtil.clamp(turnPidController.calculate(output), 0, 0.5);
         }
         else{
-            // turn to find ball
+            // turn to find ball    
             hasTarget.setBoolean(false);
 
             if ((Math.abs(xSpeed) < Constants.ControllerConstants.NoInputTolerance)
