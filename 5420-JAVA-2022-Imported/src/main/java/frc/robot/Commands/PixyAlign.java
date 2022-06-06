@@ -70,7 +70,7 @@ public class PixyAlign extends CommandBase {
             // turn to ball
             double output = turnPidController.calculate(driveTrain.pixyAlgo.getPixyBest().getX(), 150);
             driveTrain.CanDrive(true);
-            driveTrain.drive(xSpeed, getCurve(ySpeed), output, false);
+            driveTrain.drive(getCurve(xSpeed), getCurve(ySpeed), output, false);
         }
         else{
             // turn to find ball
