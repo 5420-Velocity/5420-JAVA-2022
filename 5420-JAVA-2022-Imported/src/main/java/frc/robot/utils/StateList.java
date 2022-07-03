@@ -23,8 +23,7 @@ public class StateList<T> {
 	}
 
 	public static StateList<Boolean> bool(int maxLength) {
-		StateList<Boolean> newInstance = new StateList<Boolean>(val -> val == true, maxLength);
-		return newInstance;
+		return new StateList<Boolean>(val -> val, maxLength);
 	}
 
 	public StateList(Predicate<T> predicate) {
